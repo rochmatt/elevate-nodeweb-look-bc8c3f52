@@ -237,19 +237,18 @@ function Header() {
   return (
     <div className="flex flex-wrap items-end justify-between gap-6">
       <div>
-        <div className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/5 px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-gold-deep">
+        <div className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/5 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-gold-deep">
           <Sparkles className="h-3 w-3" /> Buy & Sell VPS Servers
         </div>
-        <h1 className="mt-4 font-serif text-4xl leading-tight tracking-tight md:text-5xl">
-          Welcome back,
-          <br />
-          <span className="italic text-gold-gradient">Demo Buyer</span>.
+        <h1 className="mt-4 text-3xl font-bold leading-[1.1] tracking-tight md:text-4xl">
+          Welcome back,{" "}
+          <span className="text-gold-gradient">Demo Buyer</span>.
         </h1>
-        <p className="mt-3 max-w-lg text-sm text-muted-foreground">
+        <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
           The first marketplace where anyone can sell VPSes and buyers get direct server control via an integrated panel — no long contracts, pay in IDR (QRIS, VA), full root access.
         </p>
       </div>
-      <button className="group inline-flex items-center gap-2 rounded-xl border border-border bg-card px-5 py-3 text-sm transition-colors hover:border-gold/30 hover:text-gold-deep">
+      <button className="group inline-flex items-center gap-2 rounded-xl border border-border bg-card px-5 py-3 text-sm font-medium transition-colors hover:border-gold/30 hover:text-gold-deep">
         <Store className="h-4 w-4 text-gold-deep" />
         Browse VPS
         <ArrowUpRight className="h-3.5 w-3.5" />
