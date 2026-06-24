@@ -146,22 +146,26 @@ function NavGroup({
       <div className="px-3 pb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/70">
         {title}
       </div>
-      <ul className="space-y-0.5">
+      <ul className="space-y-1">
         {items.map(({ icon: Icon, label, active }) => (
           <li key={label}>
             <a
               href="#"
-              className={`group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all ${
+              className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all ${
                 active
-                  ? "border border-gold/30 bg-gradient-to-r from-gold/10 to-transparent text-foreground shadow-[var(--shadow-gold)]"
-                  : "text-muted-foreground hover:bg-muted/40 hover:text-foreground"
+                  ? "border border-gold/20 bg-gold/10 text-foreground"
+                  : "text-muted-foreground hover:bg-gold/[0.03] hover:text-foreground"
               }`}
             >
               <Icon
-                className={`h-4 w-4 transition-colors ${active ? "text-gold" : "group-hover:text-gold"}`}
+                className={`h-5 w-5 transition-colors ${
+                  active ? "text-gold" : "text-muted-foreground group-hover:text-gold"
+                }`}
               />
               <span>{label}</span>
-              {active && <span className="ml-auto h-1.5 w-1.5 rounded-full bg-gold shadow-[0_0_8px_var(--gold)]" />}
+              {active && (
+                <span className="ml-auto h-2 w-2 rounded-full bg-gold shadow-[0_0_8px_var(--gold)]" />
+              )}
             </a>
           </li>
         ))}
