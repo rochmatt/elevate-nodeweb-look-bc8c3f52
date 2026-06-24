@@ -328,10 +328,10 @@ function WalletCard() {
           </div>
           <p className="mt-2 text-xs leading-relaxed text-muted-foreground">Usable for your next deploy — VPS, Bare Metal, or Proxy</p>
           <div className="mt-5 flex flex-wrap gap-2">
-            <button className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-b from-gold-soft to-gold-deep px-4 py-2 text-sm text-primary-foreground shadow-[var(--shadow-gold)] transition-transform hover:-translate-y-0.5">
+            <button className="btn-primary">
               Top Up <ArrowRight className="h-3.5 w-3.5" />
             </button>
-            <button className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-background/40 px-4 py-2 text-sm text-foreground transition-colors hover:border-gold/30 hover:text-gold">
+            <button className="btn-secondary">
               <Receipt className="h-3.5 w-3.5" /> History
             </button>
           </div>
