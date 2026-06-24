@@ -398,8 +398,8 @@ function MyVPS() {
         <div className="grid h-14 w-14 place-items-center rounded-xl border border-gold/30 bg-gold/5">
           <Server className="h-6 w-6 text-gold-deep" />
         </div>
-        <h3 className="mt-5 font-serif text-2xl">No active VPS yet</h3>
-        <p className="mt-2 max-w-sm text-sm text-muted-foreground">
+        <h3 className="mt-5 text-lg font-bold tracking-tight">No active VPS yet</h3>
+        <p className="mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">
           Choose a VPS from trusted sellers — Jakarta, Singapore, Tokyo, Frankfurt, New York, or London.
         </p>
         <button className="mt-6 inline-flex items-center gap-2 rounded-xl bg-gradient-to-b from-gold-soft to-gold-deep px-5 py-2.5 text-sm text-primary-foreground shadow-[var(--shadow-gold)] transition-transform hover:-translate-y-0.5">
