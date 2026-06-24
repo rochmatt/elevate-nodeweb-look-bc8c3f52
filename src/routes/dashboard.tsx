@@ -314,7 +314,7 @@ function Stats() {
 /* ---------- WALLET CARD ---------- */
 function WalletCard() {
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-gold/30 bg-gradient-to-br from-gold/[0.08] via-card to-card p-7 shadow-[var(--shadow-gold)] lg:col-span-2">
+    <div className="card-feature relative overflow-hidden p-7 lg:col-span-2">
       <div className="constellation absolute inset-0 opacity-50" aria-hidden />
       <div className="absolute -right-10 -top-10 h-48 w-48 rounded-full bg-gold/15 blur-3xl" aria-hidden />
 
