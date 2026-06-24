@@ -82,47 +82,56 @@
   --shadow-lift: 0 20px 60px -20px oklch(0 0 0 / 0.7);
 }
 
-/* Light dashboard scope — clean Facebook-grey background with NodeKPT teal accent */
+/* Light dashboard scope — single source of truth for theme tokens.
+   Change values here once, everything (bg, cards, accents, buttons) updates. */
 .theme-light {
-  --background: #F0F2F5;
-  --foreground: #0f172a;
+  /* === Brand & accent === */
+  --accent: #0d9488;
+  --accent-soft: #14b8a6;
+  --accent-strong: #0f766e;
+  --accent-foreground: #ffffff;
+  --accent-tint: rgba(13, 148, 136, 0.10);
+  --accent-ring: rgba(13, 148, 136, 0.35);
 
+  /* === Surfaces === */
+  --bg: #F0F2F5;
   --card: #ffffff;
-  --card-foreground: #0f172a;
-  --popover: #ffffff;
-  --popover-foreground: #0f172a;
+  --card-muted: #f8fafc;
+  --border-subtle: #e2e8f0;
 
-  --primary: #0d9488;
-  --primary-foreground: #ffffff;
+  /* === Text === */
+  --text: #0f172a;
+  --text-muted: #475569;
+  --text-faint: #64748b;
 
-  --gold: #0d9488;
-  --gold-soft: #14b8a6;
-  --gold-deep: #0f766e;
-
-  --secondary: #f8fafc;
-  --secondary-foreground: #0f172a;
-  --muted: #f8fafc;
-  --muted-foreground: #475569;
-  --accent: #f0fdfa;
-  --accent-foreground: #0f172a;
-
+  /* === shadcn token bridge — keeps existing utilities working === */
+  --background: var(--bg);
+  --foreground: var(--text);
+  --card-foreground: var(--text);
+  --popover: var(--card);
+  --popover-foreground: var(--text);
+  --primary: var(--accent);
+  --primary-foreground: var(--accent-foreground);
+  --gold: var(--accent);
+  --gold-soft: var(--accent-soft);
+  --gold-deep: var(--accent-strong);
+  --secondary: var(--card-muted);
+  --secondary-foreground: var(--text);
+  --muted: var(--card-muted);
+  --muted-foreground: var(--text-muted);
+  --accent-foreground: var(--text);
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
-  --border: #e2e8f0;
-  --input: #e2e8f0;
-  --ring: #0d9488;
+  --border: var(--border-subtle);
+  --input: var(--border-subtle);
+  --ring: var(--accent);
 
-  --gradient-gold: linear-gradient(
-    135deg,
-    #14b8a6 0%,
-    #0d9488 50%,
-    #0f766e 100%
-  );
-  --shadow-gold: 0 14px 40px -16px rgba(13, 148, 136, 0.35);
+  --gradient-gold: linear-gradient(135deg, var(--accent-soft) 0%, var(--accent) 50%, var(--accent-strong) 100%);
+  --shadow-gold: 0 14px 40px -16px var(--accent-ring);
   --shadow-lift: 0 20px 50px -25px rgba(15, 23, 42, 0.12);
 
-  background-color: var(--background);
-  color: var(--foreground);
+  background-color: var(--bg);
+  color: var(--text);
 }
 
 .theme-light .constellation {
