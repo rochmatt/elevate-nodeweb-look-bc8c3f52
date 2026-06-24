@@ -279,7 +279,7 @@ function Stats() {
               <s.icon className="h-5 w-5 text-gold" />
             </div>
             {s.trend && (
-              <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] text-emerald-400">
+              <span className="inline-flex items-center gap-1 rounded-full border border-emerald-600/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] text-emerald-700">
                 <TrendingUp className="h-3 w-3" /> +12%
               </span>
             )}
@@ -334,21 +334,21 @@ function WalletCard() {
                 <div className="text-foreground">KPT-0001</div>
                 <div className="text-[11px] text-muted-foreground">9/6/2026</div>
               </div>
-              <span className="font-mono text-emerald-400">+Rp 10.000</span>
+              <span className="font-mono text-emerald-700">+Rp 10.000</span>
             </li>
             <li className="flex items-center justify-between border-b border-border/60 pb-2.5">
               <div>
                 <div className="text-foreground">KPT-0014</div>
                 <div className="text-[11px] text-muted-foreground">2/6/2026</div>
               </div>
-              <span className="font-mono text-emerald-400">+Rp 25.000</span>
+              <span className="font-mono text-emerald-700">+Rp 25.000</span>
             </li>
             <li className="flex items-center justify-between">
               <div>
                 <div className="text-foreground">KPT-0022</div>
                 <div className="text-[11px] text-muted-foreground">28/5/2026</div>
               </div>
-              <span className="font-mono text-emerald-400">+Rp 8.500</span>
+              <span className="font-mono text-emerald-700">+Rp 8.500</span>
             </li>
           </ul>
         </div>
