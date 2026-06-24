@@ -378,7 +378,7 @@ function WalletCard() {
 /* ---------- REFERRAL ---------- */
 function ReferralCard() {
   return (
-    <div className="card-surface relative overflow-hidden p-7">
+    <div className="card-surface relative overflow-hidden p-5 sm:p-7">
       <div className="absolute -bottom-12 -right-12 h-40 w-40 rounded-full bg-gold/10 blur-3xl" />
       <div className="relative">
         <HeartHandshake className="h-6 w-6 text-gold" />
@@ -389,8 +389,8 @@ function ReferralCard() {
           Rp 25.000 for every friend who joins and makes their first top up.
         </p>
         <div className="mt-5 flex items-center gap-2 rounded-lg border border-border bg-background/40 p-1 pl-3">
-          <span className="font-mono text-sm text-gold">nodekpt.com/r/demo</span>
-          <button className="btn-primary ml-auto !py-1.5 !px-3 !text-xs">
+          <span className="truncate font-mono text-xs text-gold sm:text-sm">nodekpt.com/r/demo</span>
+          <button className="btn-primary ml-auto shrink-0 !py-1.5 !px-3 !text-xs">
             Copy
           </button>
         </div>
