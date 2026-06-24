@@ -30,6 +30,11 @@ import {
   Download,
   BookOpen,
   Gift,
+  Network,
+  Database,
+  KeyRound,
+  FileText,
+  Handshake,
 } from "lucide-react";
 
 export const Route = createFileRoute("/dashboard")({
@@ -57,6 +62,7 @@ function Dashboard() {
             <Stats />
             <div className="mt-6 grid gap-4 sm:mt-8 sm:gap-6 lg:grid-cols-3">
               <WalletCard />
+              <RefundsCard />
               <ReferralCard />
             </div>
             <MyVPS />
@@ -70,64 +76,65 @@ function Dashboard() {
 
 /* ---------- SIDEBAR ---------- */
 function Sidebar() {
-  const main = [
-    { icon: LayoutDashboard, label: "Dashboard", active: true, iconColor: "text-teal-600" },
-    { icon: Store, label: "Marketplace", iconColor: "text-blue-600" },
-    { icon: Globe, label: "Proxy", iconColor: "text-indigo-600" },
-    { icon: HardDrive, label: "Bare Metal", iconColor: "text-violet-600" },
+  const overview = [
+    { icon: LayoutDashboard, label: "Dashboard", active: true },
+    { icon: Store, label: "Marketplace" },
+    { icon: Globe, label: "Proxy Services" },
+    { icon: Server, label: "Compute (VPS)" },
+    { icon: HardDrive, label: "Bare Metal Servers" },
+    { icon: Download, label: "Winstaller" },
   ];
-  const services = [
-    { icon: Server, label: "My VPS", iconColor: "text-sky-600" },
-    { icon: Download, label: "Winstaller", iconColor: "text-cyan-600" },
-    { icon: HardDrive, label: "My Bare Metal", iconColor: "text-purple-600" },
-    { icon: Package, label: "Orders", iconColor: "text-amber-600" },
-    { icon: Wallet, label: "Wallet & Balance", iconColor: "text-emerald-600" },
-    { icon: Heart, label: "Wishlist", iconColor: "text-rose-500" },
-    { icon: Clock, label: "Recently Viewed", iconColor: "text-slate-600" },
-    { icon: MessageSquare, label: "Messages", iconColor: "text-blue-500" },
-    { icon: RefreshCw, label: "Subscriptions", iconColor: "text-orange-600" },
-    { icon: Gift, label: "Referrals", iconColor: "text-pink-600" },
-    { icon: Scale, label: "Disputes", iconColor: "text-red-600" },
+  const inventory = [
+    { icon: Database, label: "Object Storage" },
+    { icon: HardDrive, label: "Block Storage" },
+    { icon: Network, label: "Network Management (IP, DNS)" },
+    { icon: KeyRound, label: "API Access" },
+    { icon: Package, label: "Orders" },
+    { icon: FileText, label: "Billing & Invoices" },
+    { icon: Wallet, label: "Wallet & Balance" },
+    { icon: Heart, label: "Wishlist" },
+    { icon: Gift, label: "Referrals" },
+    { icon: Scale, label: "Disputes" },
   ];
   const account = [
-    { icon: BookOpen, label: "Guide", iconColor: "text-lime-600" },
-    { icon: LifeBuoy, label: "Support", iconColor: "text-teal-500" },
-    { icon: Mail, label: "Contact", iconColor: "text-sky-500" },
-    { icon: User, label: "Profile", iconColor: "text-fuchsia-600" },
+    { icon: BookOpen, label: "Guide" },
+    { icon: LifeBuoy, label: "Support" },
+    { icon: Mail, label: "Contact" },
+    { icon: User, label: "Profile" },
   ];
 
   return (
-    <aside className="sticky top-0 hidden h-screen w-72 shrink-0 border-r border-border/60 bg-card/40 backdrop-blur-xl lg:flex lg:flex-col">
-      <Link to="/" className="flex items-center gap-2.5 border-b border-border/60 px-6 py-5">
-        <div className="grid h-10 w-10 place-items-center rounded-lg border border-gold/30 bg-gradient-to-br from-gold-soft/20 to-transparent">
-
-          <span className="text-lg font-bold leading-none text-gold">N</span>
+    <aside className="sticky top-0 hidden h-screen w-72 shrink-0 border-r border-border bg-card lg:flex lg:flex-col">
+      <Link to="/" className="flex items-center gap-3 border-b border-border px-6 py-5">
+        <div className="grid h-10 w-10 place-items-center rounded-xl border border-[color:var(--accent)]/25 bg-[color:var(--accent-tint)]">
+          <span className="text-base font-bold leading-none text-[color:var(--accent-strong)]">N</span>
         </div>
         <div className="leading-tight">
-          <div className="text-lg font-bold tracking-tight">NodeKPT</div>
-          <div className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-foreground/50">Buy & Sell VPS</div>
+          <div className="text-base font-bold tracking-tight text-foreground">NodeKPT</div>
+          <div className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground">Buy & Sell VPS</div>
         </div>
       </Link>
-      <div className="flex-1 overflow-y-auto px-3 py-5">
-        {/* Become a Seller CTA */}
-        <button className="group mb-6 flex w-full items-center gap-3 rounded-xl bg-gradient-to-b from-gold-soft to-gold-deep px-4 py-3 text-left text-primary-foreground shadow-[var(--shadow-gold)] transition-transform hover:-translate-y-0.5">
-          <div className="grid h-8 w-8 place-items-center rounded-lg bg-black/15">
 
-            <Store className="h-4 w-4" />
+      <div className="flex-1 overflow-y-auto px-3 py-5">
+        {/* Compact Become a Seller banner */}
+        <button className="group mb-6 flex w-full items-center gap-3 rounded-xl border border-[color:var(--accent)]/20 bg-[color:var(--accent-tint)] px-3.5 py-3 text-left transition-colors hover:border-[color:var(--accent)]/40">
+          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[color:var(--accent)] text-white">
+            <Handshake className="h-4 w-4" strokeWidth={1.75} />
           </div>
-          <div className="flex-1">
-            <div className="text-sm font-medium leading-tight">Become a Seller</div>
-            <div className="text-[11px] opacity-80">List your VPS on the marketplace</div>
+          <div className="min-w-0 flex-1">
+            <div className="text-[13px] font-semibold leading-tight text-foreground">Start Selling</div>
+            <div className="mt-0.5 text-[11px] leading-snug text-muted-foreground">Join our Marketplace today.</div>
           </div>
-          <ArrowRight className="h-4 w-4 opacity-80 transition-transform group-hover:translate-x-0.5" />
+          <ArrowRight className="h-3.5 w-3.5 shrink-0 text-[color:var(--accent-strong)] transition-transform group-hover:translate-x-0.5" />
         </button>
-        <NavGroup title="Main" items={main} />
-        <NavGroup title="Services" items={services} />
+
+        <NavGroup title="Platform Overview" items={overview} />
+        <NavGroup title="Service Inventory" items={inventory} />
         <NavGroup title="Account" items={account} />
       </div>
-      <button className="mx-3 mb-4 flex items-center gap-3 rounded-xl border border-border/60 px-4 py-3 text-sm font-semibold text-foreground/80 transition-colors hover:border-gold/30 hover:text-foreground">
 
-        <LogOut className="h-4 w-4 text-foreground/50" />
+      <button className="mx-3 mb-4 flex items-center gap-3 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-[color:var(--accent)]/40 hover:bg-[color:var(--accent-tint)]">
+        <LogOut className="h-4 w-4 text-muted-foreground" strokeWidth={1.75} />
         Logout
       </button>
     </aside>
@@ -140,38 +147,36 @@ function NavGroup({
 }: {
   title: string;
   items: {
-    icon: React.ComponentType<{ className?: string }>;
+    icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
     label: string;
     active?: boolean;
-    iconColor: string;
   }[];
 }) {
   return (
     <div className="mb-6">
-
-      <div className="px-3 pb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-foreground/50">
+      <div className="px-3 pb-2 text-[11px] font-semibold tracking-tight text-muted-foreground">
         {title}
       </div>
-      <ul className="space-y-1">
-        {items.map(({ icon: Icon, label, active, iconColor }) => (
+      <ul className="space-y-0.5">
+        {items.map(({ icon: Icon, label, active }) => (
           <li key={label}>
             <a
               href="#"
-              className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all ${
+              className={`group flex items-center gap-3 rounded-lg px-3 py-2 text-[13px] font-medium transition-colors ${
                 active
-                  ? "border border-gold/20 bg-gold/10 text-foreground"
-                  : "text-foreground/80 hover:bg-gold/[0.03] hover:text-foreground"
+                  ? "bg-[color:var(--accent-tint)] text-foreground"
+                  : "text-foreground/85 hover:bg-[color:var(--accent-tint)]/60 hover:text-foreground"
               }`}
             >
               <Icon
-                className={`h-5 w-5 transition-colors ${
-                  active ? iconColor : `${iconColor} opacity-80 group-hover:opacity-100`
+                className={`h-[18px] w-[18px] shrink-0 ${
+                  active ? "text-[color:var(--accent-strong)]" : "text-muted-foreground group-hover:text-[color:var(--accent-strong)]"
                 }`}
+                strokeWidth={1.75}
               />
-
-              <span>{label}</span>
+              <span className="truncate">{label}</span>
               {active && (
-                <span className="ml-auto h-2 w-2 rounded-full bg-gold shadow-[0_0_8px_var(--gold)]" />
+                <span className="ml-auto h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--accent)]" />
               )}
             </a>
           </li>
@@ -318,59 +323,59 @@ function Stats() {
 /* ---------- WALLET CARD ---------- */
 function WalletCard() {
   return (
-    <div className="card-feature relative overflow-hidden p-5 sm:p-7 lg:col-span-2">
-      <div className="constellation absolute inset-0 opacity-50" aria-hidden />
-      <div className="absolute -right-10 -top-10 h-48 w-48 rounded-full bg-gold/15 blur-3xl" aria-hidden />
-
-      <div className="relative flex flex-col gap-6 md:flex-row md:flex-wrap md:items-start md:justify-between">
-        <div className="min-w-0">
-          <div className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-gold-deep">
-            <Wallet className="h-3.5 w-3.5" /> Wallet Balance
-          </div>
-          <div className="mt-3 flex items-baseline gap-1.5">
-            <span className="text-lg font-semibold text-muted-foreground sm:text-xl">Rp</span>
-            <span className="text-4xl font-bold tracking-tight leading-none text-gold-gradient sm:text-5xl">618.147</span>
-          </div>
-          <p className="mt-2 text-xs leading-relaxed text-muted-foreground">Usable for your next deploy — VPS, Bare Metal, or Proxy</p>
-          <div className="mt-5 flex flex-wrap gap-2">
-            <button className="btn-primary">
-              Top Up <ArrowRight className="h-3.5 w-3.5" />
-            </button>
-            <button className="btn-secondary">
-              <Receipt className="h-3.5 w-3.5" /> History
-            </button>
-          </div>
-        </div>
-
-        <div className="w-full min-w-0 flex-1 rounded-xl border border-border bg-background/40 p-4 backdrop-blur md:min-w-[240px]">
-          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-            Recent Refunds
-          </div>
-          <ul className="mt-3 space-y-2.5 text-sm">
-            <li className="flex items-center justify-between border-b border-border/60 pb-2.5">
-              <div>
-                <div className="text-foreground">KPT-0001</div>
-                <div className="text-[11px] text-muted-foreground">9/6/2026</div>
-              </div>
-              <span className="font-mono text-emerald-700">+Rp 10.000</span>
-            </li>
-            <li className="flex items-center justify-between border-b border-border/60 pb-2.5">
-              <div>
-                <div className="text-foreground">KPT-0014</div>
-                <div className="text-[11px] text-muted-foreground">2/6/2026</div>
-              </div>
-              <span className="font-mono text-emerald-700">+Rp 25.000</span>
-            </li>
-            <li className="flex items-center justify-between">
-              <div>
-                <div className="text-foreground">KPT-0022</div>
-                <div className="text-[11px] text-muted-foreground">28/5/2026</div>
-              </div>
-              <span className="font-mono text-emerald-700">+Rp 8.500</span>
-            </li>
-          </ul>
-        </div>
+    <div className="card-surface relative overflow-hidden p-5 sm:p-6">
+      <div className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+        <Wallet className="h-3.5 w-3.5 text-[color:var(--accent-strong)]" strokeWidth={1.75} /> Wallet Balance
       </div>
+      <div className="mt-3 flex items-baseline gap-1.5">
+        <span className="text-base font-semibold text-muted-foreground">Rp</span>
+        <span className="text-4xl font-bold tracking-tight leading-none text-foreground sm:text-[42px]">618.147</span>
+      </div>
+      <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+        Usable for your next deploy — VPS, Bare Metal, or Proxy
+      </p>
+      <div className="mt-5 flex flex-wrap gap-2">
+        <button className="btn-primary !py-2 !px-4 !text-[13px]">
+          Top Up <ArrowRight className="h-3.5 w-3.5" />
+        </button>
+        <button className="btn-secondary !py-2 !px-4 !text-[13px]">
+          <Receipt className="h-3.5 w-3.5" /> History
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- REFUNDS CARD ---------- */
+function RefundsCard() {
+  const refunds = [
+    { id: "KPT-0001", date: "9/6/2026", amount: "+Rp 10.000" },
+    { id: "KPT-0014", date: "2/6/2026", amount: "+Rp 25.000" },
+    { id: "KPT-0022", date: "28/5/2026", amount: "+Rp 8.500" },
+  ];
+  return (
+    <div className="card-surface relative overflow-hidden p-5 sm:p-6">
+      <div className="flex items-center justify-between">
+        <div className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          <Receipt className="h-3.5 w-3.5 text-[color:var(--accent-strong)]" strokeWidth={1.75} /> Recent Refunds
+        </div>
+        <a href="#" className="text-[11px] font-medium text-[color:var(--accent-strong)] hover:underline">
+          View all
+        </a>
+      </div>
+      <ul className="mt-4 divide-y divide-border/60">
+        {refunds.map((r) => (
+          <li key={r.id} className="flex items-center justify-between py-3 first:pt-0 last:pb-0">
+            <div className="min-w-0">
+              <div className="text-[13px] font-semibold text-foreground">{r.id}</div>
+              <div className="mt-0.5 text-[11px] text-muted-foreground">{r.date}</div>
+            </div>
+            <span className="font-mono text-[13px] font-semibold text-[color:var(--accent-strong)]">
+              {r.amount}
+            </span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -378,22 +383,21 @@ function WalletCard() {
 /* ---------- REFERRAL ---------- */
 function ReferralCard() {
   return (
-    <div className="card-surface relative overflow-hidden p-5 sm:p-7">
-      <div className="absolute -bottom-12 -right-12 h-40 w-40 rounded-full bg-gold/10 blur-3xl" />
-      <div className="relative">
-        <HeartHandshake className="h-6 w-6 text-gold" />
-        <h3 className="mt-4 text-xl font-bold leading-snug tracking-tight">
-          Invite friends, <span className="text-gold-gradient">earn balance</span>.
-        </h3>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Rp 25.000 for every friend who joins and makes their first top up.
-        </p>
-        <div className="mt-5 flex items-center gap-2 rounded-lg border border-border bg-background/40 p-1 pl-3">
-          <span className="truncate font-mono text-xs text-gold sm:text-sm">nodekpt.com/r/demo</span>
-          <button className="btn-primary ml-auto shrink-0 !py-1.5 !px-3 !text-xs">
-            Copy
-          </button>
-        </div>
+    <div className="card-surface relative overflow-hidden p-5 sm:p-6">
+      <div className="grid h-9 w-9 place-items-center rounded-lg border border-[color:var(--accent)]/25 bg-[color:var(--accent-tint)]">
+        <HeartHandshake className="h-4.5 w-4.5 text-[color:var(--accent-strong)]" strokeWidth={1.75} />
+      </div>
+      <h3 className="mt-4 text-lg font-bold leading-snug tracking-tight">
+        Invite friends, <span className="text-[color:var(--accent-strong)]">earn balance</span>.
+      </h3>
+      <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
+        Rp 25.000 for every friend who joins and makes their first top up.
+      </p>
+      <div className="mt-5 flex items-center gap-2 rounded-lg border border-border bg-[color:var(--card-muted)] p-1 pl-3">
+        <span className="truncate font-mono text-xs text-foreground">nodekpt.com/r/demo</span>
+        <button className="btn-primary ml-auto shrink-0 !py-1.5 !px-3 !text-xs">
+          Copy
+        </button>
       </div>
     </div>
   );
@@ -465,6 +469,12 @@ function RecentOrders() {
 
   const hasOrders = orders.length > 0;
 
+  const recommendations = [
+    { icon: Server, name: "Entry VPS", price: "From Rp 55K/mo", tint: "text-sky-600 border-sky-500/30 bg-sky-500/10" },
+    { icon: HardDrive, name: "Business Bare Metal", price: "From Rp 850K/mo", tint: "text-violet-600 border-violet-500/30 bg-violet-500/10" },
+    { icon: Globe, name: "Residential Proxies", price: "From Rp 110K/mo", tint: "text-indigo-600 border-indigo-500/30 bg-indigo-500/10" },
+  ];
+
   return (
     <section className="card-surface mt-6 overflow-hidden sm:mt-8">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 p-5 sm:p-7">
@@ -472,7 +482,7 @@ function RecentOrders() {
           <h2 className="text-lg font-bold tracking-tight sm:text-xl">Recent Orders</h2>
           <p className="mt-1 text-xs leading-relaxed text-muted-foreground">Latest deploys across VPS, Bare Metal, and Proxy</p>
         </div>
-        <a href="#" className="inline-flex items-center gap-1.5 text-sm text-gold hover:gap-2.5 transition-all">
+        <a href="#" className="inline-flex items-center gap-1.5 text-sm font-medium text-[color:var(--accent-strong)] hover:gap-2.5 transition-all">
           View All <ArrowRight className="h-4 w-4" />
         </a>
       </div>
@@ -558,18 +568,89 @@ function RecentOrders() {
           </div>
         </>
       ) : (
-        <EmptyState
-          icon={Package}
-          title="No orders yet"
-          description="When you buy a VPS, Bare Metal, or Proxy from the marketplace, your orders will appear here."
-          cta={
+        <div className="px-5 py-8 sm:px-7 sm:py-12">
+          {/* Server illustration */}
+          <div className="mx-auto flex h-28 w-28 items-center justify-center sm:h-32 sm:w-32" aria-hidden>
+            <ServerIllustration />
+          </div>
+          <h3 className="mt-5 text-center text-xl font-bold tracking-tight text-foreground">
+            No orders yet
+          </h3>
+          <p className="mx-auto mt-2 max-w-md text-center text-sm leading-relaxed text-muted-foreground">
+            Explore our top-tier server and proxy solutions on the marketplace.
+          </p>
+
+          {/* Recommendation cards */}
+          <div className="mt-8 grid gap-3 sm:grid-cols-3 sm:gap-4">
+            {recommendations.map((r) => (
+              <div
+                key={r.name}
+                className="rounded-xl border border-border bg-[color:var(--card-muted)] p-4 transition-all hover:-translate-y-0.5 hover:border-[color:var(--accent)]/30 hover:shadow-[var(--card-shadow-hover)]"
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`grid h-10 w-10 shrink-0 place-items-center rounded-lg border ${r.tint}`}>
+                    <r.icon className="h-4 w-4" strokeWidth={1.75} />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="truncate text-[13px] font-semibold text-foreground">{r.name}</div>
+                    <div className="mt-0.5 text-[11px] text-muted-foreground">{r.price}</div>
+                  </div>
+                </div>
+                <button className="btn-secondary mt-4 w-full !py-1.5 !text-xs">
+                  View Details <ArrowRight className="h-3 w-3" />
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {/* Primary CTA centered below */}
+          <div className="mt-8 flex justify-center">
             <button className="btn-primary">
               <Store className="h-4 w-4" /> Browse Marketplace
             </button>
-          }
-        />
+          </div>
+        </div>
       )}
     </section>
+  );
+}
+
+function ServerIllustration() {
+  return (
+    <svg
+      viewBox="0 0 120 120"
+      fill="none"
+      className="h-full w-full text-[color:var(--accent-strong)]"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Server rack body */}
+      <rect x="30" y="22" width="60" height="76" rx="6" stroke="currentColor" strokeWidth="1.75" opacity="0.85" />
+      {/* Top unit */}
+      <rect x="36" y="30" width="48" height="14" rx="2" stroke="currentColor" strokeWidth="1.5" opacity="0.75" />
+      <circle cx="42" cy="37" r="1.3" fill="currentColor" opacity="0.8" />
+      <circle cx="48" cy="37" r="1.3" fill="currentColor" opacity="0.4" />
+      <line x1="58" y1="37" x2="78" y2="37" stroke="currentColor" strokeWidth="1.2" opacity="0.5" />
+      {/* Middle unit */}
+      <rect x="36" y="50" width="48" height="14" rx="2" stroke="currentColor" strokeWidth="1.5" opacity="0.75" />
+      <circle cx="42" cy="57" r="1.3" fill="currentColor" opacity="0.8" />
+      <circle cx="48" cy="57" r="1.3" fill="currentColor" opacity="0.4" />
+      <line x1="58" y1="57" x2="78" y2="57" stroke="currentColor" strokeWidth="1.2" opacity="0.5" />
+      {/* Bottom unit */}
+      <rect x="36" y="70" width="48" height="20" rx="2" stroke="currentColor" strokeWidth="1.5" opacity="0.75" />
+      <circle cx="42" cy="80" r="1.3" fill="currentColor" opacity="0.8" />
+      <circle cx="48" cy="80" r="1.3" fill="currentColor" opacity="0.4" />
+      <line x1="58" y1="80" x2="78" y2="80" stroke="currentColor" strokeWidth="1.2" opacity="0.5" />
+      {/* Connection lines */}
+      <path d="M30 60 L18 60 M18 50 L18 70" stroke="currentColor" strokeWidth="1.2" opacity="0.4" strokeLinecap="round" />
+      <path d="M90 40 L102 40 M102 32 L102 48" stroke="currentColor" strokeWidth="1.2" opacity="0.4" strokeLinecap="round" />
+      <path d="M90 80 L102 80 M102 72 L102 88" stroke="currentColor" strokeWidth="1.2" opacity="0.4" strokeLinecap="round" />
+      {/* Dotted base */}
+      <circle cx="60" cy="108" r="1" fill="currentColor" opacity="0.4" />
+      <circle cx="50" cy="108" r="1" fill="currentColor" opacity="0.3" />
+      <circle cx="70" cy="108" r="1" fill="currentColor" opacity="0.3" />
+      <circle cx="40" cy="108" r="1" fill="currentColor" opacity="0.2" />
+      <circle cx="80" cy="108" r="1" fill="currentColor" opacity="0.2" />
+    </svg>
   );
 }
 
