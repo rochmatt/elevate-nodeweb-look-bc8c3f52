@@ -35,8 +35,8 @@ import {
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
-      { title: "Dashboard — NodeKPT" },
-      { name: "description", content: "Dashboard buyer NodeKPT — kelola VPS, order, dan saldo Anda." },
+      { title: "Dashboard — NodeKPT · Buy & Sell VPS Servers with Full Control" },
+      { name: "description", content: "Marketplace where anyone can sell VPSes and buyers get direct server control via an integrated panel. Pay in IDR (QRIS, VA). Full root access." },
     ],
   }),
   component: Dashboard,
@@ -104,7 +104,7 @@ function Sidebar() {
         </div>
         <div className="leading-tight">
           <div className="font-serif text-xl tracking-tight">NodeKPT</div>
-          <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Buyer · Console</div>
+          <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Buy & Sell VPS</div>
         </div>
       </Link>
 
@@ -116,7 +116,7 @@ function Sidebar() {
           </div>
           <div className="flex-1">
             <div className="text-sm font-medium leading-tight">Become a Seller</div>
-            <div className="text-[11px] opacity-80">Mulai jual VPS Anda</div>
+            <div className="text-[11px] opacity-80">List your VPS on the marketplace</div>
           </div>
           <ArrowRight className="h-4 w-4 opacity-80 transition-transform group-hover:translate-x-0.5" />
         </button>
@@ -179,7 +179,7 @@ function Topbar() {
           <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <input
             type="text"
-            placeholder="Cari VPS, order, atau seller..."
+            placeholder="Search VPS, Bare Metal, or Proxy..."
             className="h-10 w-full rounded-xl border border-border bg-card/60 pl-10 pr-4 text-sm outline-none placeholder:text-muted-foreground focus:border-gold/40"
           />
           <span className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md border border-border bg-background/60 px-1.5 py-0.5 text-[10px] text-muted-foreground">
@@ -237,21 +237,21 @@ function Header() {
   return (
     <div className="flex flex-wrap items-end justify-between gap-6">
       <div>
-        <div className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/5 px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-gold-soft">
-          <Sparkles className="h-3 w-3" /> Buyer Console
+        <div className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/5 px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-gold-deep">
+          <Sparkles className="h-3 w-3" /> Buy & Sell VPS Servers
         </div>
         <h1 className="mt-4 font-serif text-4xl leading-tight tracking-tight md:text-5xl">
-          Selamat datang kembali,
+          Welcome back,
           <br />
           <span className="italic text-gold-gradient">Demo Buyer</span>.
         </h1>
         <p className="mt-3 max-w-lg text-sm text-muted-foreground">
-          Kelola VPS, pantau order, dan jelajahi marketplace dalam satu tempat yang tenang dan elegan.
+          The first marketplace where anyone can sell VPSes and buyers get direct server control via an integrated panel — no long contracts, pay in IDR (QRIS, VA), full root access.
         </p>
       </div>
-      <button className="group inline-flex items-center gap-2 rounded-xl border border-border bg-card/60 px-5 py-3 text-sm transition-colors hover:border-gold/30 hover:text-gold">
-        <Store className="h-4 w-4 text-gold" />
-        Jelajahi Marketplace
+      <button className="group inline-flex items-center gap-2 rounded-xl border border-border bg-card px-5 py-3 text-sm transition-colors hover:border-gold/30 hover:text-gold-deep">
+        <Store className="h-4 w-4 text-gold-deep" />
+        Browse VPS
         <ArrowUpRight className="h-3.5 w-3.5" />
       </button>
     </div>
@@ -261,10 +261,10 @@ function Header() {
 /* ---------- STATS ---------- */
 function Stats() {
   const stats = [
-    { label: "Active VPS", value: "0", icon: Server, hint: "Belum ada VPS aktif" },
-    { label: "Total Orders", value: "60", icon: Package, hint: "+4 minggu ini", trend: true },
-    { label: "Pending Orders", value: "1", icon: Clock, hint: "Menunggu pembayaran" },
-    { label: "Total VPS", value: "0", icon: HardDrive, hint: "Seumur hidup" },
+    { label: "Active VPS", value: "0", icon: Server, hint: "Deploy in under 60 seconds" },
+    { label: "Total Orders", value: "60", icon: Package, hint: "+4 this week", trend: true },
+    { label: "Pending Orders", value: "1", icon: Clock, hint: "Awaiting payment (QRIS / VA)" },
+    { label: "Total VPS", value: "0", icon: HardDrive, hint: "Across all sellers" },
   ];
   return (
     <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -313,7 +313,7 @@ function WalletCard() {
             <span className="font-serif text-2xl text-muted-foreground">Rp</span>
             <span className="font-serif text-6xl tracking-tight text-gold-gradient">618.147</span>
           </div>
-          <p className="mt-2 text-xs text-muted-foreground">Usable for your next order payment</p>
+          <p className="mt-2 text-xs text-muted-foreground">Usable for your next deploy — VPS, Bare Metal, or Proxy</p>
           <div className="mt-5 flex flex-wrap gap-2">
             <button className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-b from-gold-soft to-gold-deep px-4 py-2 text-sm text-primary-foreground shadow-[var(--shadow-gold)] transition-transform hover:-translate-y-0.5">
               Top Up <ArrowRight className="h-3.5 w-3.5" />
@@ -365,10 +365,10 @@ function ReferralCard() {
       <div className="relative">
         <HeartHandshake className="h-6 w-6 text-gold" />
         <h3 className="mt-4 font-serif text-2xl leading-tight">
-          Undang teman, <span className="italic text-gold-gradient">dapatkan saldo</span>.
+          Invite friends, <span className="italic text-gold-gradient">earn balance</span>.
         </h3>
         <p className="mt-2 text-sm text-muted-foreground">
-          Rp 25.000 untuk setiap teman yang bergabung dan top up pertama kali.
+          Rp 25.000 for every friend who joins and makes their first top up.
         </p>
         <div className="mt-5 flex items-center gap-2 rounded-lg border border-border bg-background/40 p-1 pl-3">
           <span className="font-mono text-sm text-gold">nodekpt.com/r/demo</span>
@@ -388,20 +388,20 @@ function MyVPS() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="font-serif text-2xl tracking-tight">My VPS</h2>
-          <p className="text-xs text-muted-foreground">Server aktif yang Anda kelola</p>
+          <p className="text-xs text-muted-foreground">Active servers you control directly via the integrated panel</p>
         </div>
-        <a href="#" className="inline-flex items-center gap-1.5 text-sm text-gold hover:gap-2.5 transition-all">
+        <a href="#" className="inline-flex items-center gap-1.5 text-sm text-gold-deep hover:gap-2.5 transition-all">
           View All <ArrowRight className="h-4 w-4" />
         </a>
       </div>
 
-      <div className="mt-8 grid place-items-center rounded-xl border border-dashed border-border/80 bg-background/30 py-16 text-center">
+      <div className="mt-8 grid place-items-center rounded-xl border border-dashed border-border/80 bg-background/60 py-16 text-center">
         <div className="grid h-14 w-14 place-items-center rounded-xl border border-gold/30 bg-gold/5">
-          <Server className="h-6 w-6 text-gold" />
+          <Server className="h-6 w-6 text-gold-deep" />
         </div>
-        <h3 className="mt-5 font-serif text-2xl">Belum ada VPS aktif</h3>
+        <h3 className="mt-5 font-serif text-2xl">No active VPS yet</h3>
         <p className="mt-2 max-w-sm text-sm text-muted-foreground">
-          Mulai perjalanan Anda dengan memilih VPS dari seller terverifikasi di marketplace.
+          Choose a VPS from trusted sellers — Jakarta, Singapore, Tokyo, Frankfurt, New York, or London.
         </p>
         <button className="mt-6 inline-flex items-center gap-2 rounded-xl bg-gradient-to-b from-gold-soft to-gold-deep px-5 py-2.5 text-sm text-primary-foreground shadow-[var(--shadow-gold)] transition-transform hover:-translate-y-0.5">
           Browse Marketplace <ArrowRight className="h-4 w-4" />
@@ -414,11 +414,11 @@ function MyVPS() {
 /* ---------- RECENT ORDERS ---------- */
 function RecentOrders() {
   const orders = [
-    { pkg: "VPS r93 (Test)", seller: "Kepeed Store", price: "Rp 0", status: "CANCELLED", date: "23/6/2026" },
-    { pkg: "VPS r93 (Test)", seller: "Kepeed Store", price: "Rp 0", status: "ACTIVE", date: "23/6/2026" },
-    { pkg: "VPS r93 (Test)", seller: "Kepeed Store", price: "Rp 0", status: "CANCELLED", date: "23/6/2026" },
-    { pkg: "Bare Metal Dedicated Server", seller: "Admin NodeKPT", price: "Rp 3.924", status: "CANCELLED", date: "22/6/2026" },
-    { pkg: "Bare Metal Dedicated Server", seller: "Admin NodeKPT", price: "Rp 2.241", status: "CANCELLED", date: "22/6/2026" },
+    { pkg: "VPS Ryzen 9 5950X Super Fast", seller: "Kepeed Store", price: "Rp 50rb", status: "ACTIVE", date: "23/6/2026" },
+    { pkg: "Residential 100 ip", seller: "Proxy9proxy", price: "Rp 75rb", status: "ACTIVE", date: "23/6/2026" },
+    { pkg: "AMD Ryzen 5 3600 — Bare Metal", seller: "Admin NodeKPT", price: "Rp 1,1jt", status: "PENDING", date: "23/6/2026" },
+    { pkg: "Intel Core i7-6700 — Bare Metal", seller: "Admin NodeKPT", price: "Rp 1,2jt", status: "CANCELLED", date: "22/6/2026" },
+    { pkg: "Residential 20 ip", seller: "Proxy9proxy", price: "Rp 17rb", status: "ACTIVE", date: "22/6/2026" },
   ];
 
   return (
@@ -426,7 +426,7 @@ function RecentOrders() {
       <div className="flex items-center justify-between border-b border-border/60 p-7">
         <div>
           <h2 className="font-serif text-2xl tracking-tight">Recent Orders</h2>
-          <p className="text-xs text-muted-foreground">Aktivitas pembelian terbaru Anda</p>
+          <p className="text-xs text-muted-foreground">Latest deploys across VPS, Bare Metal, and Proxy</p>
         </div>
         <a href="#" className="inline-flex items-center gap-1.5 text-sm text-gold hover:gap-2.5 transition-all">
           View All <ArrowRight className="h-4 w-4" />
@@ -472,9 +472,9 @@ function RecentOrders() {
       </div>
 
       <div className="flex items-center justify-between border-t border-border/60 px-7 py-4 text-xs text-muted-foreground">
-        <span>Menampilkan 5 dari 60 order</span>
-        <button className="inline-flex items-center gap-1.5 text-gold hover:gap-2.5 transition-all">
-          <HelpCircle className="h-3.5 w-3.5" /> Butuh bantuan?
+        <span>Showing 5 of 60 orders</span>
+        <button className="inline-flex items-center gap-1.5 text-gold-deep hover:gap-2.5 transition-all">
+          <HelpCircle className="h-3.5 w-3.5" /> Need help?
         </button>
       </div>
     </section>
