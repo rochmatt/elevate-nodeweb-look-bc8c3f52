@@ -82,6 +82,67 @@
   --shadow-lift: 0 20px 60px -20px oklch(0 0 0 / 0.7);
 }
 
+/* Light luxe scope — pure white surfaces with the same gold accent */
+.theme-light {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.18 0.01 70);
+
+  --card: oklch(0.995 0.003 80);
+  --card-foreground: oklch(0.18 0.01 70);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.01 70);
+
+  --primary: oklch(0.62 0.13 65);
+  --primary-foreground: oklch(0.99 0.005 80);
+
+  --gold: oklch(0.62 0.13 65);
+  --gold-soft: oklch(0.78 0.14 75);
+  --gold-deep: oklch(0.5 0.12 55);
+
+  --secondary: oklch(0.97 0.005 80);
+  --secondary-foreground: oklch(0.18 0.01 70);
+  --muted: oklch(0.97 0.005 80);
+  --muted-foreground: oklch(0.48 0.01 70);
+  --accent: oklch(0.95 0.012 80);
+  --accent-foreground: oklch(0.18 0.01 70);
+
+  --destructive: oklch(0.55 0.2 27);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.9 0.008 70 / 0.9);
+  --input: oklch(0.9 0.008 70 / 0.9);
+  --ring: oklch(0.62 0.13 65);
+
+  --gradient-gold: linear-gradient(
+    135deg,
+    oklch(0.7 0.14 75) 0%,
+    oklch(0.6 0.14 65) 50%,
+    oklch(0.48 0.12 55) 100%
+  );
+  --shadow-gold: 0 14px 40px -16px oklch(0.6 0.14 65 / 0.35);
+  --shadow-lift: 0 20px 50px -25px oklch(0.2 0.02 70 / 0.18);
+
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.theme-light .constellation {
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, oklch(0.6 0.14 65 / 0.35), transparent 50%),
+    radial-gradient(1px 1px at 28% 64%, oklch(0.6 0.14 65 / 0.25), transparent 50%),
+    radial-gradient(1.5px 1.5px at 48% 22%, oklch(0.6 0.14 65 / 0.3), transparent 50%),
+    radial-gradient(1px 1px at 62% 78%, oklch(0.6 0.14 65 / 0.22), transparent 50%),
+    radial-gradient(1px 1px at 78% 38%, oklch(0.6 0.14 65 / 0.28), transparent 50%),
+    radial-gradient(1.5px 1.5px at 88% 72%, oklch(0.6 0.14 65 / 0.32), transparent 50%);
+}
+
+.theme-light .radial-glow {
+  background: radial-gradient(
+    ellipse at center,
+    oklch(0.78 0.14 75 / 0.18) 0%,
+    transparent 60%
+  );
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
