@@ -402,10 +402,10 @@ function ReferralCard() {
 /* ---------- MY VPS ---------- */
 function MyVPS() {
   return (
-    <section className="card-surface mt-8 p-7">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-xl font-bold tracking-tight">My VPS</h2>
+    <section className="card-surface mt-6 p-5 sm:mt-8 sm:p-7">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="min-w-0">
+          <h2 className="text-lg font-bold tracking-tight sm:text-xl">My VPS</h2>
           <p className="mt-1 text-xs leading-relaxed text-muted-foreground">Active servers you control directly via the integrated panel</p>
         </div>
         <a href="#" className="inline-flex items-center gap-1.5 text-sm text-gold-deep hover:gap-2.5 transition-all">
@@ -413,7 +413,7 @@ function MyVPS() {
         </a>
       </div>
 
-      <div className="mt-8 grid place-items-center rounded-xl border border-dashed border-border/80 bg-background/60 py-16 text-center">
+      <div className="mt-6 grid place-items-center rounded-xl border border-dashed border-border/80 bg-background/60 px-4 py-10 text-center sm:mt-8 sm:py-16">
         <div className="grid h-14 w-14 place-items-center rounded-xl border border-gold/30 bg-gold/5">
           <Server className="h-6 w-6 text-gold-deep" />
         </div>
