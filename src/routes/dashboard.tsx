@@ -200,24 +200,24 @@ function Topbar() {
         </div>
 
         <div className="ml-auto flex items-center gap-2">
-          <IconButton icon={ShoppingCart} badge="3" />
-          <IconButton icon={MessageSquare} />
-          <button className="flex h-10 items-center gap-1.5 rounded-xl border border-border bg-card/60 px-3 text-sm text-muted-foreground transition-colors hover:text-foreground">
-            <Globe className="h-4 w-4" />
+          <IconButton icon={ShoppingCart} badge="3" iconColor="text-amber-600" />
+          <IconButton icon={MessageSquare} iconColor="text-blue-600" />
+          <button className="flex h-10 items-center gap-1.5 rounded-xl border border-border bg-card/60 px-3 text-sm font-semibold text-foreground/80 transition-colors hover:text-foreground">
+            <Globe className="h-4 w-4 text-indigo-600" />
             EN
             <ChevronDown className="h-3.5 w-3.5" />
           </button>
-          <IconButton icon={Bell} badge="99+" />
+          <IconButton icon={Bell} badge="99+" iconColor="text-rose-600" />
 
           <div className="ml-2 flex items-center gap-3 rounded-xl border border-border bg-card/60 py-1.5 pl-1.5 pr-3">
             <div className="grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br from-gold-soft to-gold-deep font-serif text-base text-primary-foreground">
               D
             </div>
             <div className="hidden text-right leading-tight sm:block">
-              <div className="text-sm">Demo Buyer</div>
-              <div className="text-[10px] text-muted-foreground">buyer@nodekpt.com</div>
+              <div className="text-sm font-semibold text-foreground">Demo Buyer</div>
+              <div className="text-[10px] text-foreground/60">buyer@nodekpt.com</div>
             </div>
-            <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
+            <ChevronDown className="h-3.5 w-3.5 text-foreground/60" />
           </div>
         </div>
       </div>
@@ -228,15 +228,17 @@ function Topbar() {
 function IconButton({
   icon: Icon,
   badge,
+  iconColor = "text-foreground/70",
 }: {
   icon: React.ComponentType<{ className?: string }>;
   badge?: string;
+  iconColor?: string;
 }) {
   return (
-    <button className="relative grid h-10 w-10 place-items-center rounded-xl border border-border bg-card/60 text-muted-foreground transition-colors hover:border-gold/30 hover:text-gold">
-      <Icon className="h-4 w-4" />
+    <button className="relative grid h-10 w-10 place-items-center rounded-xl border border-border bg-card/60 transition-colors hover:border-gold/30">
+      <Icon className={`h-4 w-4 ${iconColor}`} />
       {badge && (
-        <span className="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-gradient-to-b from-gold-soft to-gold-deep px-1 text-[9px] font-medium text-primary-foreground">
+        <span className="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-gradient-to-b from-gold-soft to-gold-deep px-1 text-[9px] font-semibold text-primary-foreground">
           {badge}
         </span>
       )}
@@ -272,10 +274,10 @@ function Header() {
 /* ---------- STATS ---------- */
 function Stats() {
   const stats = [
-    { label: "Active VPS", value: "0", icon: Server, hint: "Deploy in under 60 seconds" },
-    { label: "Total Orders", value: "60", icon: Package, hint: "+4 this week", trend: true },
-    { label: "Pending Orders", value: "1", icon: Clock, hint: "Awaiting payment (QRIS / VA)" },
-    { label: "Total VPS", value: "0", icon: HardDrive, hint: "Across all sellers" },
+    { label: "Active VPS", value: "0", icon: Server, hint: "Deploy in under 60 seconds", iconColor: "text-sky-600", ringColor: "border-sky-500/30 bg-sky-500/10" },
+    { label: "Total Orders", value: "60", icon: Package, hint: "+4 this week", trend: true, iconColor: "text-amber-600", ringColor: "border-amber-500/30 bg-amber-500/10" },
+    { label: "Pending Orders", value: "1", icon: Clock, hint: "Awaiting payment (QRIS / VA)", iconColor: "text-orange-600", ringColor: "border-orange-500/30 bg-orange-500/10" },
+    { label: "Total VPS", value: "0", icon: HardDrive, hint: "Across all sellers", iconColor: "text-violet-600", ringColor: "border-violet-500/30 bg-violet-500/10" },
   ];
   return (
     <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -286,11 +288,11 @@ function Stats() {
         >
           <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-gold/5 blur-2xl transition-opacity group-hover:bg-gold/10" />
           <div className="relative flex items-start justify-between">
-            <div className="grid h-11 w-11 place-items-center rounded-xl border border-gold/30 bg-gold/5">
-              <s.icon className="h-5 w-5 text-gold" />
+            <div className={`grid h-11 w-11 place-items-center rounded-xl border ${s.ringColor}`}>
+              <s.icon className={`h-5 w-5 ${s.iconColor}`} />
             </div>
             {s.trend && (
-              <span className="inline-flex items-center gap-1 rounded-full border border-emerald-600/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] text-emerald-700">
+              <span className="inline-flex items-center gap-1 rounded-full border border-emerald-600/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-700">
                 <TrendingUp className="h-3 w-3" /> +12%
               </span>
             )}
@@ -299,9 +301,9 @@ function Stats() {
             {s.value}
           </div>
           <div className="relative mt-4 flex items-center justify-between">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">{s.label}</div>
+            <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/70">{s.label}</div>
           </div>
-          <div className="relative mt-1 text-[11px] leading-relaxed text-muted-foreground/80">{s.hint}</div>
+          <div className="relative mt-1 text-[11px] leading-relaxed text-foreground/60">{s.hint}</div>
         </div>
       ))}
     </div>
@@ -460,14 +462,18 @@ function RecentOrders() {
               <tr key={i} className="border-b border-border/40 transition-colors last:border-0 hover:bg-gold/[0.03]">
                 <td className="px-7 py-5">
                   <div className="flex items-center gap-3">
-                    <div className="grid h-9 w-9 place-items-center rounded-lg border border-border bg-background/40">
-                      {o.pkg.includes("Bare") ? (
-                        <HardDrive className="h-4 w-4 text-gold" />
-                      ) : (
-                        <Server className="h-4 w-4 text-gold" />
-                      )}
-                    </div>
-                    <span className="font-medium">{o.pkg}</span>
+                    {(() => {
+                      const isBare = o.pkg.includes("Bare");
+                      const isProxy = o.pkg.toLowerCase().includes("residential") || o.pkg.toLowerCase().includes("proxy");
+                      const Icon = isBare ? HardDrive : isProxy ? Globe : Server;
+                      const color = isBare ? "text-violet-600 border-violet-500/30 bg-violet-500/10" : isProxy ? "text-indigo-600 border-indigo-500/30 bg-indigo-500/10" : "text-sky-600 border-sky-500/30 bg-sky-500/10";
+                      return (
+                        <div className={`grid h-9 w-9 place-items-center rounded-lg border ${color}`}>
+                          <Icon className="h-4 w-4" />
+                        </div>
+                      );
+                    })()}
+                    <span className="font-semibold text-foreground">{o.pkg}</span>
                   </div>
                 </td>
                 <td className="px-7 py-5 text-muted-foreground">{o.seller}</td>
