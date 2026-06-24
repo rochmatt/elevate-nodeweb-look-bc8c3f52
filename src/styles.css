@@ -119,7 +119,7 @@
   --secondary-foreground: var(--text);
   --muted: var(--card-muted);
   --muted-foreground: var(--text-muted);
-  --accent: #f0fdfa;
+  
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
   --border: var(--border-subtle);
