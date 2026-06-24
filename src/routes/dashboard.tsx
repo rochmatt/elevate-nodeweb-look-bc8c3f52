@@ -436,7 +436,7 @@ function RecentOrders() {
   ];
 
   return (
-    <section className="mt-8 overflow-hidden rounded-2xl border border-border bg-card/40">
+    <section className="card-surface mt-8 overflow-hidden">
       <div className="flex items-center justify-between border-b border-border/60 p-7">
         <div>
           <h2 className="text-xl font-bold tracking-tight">Recent Orders</h2>
