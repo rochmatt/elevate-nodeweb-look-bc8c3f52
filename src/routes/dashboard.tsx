@@ -52,10 +52,10 @@ function Dashboard() {
         <Sidebar />
         <main className="min-w-0 flex-1">
           <Topbar />
-          <div className="mx-auto max-w-7xl px-8 py-10">
+          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
             <Header />
             <Stats />
-            <div className="mt-8 grid gap-6 lg:grid-cols-3">
+            <div className="mt-6 grid gap-4 sm:mt-8 sm:gap-6 lg:grid-cols-3">
               <WalletCard />
               <ReferralCard />
             </div>
@@ -186,7 +186,7 @@ function NavGroup({
 function Topbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center gap-4 px-8 py-4">
+      <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4 lg:px-8">
         <div className="relative hidden flex-1 max-w-md md:block">
           <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <input
@@ -199,25 +199,29 @@ function Topbar() {
           </span>
         </div>
 
-        <div className="ml-auto flex items-center gap-2">
+        <button className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-border bg-card/60 md:hidden">
+          <Search className="h-4 w-4 text-foreground/70" />
+        </button>
+
+        <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
           <IconButton icon={ShoppingCart} badge="3" iconColor="text-amber-600" />
           <IconButton icon={MessageSquare} iconColor="text-blue-600" />
-          <button className="flex h-10 items-center gap-1.5 rounded-xl border border-border bg-card/60 px-3 text-sm font-semibold text-foreground/80 transition-colors hover:text-foreground">
+          <button className="hidden h-10 items-center gap-1.5 rounded-xl border border-border bg-card/60 px-3 text-sm font-semibold text-foreground/80 transition-colors hover:text-foreground sm:flex">
             <Globe className="h-4 w-4 text-indigo-600" />
             EN
             <ChevronDown className="h-3.5 w-3.5" />
           </button>
           <IconButton icon={Bell} badge="99+" iconColor="text-rose-600" />
 
-          <div className="ml-2 flex items-center gap-3 rounded-xl border border-border bg-card/60 py-1.5 pl-1.5 pr-3">
+          <div className="ml-1 flex shrink-0 items-center gap-2 rounded-xl border border-border bg-card/60 py-1.5 pl-1.5 pr-2 sm:ml-2 sm:gap-3 sm:pr-3">
             <div className="grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br from-gold-soft to-gold-deep font-serif text-base text-primary-foreground">
               D
             </div>
-            <div className="hidden text-right leading-tight sm:block">
+            <div className="hidden text-right leading-tight md:block">
               <div className="text-sm font-semibold text-foreground">Demo Buyer</div>
               <div className="text-[10px] text-foreground/60">buyer@nodekpt.com</div>
             </div>
-            <ChevronDown className="h-3.5 w-3.5 text-foreground/60" />
+            <ChevronDown className="hidden h-3.5 w-3.5 text-foreground/60 sm:block" />
           </div>
         </div>
       </div>
@@ -249,12 +253,12 @@ function IconButton({
 /* ---------- HEADER ---------- */
 function Header() {
   return (
-    <div className="flex flex-wrap items-end justify-between gap-6">
-      <div>
+    <div className="flex flex-col gap-5 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between sm:gap-6">
+      <div className="min-w-0">
         <div className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/5 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-gold-deep">
           <Sparkles className="h-3 w-3" /> Buy & Sell VPS Servers
         </div>
-        <h1 className="mt-4 text-3xl font-bold leading-[1.1] tracking-tight md:text-4xl">
+        <h1 className="mt-4 text-2xl font-bold leading-[1.1] tracking-tight sm:text-3xl md:text-4xl">
           Welcome back,{" "}
           <span className="text-gold-gradient">Demo Buyer</span>.
         </h1>
@@ -262,7 +266,7 @@ function Header() {
           The first marketplace where anyone can sell VPSes and buyers get direct server control via an integrated panel — no long contracts, pay in IDR (QRIS, VA), full root access.
         </p>
       </div>
-      <button className="btn-secondary">
+      <button className="btn-secondary self-start sm:self-auto">
         <Store className="h-4 w-4 text-[color:var(--accent-strong)]" />
         Browse VPS
         <ArrowUpRight className="h-3.5 w-3.5" />
@@ -280,17 +284,17 @@ function Stats() {
     { label: "Total VPS", value: "0", icon: HardDrive, hint: "Across all sellers", iconColor: "text-violet-600", ringColor: "border-violet-500/30 bg-violet-500/10" },
   ];
   return (
-    <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="mt-6 grid gap-3 grid-cols-2 sm:mt-10 sm:gap-4 lg:grid-cols-4">
       {stats.map((s) => (
         <div
           key={s.label}
-          className="card-interactive group relative overflow-hidden p-6"
+          className="card-interactive group relative overflow-hidden p-4 sm:p-6"
         >
           <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-gold/5 blur-2xl transition-opacity group-hover:bg-gold/10" />
 
-          <div className="relative flex items-start justify-between">
-            <div className={`grid h-11 w-11 place-items-center rounded-xl border ${s.ringColor}`}>
-              <s.icon className={`h-5 w-5 ${s.iconColor}`} />
+          <div className="relative flex items-start justify-between gap-2">
+            <div className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl border sm:h-11 sm:w-11 ${s.ringColor}`}>
+              <s.icon className={`h-4 w-4 sm:h-5 sm:w-5 ${s.iconColor}`} />
             </div>
             {s.trend && (
               <span className="inline-flex items-center gap-1 rounded-full border border-emerald-600/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-700">
@@ -298,11 +302,11 @@ function Stats() {
               </span>
             )}
           </div>
-          <div className="relative mt-6 text-4xl font-bold leading-none tracking-tight">
+          <div className="relative mt-4 text-2xl font-bold leading-none tracking-tight sm:mt-6 sm:text-4xl">
             {s.value}
           </div>
-          <div className="relative mt-4 flex items-center justify-between">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/70">{s.label}</div>
+          <div className="relative mt-3 flex items-center justify-between sm:mt-4">
+            <div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-foreground/70 sm:text-[11px]">{s.label}</div>
           </div>
           <div className="relative mt-1 text-[11px] leading-relaxed text-foreground/60">{s.hint}</div>
         </div>
@@ -314,18 +318,18 @@ function Stats() {
 /* ---------- WALLET CARD ---------- */
 function WalletCard() {
   return (
-    <div className="card-feature relative overflow-hidden p-7 lg:col-span-2">
+    <div className="card-feature relative overflow-hidden p-5 sm:p-7 lg:col-span-2">
       <div className="constellation absolute inset-0 opacity-50" aria-hidden />
       <div className="absolute -right-10 -top-10 h-48 w-48 rounded-full bg-gold/15 blur-3xl" aria-hidden />
 
-      <div className="relative flex flex-wrap items-start justify-between gap-6">
-        <div>
+      <div className="relative flex flex-col gap-6 md:flex-row md:flex-wrap md:items-start md:justify-between">
+        <div className="min-w-0">
           <div className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-gold-deep">
             <Wallet className="h-3.5 w-3.5" /> Wallet Balance
           </div>
           <div className="mt-3 flex items-baseline gap-1.5">
-            <span className="text-xl font-semibold text-muted-foreground">Rp</span>
-            <span className="text-5xl font-bold tracking-tight leading-none text-gold-gradient">618.147</span>
+            <span className="text-lg font-semibold text-muted-foreground sm:text-xl">Rp</span>
+            <span className="text-4xl font-bold tracking-tight leading-none text-gold-gradient sm:text-5xl">618.147</span>
           </div>
           <p className="mt-2 text-xs leading-relaxed text-muted-foreground">Usable for your next deploy — VPS, Bare Metal, or Proxy</p>
           <div className="mt-5 flex flex-wrap gap-2">
@@ -338,7 +342,7 @@ function WalletCard() {
           </div>
         </div>
 
-        <div className="min-w-[240px] flex-1 rounded-xl border border-border bg-background/40 p-4 backdrop-blur">
+        <div className="w-full min-w-0 flex-1 rounded-xl border border-border bg-background/40 p-4 backdrop-blur md:min-w-[240px]">
           <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
             Recent Refunds
           </div>
@@ -374,7 +378,7 @@ function WalletCard() {
 /* ---------- REFERRAL ---------- */
 function ReferralCard() {
   return (
-    <div className="card-surface relative overflow-hidden p-7">
+    <div className="card-surface relative overflow-hidden p-5 sm:p-7">
       <div className="absolute -bottom-12 -right-12 h-40 w-40 rounded-full bg-gold/10 blur-3xl" />
       <div className="relative">
         <HeartHandshake className="h-6 w-6 text-gold" />
@@ -385,8 +389,8 @@ function ReferralCard() {
           Rp 25.000 for every friend who joins and makes their first top up.
         </p>
         <div className="mt-5 flex items-center gap-2 rounded-lg border border-border bg-background/40 p-1 pl-3">
-          <span className="font-mono text-sm text-gold">nodekpt.com/r/demo</span>
-          <button className="btn-primary ml-auto !py-1.5 !px-3 !text-xs">
+          <span className="truncate font-mono text-xs text-gold sm:text-sm">nodekpt.com/r/demo</span>
+          <button className="btn-primary ml-auto shrink-0 !py-1.5 !px-3 !text-xs">
             Copy
           </button>
         </div>
@@ -398,10 +402,10 @@ function ReferralCard() {
 /* ---------- MY VPS ---------- */
 function MyVPS() {
   return (
-    <section className="card-surface mt-8 p-7">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-xl font-bold tracking-tight">My VPS</h2>
+    <section className="card-surface mt-6 p-5 sm:mt-8 sm:p-7">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="min-w-0">
+          <h2 className="text-lg font-bold tracking-tight sm:text-xl">My VPS</h2>
           <p className="mt-1 text-xs leading-relaxed text-muted-foreground">Active servers you control directly via the integrated panel</p>
         </div>
         <a href="#" className="inline-flex items-center gap-1.5 text-sm text-gold-deep hover:gap-2.5 transition-all">
@@ -409,7 +413,7 @@ function MyVPS() {
         </a>
       </div>
 
-      <div className="mt-8 grid place-items-center rounded-xl border border-dashed border-border/80 bg-background/60 py-16 text-center">
+      <div className="mt-6 grid place-items-center rounded-xl border border-dashed border-border/80 bg-background/60 px-4 py-10 text-center sm:mt-8 sm:py-16">
         <div className="grid h-14 w-14 place-items-center rounded-xl border border-gold/30 bg-gold/5">
           <Server className="h-6 w-6 text-gold-deep" />
         </div>
@@ -436,10 +440,10 @@ function RecentOrders() {
   ];
 
   return (
-    <section className="card-surface mt-8 overflow-hidden">
-      <div className="flex items-center justify-between border-b border-border/60 p-7">
-        <div>
-          <h2 className="text-xl font-bold tracking-tight">Recent Orders</h2>
+    <section className="card-surface mt-6 overflow-hidden sm:mt-8">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 p-5 sm:p-7">
+        <div className="min-w-0">
+          <h2 className="text-lg font-bold tracking-tight sm:text-xl">Recent Orders</h2>
           <p className="mt-1 text-xs leading-relaxed text-muted-foreground">Latest deploys across VPS, Bare Metal, and Proxy</p>
         </div>
         <a href="#" className="inline-flex items-center gap-1.5 text-sm text-gold hover:gap-2.5 transition-all">
@@ -447,21 +451,50 @@ function RecentOrders() {
         </a>
       </div>
 
-      <div className="overflow-x-auto">
+      {/* Mobile: card list */}
+      <ul className="divide-y divide-border/40 md:hidden">
+        {orders.map((o, i) => {
+          const isBare = o.pkg.includes("Bare");
+          const isProxy = o.pkg.toLowerCase().includes("residential") || o.pkg.toLowerCase().includes("proxy");
+          const Icon = isBare ? HardDrive : isProxy ? Globe : Server;
+          const color = isBare ? "text-violet-600 border-violet-500/30 bg-violet-500/10" : isProxy ? "text-indigo-600 border-indigo-500/30 bg-indigo-500/10" : "text-sky-600 border-sky-500/30 bg-sky-500/10";
+          return (
+            <li key={i} className="flex items-start gap-3 p-4 sm:p-5">
+              <div className={`grid h-10 w-10 shrink-0 place-items-center rounded-lg border ${color}`}>
+                <Icon className="h-4 w-4" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-start justify-between gap-2">
+                  <span className="truncate text-sm font-semibold text-foreground">{o.pkg}</span>
+                  <span className="shrink-0 font-mono text-xs text-foreground">{o.price}</span>
+                </div>
+                <div className="mt-0.5 truncate text-xs text-muted-foreground">{o.seller}</div>
+                <div className="mt-2 flex items-center justify-between gap-2">
+                  <StatusPill status={o.status} />
+                  <span className="text-[11px] text-muted-foreground">{o.date}</span>
+                </div>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+
+      {/* Desktop: table */}
+      <div className="hidden overflow-x-auto md:block">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border/60 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-              <th className="px-7 py-4 text-left">Package</th>
-              <th className="px-7 py-4 text-left">Seller</th>
-              <th className="px-7 py-4 text-left">Price</th>
-              <th className="px-7 py-4 text-left">Status</th>
-              <th className="px-7 py-4 text-left">Date</th>
+              <th className="px-5 py-4 text-left lg:px-7">Package</th>
+              <th className="px-5 py-4 text-left lg:px-7">Seller</th>
+              <th className="px-5 py-4 text-left lg:px-7">Price</th>
+              <th className="px-5 py-4 text-left lg:px-7">Status</th>
+              <th className="px-5 py-4 text-left lg:px-7">Date</th>
             </tr>
           </thead>
           <tbody>
             {orders.map((o, i) => (
               <tr key={i} className="border-b border-border/40 transition-colors last:border-0 hover:bg-gold/[0.03]">
-                <td className="px-7 py-5">
+                <td className="px-5 py-5 lg:px-7">
                   <div className="flex items-center gap-3">
                     {(() => {
                       const isBare = o.pkg.includes("Bare");
@@ -469,7 +502,7 @@ function RecentOrders() {
                       const Icon = isBare ? HardDrive : isProxy ? Globe : Server;
                       const color = isBare ? "text-violet-600 border-violet-500/30 bg-violet-500/10" : isProxy ? "text-indigo-600 border-indigo-500/30 bg-indigo-500/10" : "text-sky-600 border-sky-500/30 bg-sky-500/10";
                       return (
-                        <div className={`grid h-9 w-9 place-items-center rounded-lg border ${color}`}>
+                        <div className={`grid h-9 w-9 shrink-0 place-items-center rounded-lg border ${color}`}>
                           <Icon className="h-4 w-4" />
                         </div>
                       );
@@ -477,19 +510,19 @@ function RecentOrders() {
                     <span className="font-semibold text-foreground">{o.pkg}</span>
                   </div>
                 </td>
-                <td className="px-7 py-5 text-muted-foreground">{o.seller}</td>
-                <td className="px-7 py-5 font-mono">{o.price}</td>
-                <td className="px-7 py-5">
+                <td className="px-5 py-5 text-muted-foreground lg:px-7">{o.seller}</td>
+                <td className="px-5 py-5 font-mono lg:px-7">{o.price}</td>
+                <td className="px-5 py-5 lg:px-7">
                   <StatusPill status={o.status} />
                 </td>
-                <td className="px-7 py-5 text-muted-foreground">{o.date}</td>
+                <td className="px-5 py-5 text-muted-foreground lg:px-7">{o.date}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-      <div className="flex items-center justify-between border-t border-border/60 px-7 py-4 text-xs text-muted-foreground">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border/60 px-5 py-4 text-xs text-muted-foreground sm:px-7">
         <span>Showing 5 of 60 orders</span>
         <button className="inline-flex items-center gap-1.5 text-gold-deep hover:gap-2.5 transition-all">
           <HelpCircle className="h-3.5 w-3.5" /> Need help?
