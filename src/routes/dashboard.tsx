@@ -52,10 +52,10 @@ function Dashboard() {
         <Sidebar />
         <main className="min-w-0 flex-1">
           <Topbar />
-          <div className="mx-auto max-w-7xl px-8 py-10">
+          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
             <Header />
             <Stats />
-            <div className="mt-8 grid gap-6 lg:grid-cols-3">
+            <div className="mt-6 grid gap-4 sm:mt-8 sm:gap-6 lg:grid-cols-3">
               <WalletCard />
               <ReferralCard />
             </div>
