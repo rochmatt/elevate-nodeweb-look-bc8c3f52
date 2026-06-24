@@ -363,8 +363,8 @@ function ReferralCard() {
       <div className="absolute -bottom-12 -right-12 h-40 w-40 rounded-full bg-gold/10 blur-3xl" />
       <div className="relative">
         <HeartHandshake className="h-6 w-6 text-gold" />
-        <h3 className="mt-4 font-serif text-2xl leading-tight">
-          Invite friends, <span className="italic text-gold-gradient">earn balance</span>.
+        <h3 className="mt-4 text-xl font-bold leading-snug tracking-tight">
+          Invite friends, <span className="text-gold-gradient">earn balance</span>.
         </h3>
         <p className="mt-2 text-sm text-muted-foreground">
           Rp 25.000 for every friend who joins and makes their first top up.
