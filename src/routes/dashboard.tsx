@@ -16,7 +16,6 @@ import {
   Receipt,
   RefreshCw,
   Scale,
-  Search,
   Server,
   ShoppingCart,
   Sparkles,
@@ -201,23 +200,7 @@ function NavGroup({
 export function Topbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4 lg:px-8">
-        <div className="relative hidden flex-1 max-w-md md:block">
-          <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <input
-            type="text"
-            placeholder="Search VPS, Bare Metal, or Proxy..."
-            className="h-10 w-full rounded-xl border border-border bg-card/60 pl-10 pr-4 text-sm outline-none placeholder:text-muted-foreground focus:border-[color:var(--accent)]/40 focus:ring-1 focus:ring-[color:var(--accent)]/10"
-          />
-          <span className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md border border-border bg-background/60 px-1.5 py-0.5 text-[10px] text-muted-foreground">
-            ⌘K
-          </span>
-        </div>
-
-        <button className="grid h-10 w-10 shrink-0 place-items-center rounded-xl text-muted-foreground transition-colors hover:bg-foreground/5 md:hidden">
-          <Search className="h-4 w-4" strokeWidth={1.75} />
-        </button>
-
+      <div className="mx-auto flex max-w-7xl items-center justify-end gap-2 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4 lg:px-8">
         <div className="ml-auto flex items-center gap-0.5 sm:gap-1">
           <IconButton icon={ShoppingCart} badge="3" />
           <IconButton icon={MessageSquare} />
