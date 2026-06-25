@@ -128,9 +128,9 @@ export function Sidebar({ activeLabel = "Dashboard" }: { activeLabel?: string })
           <ArrowRight className="h-3.5 w-3.5 shrink-0 text-[color:var(--accent-strong)] transition-transform group-hover:translate-x-0.5" />
         </button>
 
-        <NavGroup title="Platform Overview" items={overview} />
-        <NavGroup title="Service Inventory" items={inventory} />
-        <NavGroup title="Account" items={account} />
+        <NavGroup title="Platform Overview" items={overview} activeLabel={activeLabel} />
+        <NavGroup title="Service Inventory" items={inventory} activeLabel={activeLabel} />
+        <NavGroup title="Account" items={account} activeLabel={activeLabel} />
       </div>
 
       <button className="mx-3 mb-4 flex items-center gap-3 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-[color:var(--accent)]/40 hover:bg-[color:var(--accent-tint)]">
