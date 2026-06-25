@@ -144,13 +144,15 @@ export function Sidebar({ activeLabel = "Dashboard" }: { activeLabel?: string })
 function NavGroup({
   title,
   items,
+  activeLabel,
 }: {
   title: string;
   items: {
     icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
     label: string;
-    active?: boolean;
+    href?: string;
   }[];
+  activeLabel?: string;
 }) {
   return (
     <div className="mb-6">
@@ -158,16 +160,15 @@ function NavGroup({
         {title}
       </div>
       <ul className="space-y-0.5">
-        {items.map(({ icon: Icon, label, active }) => (
-          <li key={label}>
-            <a
-              href="#"
-              className={`group flex items-center gap-3 rounded-lg px-3 py-2 text-[13px] font-medium transition-colors ${
-                active
-                  ? "bg-[color:var(--accent-tint)] text-foreground"
-                  : "text-foreground/85 hover:bg-[color:var(--accent-tint)]/60 hover:text-foreground"
-              }`}
-            >
+        {items.map(({ icon: Icon, label, href }) => {
+          const active = activeLabel === label;
+          const cls = `group flex items-center gap-3 rounded-lg px-3 py-2 text-[13px] font-medium transition-colors ${
+            active
+              ? "bg-[color:var(--accent-tint)] text-foreground"
+              : "text-foreground/85 hover:bg-[color:var(--accent-tint)]/60 hover:text-foreground"
+          }`;
+          const inner = (
+            <>
               <Icon
                 className={`h-[18px] w-[18px] shrink-0 ${
                   active ? "text-[color:var(--accent-strong)]" : "text-muted-foreground group-hover:text-[color:var(--accent-strong)]"
@@ -178,9 +179,18 @@ function NavGroup({
               {active && (
                 <span className="ml-auto h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--accent)]" />
               )}
-            </a>
-          </li>
-        ))}
+            </>
+          );
+          return (
+            <li key={label}>
+              {href && href.startsWith("/") ? (
+                <Link to={href} className={cls}>{inner}</Link>
+              ) : (
+                <a href={href || "#"} className={cls}>{inner}</a>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
