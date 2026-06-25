@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as BareMetalRouteImport } from './routes/bare-metal'
 import { Route as IndexRouteImport } from './routes/index'
 
 const MarketplaceRoute = MarketplaceRouteImport.update({
@@ -23,6 +24,11 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BareMetalRoute = BareMetalRouteImport.update({
+  id: '/bare-metal',
+  path: '/bare-metal',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,30 +37,34 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/bare-metal': typeof BareMetalRoute
   '/dashboard': typeof DashboardRoute
   '/marketplace': typeof MarketplaceRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/bare-metal': typeof BareMetalRoute
   '/dashboard': typeof DashboardRoute
   '/marketplace': typeof MarketplaceRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/bare-metal': typeof BareMetalRoute
   '/dashboard': typeof DashboardRoute
   '/marketplace': typeof MarketplaceRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/marketplace'
+  fullPaths: '/' | '/bare-metal' | '/dashboard' | '/marketplace'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/marketplace'
-  id: '__root__' | '/' | '/dashboard' | '/marketplace'
+  to: '/' | '/bare-metal' | '/dashboard' | '/marketplace'
+  id: '__root__' | '/' | '/bare-metal' | '/dashboard' | '/marketplace'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BareMetalRoute: typeof BareMetalRoute
   DashboardRoute: typeof DashboardRoute
   MarketplaceRoute: typeof MarketplaceRoute
 }
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/bare-metal': {
+      id: '/bare-metal'
+      path: '/bare-metal'
+      fullPath: '/bare-metal'
+      preLoaderRoute: typeof BareMetalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BareMetalRoute: BareMetalRoute,
   DashboardRoute: DashboardRoute,
   MarketplaceRoute: MarketplaceRoute,
 }
