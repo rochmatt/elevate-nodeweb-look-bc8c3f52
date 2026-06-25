@@ -198,7 +198,7 @@ function NavGroup({
 
 /* ---------- TOPBAR ---------- */
 
-function Topbar() {
+export function Topbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4 lg:px-8">
