@@ -54,7 +54,7 @@ function Dashboard() {
       <div className="radial-glow pointer-events-none fixed left-1/3 top-0 h-[600px] w-[900px] -translate-x-1/2" aria-hidden />
 
       <div className="relative flex">
-        <Sidebar />
+        <Sidebar activeLabel="Dashboard" />
         <main className="min-w-0 flex-1">
           <Topbar />
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
