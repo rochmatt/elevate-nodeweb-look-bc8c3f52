@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WalletRouteImport } from './routes/wallet'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as BareMetalRouteImport } from './routes/bare-metal'
 import { Route as IndexRouteImport } from './routes/index'
 
+const WalletRoute = WalletRouteImport.update({
+  id: '/wallet',
+  path: '/wallet',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MarketplaceRoute = MarketplaceRouteImport.update({
   id: '/marketplace',
   path: '/marketplace',
@@ -40,12 +46,14 @@ export interface FileRoutesByFullPath {
   '/bare-metal': typeof BareMetalRoute
   '/dashboard': typeof DashboardRoute
   '/marketplace': typeof MarketplaceRoute
+  '/wallet': typeof WalletRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/bare-metal': typeof BareMetalRoute
   '/dashboard': typeof DashboardRoute
   '/marketplace': typeof MarketplaceRoute
+  '/wallet': typeof WalletRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,20 @@ export interface FileRoutesById {
   '/bare-metal': typeof BareMetalRoute
   '/dashboard': typeof DashboardRoute
   '/marketplace': typeof MarketplaceRoute
+  '/wallet': typeof WalletRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/bare-metal' | '/dashboard' | '/marketplace'
+  fullPaths: '/' | '/bare-metal' | '/dashboard' | '/marketplace' | '/wallet'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/bare-metal' | '/dashboard' | '/marketplace'
-  id: '__root__' | '/' | '/bare-metal' | '/dashboard' | '/marketplace'
+  to: '/' | '/bare-metal' | '/dashboard' | '/marketplace' | '/wallet'
+  id:
+    | '__root__'
+    | '/'
+    | '/bare-metal'
+    | '/dashboard'
+    | '/marketplace'
+    | '/wallet'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,10 +82,18 @@ export interface RootRouteChildren {
   BareMetalRoute: typeof BareMetalRoute
   DashboardRoute: typeof DashboardRoute
   MarketplaceRoute: typeof MarketplaceRoute
+  WalletRoute: typeof WalletRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/wallet': {
+      id: '/wallet'
+      path: '/wallet'
+      fullPath: '/wallet'
+      preLoaderRoute: typeof WalletRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/marketplace': {
       id: '/marketplace'
       path: '/marketplace'
@@ -107,6 +130,7 @@ const rootRouteChildren: RootRouteChildren = {
   BareMetalRoute: BareMetalRoute,
   DashboardRoute: DashboardRoute,
   MarketplaceRoute: MarketplaceRoute,
+  WalletRoute: WalletRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

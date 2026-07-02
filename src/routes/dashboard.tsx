@@ -90,7 +90,7 @@ export function Sidebar({ activeLabel = "Dashboard" }: { activeLabel?: string })
     { icon: KeyRound, label: "API Access" },
     { icon: Package, label: "Orders" },
     { icon: FileText, label: "Billing & Invoices" },
-    { icon: Wallet, label: "Wallet & Balance" },
+    { icon: Wallet, label: "Wallet & Balance", href: "/wallet" },
     { icon: Heart, label: "Wishlist" },
     { icon: Gift, label: "Referrals" },
     { icon: Scale, label: "Disputes" },
