@@ -88,7 +88,7 @@ export function Sidebar({ activeLabel = "Dashboard" }: { activeLabel?: string })
     { icon: HardDrive, label: "Block Storage" },
     { icon: Network, label: "Network Management (IP, DNS)" },
     { icon: KeyRound, label: "API Access" },
-    { icon: Package, label: "Orders" },
+    { icon: Package, label: "Orders", href: "/orders" },
     { icon: FileText, label: "Billing & Invoices" },
     { icon: Wallet, label: "Wallet & Balance", href: "/wallet" },
     { icon: Heart, label: "Wishlist" },
