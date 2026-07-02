@@ -99,7 +99,7 @@ export function Sidebar({ activeLabel = "Dashboard" }: { activeLabel?: string })
     { icon: BookOpen, label: "Guide" },
     { icon: LifeBuoy, label: "Support" },
     { icon: Mail, label: "Contact" },
-    { icon: User, label: "Profile" },
+    { icon: User, label: "Profile", href: "/profile" },
   ];
 
   return (
