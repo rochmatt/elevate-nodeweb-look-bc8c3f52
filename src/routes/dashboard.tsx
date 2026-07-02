@@ -89,7 +89,7 @@ export function Sidebar({ activeLabel = "Dashboard" }: { activeLabel?: string })
     { icon: Network, label: "Network Management (IP, DNS)" },
     { icon: KeyRound, label: "API Access" },
     { icon: Package, label: "Orders", href: "/orders" },
-    { icon: FileText, label: "Billing & Invoices" },
+    { icon: FileText, label: "Billing & Invoices", href: "/invoices" },
     { icon: Wallet, label: "Wallet & Balance", href: "/wallet" },
     { icon: Heart, label: "Wishlist" },
     { icon: Gift, label: "Referrals" },
