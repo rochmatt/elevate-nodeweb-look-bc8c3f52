@@ -609,127 +609,83 @@ function InventoryHeader() {
     search.q !== "" ||
     search.page !== 1;
 
+  const activeChips: { key: string; label: string; onClear: () => void }[] = [];
+  if (search.cpu !== "All")
+    activeChips.push({
+      key: "cpu",
+      label: `CPU: ${search.cpu}`,
+      onClear: () =>
+        navigate({ search: (p: z.infer<typeof filterSchema>) => ({ ...p, cpu: "All", page: 1 }) }),
+    });
+  if (search.ram !== "All")
+    activeChips.push({
+      key: "ram",
+      label: `RAM ≥ ${search.ram} GB`,
+      onClear: () =>
+        navigate({ search: (p: z.infer<typeof filterSchema>) => ({ ...p, ram: "All", page: 1 }) }),
+    });
+  if (search.region !== "All")
+    activeChips.push({
+      key: "region",
+      label: `Region: ${search.region}`,
+      onClear: () =>
+        navigate({ search: (p: z.infer<typeof filterSchema>) => ({ ...p, region: "All", page: 1 }) }),
+    });
+  if (search.q)
+    activeChips.push({
+      key: "q",
+      label: `“${search.q}”`,
+      onClear: () =>
+        navigate({ search: (p: z.infer<typeof filterSchema>) => ({ ...p, q: "", page: 1 }) }),
+    });
+
   return (
     <section id="inventory" className="mt-12">
       <SectionHeader
-        eyebrow="Step 3 · Browse inventory"
+        eyebrow="Step 2 · Browse inventory"
         title="Live bare metal inventory"
-        subtitle={`${filtered.length} of ${ROWS.length} servers match — filters are saved in your URL so you can share or bookmark them.`}
+        subtitle={`${filtered.length} of ${ROWS.length} servers match your filters above.`}
       />
-      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="relative w-full sm:max-w-sm">
-          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <input
-            value={search.q}
-            onChange={(e) =>
-              navigate({ search: (p: z.infer<typeof filterSchema>) => ({ ...p, q: e.target.value, page: 1 }), replace: true })
-            }
-            placeholder="Search CPU, region, RAM…"
-            className="h-11 w-full rounded-xl border border-border bg-card/70 pl-10 pr-9 text-sm outline-none focus:border-[color:var(--accent)]/40"
-          />
-          {search.q && (
+      {(activeChips.length > 0 || isDirty) && (
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Active
+          </span>
+          {activeChips.map((c) => (
+            <span
+              key={c.key}
+              className="inline-flex items-center gap-1.5 rounded-full border border-[color:var(--accent)]/30 bg-[color:var(--accent-tint)] px-2.5 py-1 text-[11px] font-semibold text-[color:var(--accent-strong)]"
+            >
+              {c.label}
+              <button
+                type="button"
+                onClick={c.onClear}
+                aria-label={`Clear ${c.label}`}
+                className="rounded-full p-0.5 hover:bg-[color:var(--accent)]/15"
+              >
+                <X className="h-3 w-3" />
+              </button>
+            </span>
+          ))}
+          {isDirty && (
             <button
               type="button"
-              onClick={() => navigate({ search: (p: z.infer<typeof filterSchema>) => ({ ...p, q: "", page: 1 }), replace: true })}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-md p-1 text-muted-foreground hover:bg-foreground/5"
-              aria-label="Clear search"
+              onClick={() =>
+                navigate({
+                  search: { cpu: "All", region: "All", ram: "All", q: "", page: 1 },
+                })
+              }
+              className="inline-flex h-7 items-center gap-1.5 rounded-full border border-border bg-card/60 px-2.5 text-[11px] font-semibold text-foreground/70 hover:border-[color:var(--accent)]/30 hover:text-foreground"
             >
-              <X className="h-3.5 w-3.5" />
+              <RotateCcw className="h-3 w-3" /> Reset all
             </button>
           )}
         </div>
-        <div className="flex flex-wrap items-center gap-2">
-          {CPU_FILTERS.map((t) => (
-            <button
-              key={t}
-              onClick={() => navigate({ search: (p: z.infer<typeof filterSchema>) => ({ ...p, cpu: t, page: 1 }) })}
-              className={`h-9 rounded-lg border px-3 text-[12px] font-semibold transition-colors ${
-                search.cpu === t
-                  ? "border-[color:var(--accent)]/40 bg-[color:var(--accent-tint)] text-[color:var(--accent-strong)]"
-                  : "border-border bg-card/60 text-foreground/70 hover:border-[color:var(--accent)]/30"
-              }`}
-            >
-              {t}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex flex-wrap items-center gap-2">
-          <FilterGroup
-            icon={MapPin}
-            label="Region"
-            options={REGION_FILTERS}
-            value={search.region}
-            onChange={(v) => navigate({ search: (p: z.infer<typeof filterSchema>) => ({ ...p, region: v, page: 1 }) })}
-          />
-          <FilterGroup
-            icon={MemoryStick}
-            label="RAM ≥"
-            options={RAM_FILTERS}
-            value={search.ram}
-            onChange={(v) => navigate({ search: (p: z.infer<typeof filterSchema>) => ({ ...p, ram: v, page: 1 }) })}
-            suffix={(o) => (o === "All" ? "" : " GB")}
-          />
-        </div>
-        {isDirty && (
-          <button
-            onClick={() =>
-              navigate({
-                search: { cpu: "All", region: "All", ram: "All", q: "", page: 1 },
-              })
-            }
-            className="inline-flex h-9 items-center gap-1.5 self-start rounded-lg border border-border bg-card/60 px-3 text-[12px] font-semibold text-foreground/70 transition-colors hover:border-[color:var(--accent)]/30 hover:text-foreground"
-          >
-            <RotateCcw className="h-3.5 w-3.5" /> Reset filters
-          </button>
-        )}
-      </div>
+      )}
     </section>
   );
 }
 
-function FilterGroup<T extends string>({
-  icon: Icon,
-  label,
-  options,
-  value,
-  onChange,
-  suffix,
-}: {
-  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
-  label: string;
-  options: readonly T[];
-  value: T;
-  onChange: (v: T) => void;
-  suffix?: (o: T) => string;
-}) {
-  return (
-    <div className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card/40 p-1 pl-2.5">
-      <Icon className="h-3.5 w-3.5 text-[color:var(--accent-strong)]" strokeWidth={1.75} />
-      <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-        {label}
-      </span>
-      <div className="ml-1 flex flex-wrap gap-1">
-        {options.map((o) => (
-          <button
-            key={o}
-            onClick={() => onChange(o)}
-            className={`h-7 rounded-md px-2 text-[11px] font-semibold transition-colors ${
-              value === o
-                ? "bg-[color:var(--accent-tint)] text-[color:var(--accent-strong)]"
-                : "text-foreground/65 hover:bg-foreground/5"
-            }`}
-          >
-            {o}
-            {suffix ? suffix(o) : ""}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 type Row = {
   cpu: string;
