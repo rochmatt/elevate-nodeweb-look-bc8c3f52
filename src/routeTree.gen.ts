@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WalletRouteImport } from './routes/wallet'
+import { Route as OrdersRouteImport } from './routes/orders'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as BareMetalRouteImport } from './routes/bare-metal'
@@ -18,6 +19,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const WalletRoute = WalletRouteImport.update({
   id: '/wallet',
   path: '/wallet',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrdersRoute = OrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MarketplaceRoute = MarketplaceRouteImport.update({
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/bare-metal': typeof BareMetalRoute
   '/dashboard': typeof DashboardRoute
   '/marketplace': typeof MarketplaceRoute
+  '/orders': typeof OrdersRoute
   '/wallet': typeof WalletRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/bare-metal': typeof BareMetalRoute
   '/dashboard': typeof DashboardRoute
   '/marketplace': typeof MarketplaceRoute
+  '/orders': typeof OrdersRoute
   '/wallet': typeof WalletRoute
 }
 export interface FileRoutesById {
@@ -61,19 +69,33 @@ export interface FileRoutesById {
   '/bare-metal': typeof BareMetalRoute
   '/dashboard': typeof DashboardRoute
   '/marketplace': typeof MarketplaceRoute
+  '/orders': typeof OrdersRoute
   '/wallet': typeof WalletRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/bare-metal' | '/dashboard' | '/marketplace' | '/wallet'
+  fullPaths:
+    | '/'
+    | '/bare-metal'
+    | '/dashboard'
+    | '/marketplace'
+    | '/orders'
+    | '/wallet'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/bare-metal' | '/dashboard' | '/marketplace' | '/wallet'
+  to:
+    | '/'
+    | '/bare-metal'
+    | '/dashboard'
+    | '/marketplace'
+    | '/orders'
+    | '/wallet'
   id:
     | '__root__'
     | '/'
     | '/bare-metal'
     | '/dashboard'
     | '/marketplace'
+    | '/orders'
     | '/wallet'
   fileRoutesById: FileRoutesById
 }
@@ -82,6 +104,7 @@ export interface RootRouteChildren {
   BareMetalRoute: typeof BareMetalRoute
   DashboardRoute: typeof DashboardRoute
   MarketplaceRoute: typeof MarketplaceRoute
+  OrdersRoute: typeof OrdersRoute
   WalletRoute: typeof WalletRoute
 }
 
@@ -92,6 +115,13 @@ declare module '@tanstack/react-router' {
       path: '/wallet'
       fullPath: '/wallet'
       preLoaderRoute: typeof WalletRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/orders': {
+      id: '/orders'
+      path: '/orders'
+      fullPath: '/orders'
+      preLoaderRoute: typeof OrdersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/marketplace': {
@@ -130,6 +160,7 @@ const rootRouteChildren: RootRouteChildren = {
   BareMetalRoute: BareMetalRoute,
   DashboardRoute: DashboardRoute,
   MarketplaceRoute: MarketplaceRoute,
+  OrdersRoute: OrdersRoute,
   WalletRoute: WalletRoute,
 }
 export const routeTree = rootRouteImport
