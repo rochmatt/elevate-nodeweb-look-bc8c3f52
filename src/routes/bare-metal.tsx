@@ -25,7 +25,7 @@ import {
   ShieldCheck,
   Sliders,
   Sparkles,
-  Terminal,
+  
   Thermometer,
   Timer,
   Wifi,
