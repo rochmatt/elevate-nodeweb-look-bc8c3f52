@@ -224,50 +224,139 @@ function LiveTicker() {
   );
 }
 
-/* ============== CONFIGURATOR ============== */
+/* ============== FILTER PANEL (replaces old static configurator) ============== */
 function Configurator() {
+  const search = Route.useSearch();
+  const navigate = Route.useNavigate();
+  const filtered = useFilteredRows();
+  const isDirty =
+    search.cpu !== "All" ||
+    search.region !== "All" ||
+    search.ram !== "All" ||
+    search.q !== "" ||
+    search.page !== 1;
+
+  const cheapest = filtered.reduce<number | null>(
+    (min, r) => (min === null || r.hour < min ? r.hour : min),
+    null,
+  );
+  const anyGpu = filtered.some((r) => r.gpu);
+
+  const set = <K extends keyof z.infer<typeof filterSchema>>(
+    key: K,
+    value: z.infer<typeof filterSchema>[K],
+  ) =>
+    navigate({
+      search: (p: z.infer<typeof filterSchema>) => ({ ...p, [key]: value, page: 1 }),
+      replace: true,
+    });
+
   return (
     <section id="configure" className="mt-10">
       <SectionHeader
-        eyebrow="Step 1 · Build"
-        title="Configure your rig"
-        subtitle="Pick a CPU class, memory tier, storage and region — we'll match you to a ready node."
+        eyebrow="Step 1 · Filter"
+        title="Find your bare metal"
+        subtitle="Dial in CPU, memory and region — inventory updates live and filters stay in your URL."
       />
       <div className="card-surface mt-5 grid gap-5 p-5 sm:p-6 lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="space-y-5">
-          <ConfigRow icon={Cpu} label="CPU class" options={["Intel Core", "Intel Xeon", "AMD Ryzen", "AMD EPYC"]} active="AMD Ryzen" />
-          <ConfigRow icon={MemoryStick} label="Memory" options={["32 GB", "64 GB", "128 GB", "256 GB", "512 GB"]} active="128 GB" />
-          <ConfigRow icon={HardDrive} label="Storage" options={["256 GB NVMe", "1 TB NVMe", "2× 1 TB NVMe", "4× 2 TB SSD", "8 TB HDD"]} active="2× 1 TB NVMe" />
-          <ConfigRow icon={Network} label="Uplink" options={["1 Gbps", "10 Gbps", "Unmetered"]} active="10 Gbps" />
-          <ConfigRow icon={MapPin} label="Region" options={["Frankfurt", "Singapore", "Amsterdam", "Tokyo", "New York"]} active="Singapore" />
+          {/* Search */}
+          <div>
+            <div className="mb-2 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              <Search className="h-3.5 w-3.5 text-[color:var(--accent-strong)]" strokeWidth={1.75} />
+              Search
+            </div>
+            <div className="relative">
+              <input
+                value={search.q}
+                onChange={(e) => set("q", e.target.value)}
+                placeholder="Try “Ryzen 128 GB” or “SIN-1”…"
+                className="h-11 w-full rounded-xl border border-border bg-card/70 pl-4 pr-10 text-sm outline-none transition-colors focus:border-[color:var(--accent)]/40 focus:bg-card"
+              />
+              {search.q && (
+                <button
+                  type="button"
+                  onClick={() => set("q", "")}
+                  aria-label="Clear search"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-md p-1 text-muted-foreground hover:bg-foreground/5"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              )}
+            </div>
+          </div>
+
+          <FilterRow
+            icon={Cpu}
+            label="CPU class"
+            options={CPU_FILTERS}
+            value={search.cpu}
+            onChange={(v) => set("cpu", v)}
+          />
+          <FilterRow
+            icon={MemoryStick}
+            label="Memory (min)"
+            options={RAM_FILTERS}
+            value={search.ram}
+            onChange={(v) => set("ram", v)}
+            render={(o) => (o === "All" ? "Any" : `${o} GB`)}
+          />
+          <FilterRow
+            icon={MapPin}
+            label="Region"
+            options={REGION_FILTERS}
+            value={search.region}
+            onChange={(v) => set("region", v)}
+          />
         </div>
 
-        {/* Summary */}
-        <div className="rounded-2xl border border-[color:var(--accent)]/25 bg-gradient-to-b from-[color:var(--accent-tint)]/70 to-card p-5">
-          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[color:var(--accent-strong)]">Your build</div>
-          <div className="mt-2 text-base font-bold leading-tight tracking-tight">
-            AMD Ryzen 9 · 128 GB · 2× 1 TB NVMe
-          </div>
-          <div className="mt-1 text-xs text-muted-foreground">Singapore · 10 Gbps · Unmetered</div>
+        {/* Live summary */}
+        <div className="relative overflow-hidden rounded-2xl border border-[color:var(--accent)]/25 bg-gradient-to-b from-[color:var(--accent-tint)]/70 to-card p-5">
+          <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[color:var(--accent)]/15 blur-2xl" />
+          <div className="relative">
+            <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[color:var(--accent-strong)]">
+              Live matches
+            </div>
+            <div className="mt-2 flex items-baseline gap-2">
+              <span className="text-4xl font-bold leading-none tracking-tight">{filtered.length}</span>
+              <span className="text-xs text-muted-foreground">of {ROWS.length} servers</span>
+            </div>
 
-          <div className="mt-5 space-y-2 text-[12px]">
-            <SummaryLine label="Hourly" value="Rp 4.250" />
-            <SummaryLine label="Monthly cap" value="Rp 2.650.000" />
-            <SummaryLine label="Setup" value="Free" />
-            <SummaryLine label="Provision ETA" value="~90s" tone="accent" />
-          </div>
+            <div className="mt-4 space-y-2 text-[12px]">
+              <SummaryLine
+                label="Starting from"
+                value={cheapest ? `Rp ${cheapest.toLocaleString("id-ID")}/hr` : "—"}
+                tone="accent"
+              />
+              <SummaryLine label="GPU available" value={anyGpu ? "Yes" : "No"} />
+              <SummaryLine
+                label="Region"
+                value={search.region === "All" ? "Any" : search.region}
+              />
+              <SummaryLine label="Provision ETA" value="~90s" />
+            </div>
 
-          <div className="mt-5 flex flex-col gap-2">
-            <button className="btn-primary w-full">
-              <Zap className="h-4 w-4" /> Deploy now
-            </button>
-            <button className="btn-ghost w-full justify-center">
-              <Terminal className="h-4 w-4 text-[color:var(--accent-strong)]" /> Save as template
-            </button>
-          </div>
+            <div className="mt-5 flex flex-col gap-2">
+              <a href="#inventory" className="btn-primary w-full">
+                <Zap className="h-4 w-4" /> Browse {filtered.length} result{filtered.length === 1 ? "" : "s"}
+              </a>
+              <button
+                type="button"
+                onClick={() =>
+                  navigate({
+                    search: { cpu: "All", region: "All", ram: "All", q: "", page: 1 },
+                  })
+                }
+                disabled={!isDirty}
+                className="btn-ghost w-full justify-center disabled:opacity-40"
+              >
+                <RotateCcw className="h-4 w-4 text-[color:var(--accent-strong)]" /> Reset filters
+              </button>
+            </div>
 
-          <div className="mt-4 inline-flex items-center gap-1.5 text-[10px] text-muted-foreground">
-            <Shield className="h-3 w-3" /> Cancel any hour · No commitments
+            <div className="mt-4 inline-flex items-center gap-1.5 text-[10px] text-muted-foreground">
+              <Shield className="h-3 w-3" /> Filters saved in URL · shareable
+            </div>
           </div>
         </div>
       </div>
@@ -275,16 +364,20 @@ function Configurator() {
   );
 }
 
-function ConfigRow({
+function FilterRow<T extends string>({
   icon: Icon,
   label,
   options,
-  active,
+  value,
+  onChange,
+  render,
 }: {
   icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
   label: string;
-  options: string[];
-  active: string;
+  options: readonly T[];
+  value: T;
+  onChange: (v: T) => void;
+  render?: (o: T) => string;
 }) {
   return (
     <div>
@@ -293,18 +386,23 @@ function ConfigRow({
         {label}
       </div>
       <div className="flex flex-wrap gap-2">
-        {options.map((o) => (
-          <button
-            key={o}
-            className={`h-9 rounded-lg border px-3 text-[12px] font-semibold transition-colors ${
-              o === active
-                ? "border-[color:var(--accent)]/50 bg-[color:var(--accent-tint)] text-[color:var(--accent-strong)] shadow-sm"
-                : "border-border bg-card/60 text-foreground/75 hover:border-[color:var(--accent)]/30 hover:text-foreground"
-            }`}
-          >
-            {o}
-          </button>
-        ))}
+        {options.map((o) => {
+          const active = o === value;
+          return (
+            <button
+              key={o}
+              type="button"
+              onClick={() => onChange(o)}
+              className={`h-9 rounded-lg border px-3 text-[12px] font-semibold transition-all ${
+                active
+                  ? "border-[color:var(--accent)]/50 bg-[color:var(--accent-tint)] text-[color:var(--accent-strong)] shadow-sm"
+                  : "border-border bg-card/60 text-foreground/75 hover:border-[color:var(--accent)]/30 hover:text-foreground"
+              }`}
+            >
+              {render ? render(o) : o}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
@@ -318,6 +416,7 @@ function SummaryLine({ label, value, tone }: { label: string; value: string; ton
     </div>
   );
 }
+
 
 /* ============== FEATURED RIGS ============== */
 function FeaturedRigs() {
