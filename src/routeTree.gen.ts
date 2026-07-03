@@ -13,6 +13,7 @@ import { Route as WalletRouteImport } from './routes/wallet'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as OrdersRouteImport } from './routes/orders'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
+import { Route as ManagePackagesRouteImport } from './routes/manage-packages'
 import { Route as InvoicesRouteImport } from './routes/invoices'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as BareMetalRouteImport } from './routes/bare-metal'
@@ -36,6 +37,11 @@ const OrdersRoute = OrdersRouteImport.update({
 const MarketplaceRoute = MarketplaceRouteImport.update({
   id: '/marketplace',
   path: '/marketplace',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ManagePackagesRoute = ManagePackagesRouteImport.update({
+  id: '/manage-packages',
+  path: '/manage-packages',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InvoicesRoute = InvoicesRouteImport.update({
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/bare-metal': typeof BareMetalRoute
   '/dashboard': typeof DashboardRoute
   '/invoices': typeof InvoicesRoute
+  '/manage-packages': typeof ManagePackagesRoute
   '/marketplace': typeof MarketplaceRoute
   '/orders': typeof OrdersRoute
   '/profile': typeof ProfileRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/bare-metal': typeof BareMetalRoute
   '/dashboard': typeof DashboardRoute
   '/invoices': typeof InvoicesRoute
+  '/manage-packages': typeof ManagePackagesRoute
   '/marketplace': typeof MarketplaceRoute
   '/orders': typeof OrdersRoute
   '/profile': typeof ProfileRoute
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/bare-metal': typeof BareMetalRoute
   '/dashboard': typeof DashboardRoute
   '/invoices': typeof InvoicesRoute
+  '/manage-packages': typeof ManagePackagesRoute
   '/marketplace': typeof MarketplaceRoute
   '/orders': typeof OrdersRoute
   '/profile': typeof ProfileRoute
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/bare-metal'
     | '/dashboard'
     | '/invoices'
+    | '/manage-packages'
     | '/marketplace'
     | '/orders'
     | '/profile'
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/bare-metal'
     | '/dashboard'
     | '/invoices'
+    | '/manage-packages'
     | '/marketplace'
     | '/orders'
     | '/profile'
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/bare-metal'
     | '/dashboard'
     | '/invoices'
+    | '/manage-packages'
     | '/marketplace'
     | '/orders'
     | '/profile'
@@ -128,6 +140,7 @@ export interface RootRouteChildren {
   BareMetalRoute: typeof BareMetalRoute
   DashboardRoute: typeof DashboardRoute
   InvoicesRoute: typeof InvoicesRoute
+  ManagePackagesRoute: typeof ManagePackagesRoute
   MarketplaceRoute: typeof MarketplaceRoute
   OrdersRoute: typeof OrdersRoute
   ProfileRoute: typeof ProfileRoute
@@ -162,6 +175,13 @@ declare module '@tanstack/react-router' {
       path: '/marketplace'
       fullPath: '/marketplace'
       preLoaderRoute: typeof MarketplaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/manage-packages': {
+      id: '/manage-packages'
+      path: '/manage-packages'
+      fullPath: '/manage-packages'
+      preLoaderRoute: typeof ManagePackagesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/invoices': {
@@ -200,6 +220,7 @@ const rootRouteChildren: RootRouteChildren = {
   BareMetalRoute: BareMetalRoute,
   DashboardRoute: DashboardRoute,
   InvoicesRoute: InvoicesRoute,
+  ManagePackagesRoute: ManagePackagesRoute,
   MarketplaceRoute: MarketplaceRoute,
   OrdersRoute: OrdersRoute,
   ProfileRoute: ProfileRoute,
