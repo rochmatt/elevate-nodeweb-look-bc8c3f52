@@ -1,36 +1,35 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
-  AtSign,
-  Award,
   BadgeCheck,
   Bell,
   Building2,
+  Calendar,
+  Camera,
   Check,
+  ChevronRight,
   Copy,
   CreditCard,
-  Crown,
+  Edit3,
   Fingerprint,
-  Globe2,
-  History,
-  KeyRound,
-  Laptop,
+  Globe,
+  Key,
+  Languages,
   Lock,
   Mail,
   MapPin,
-  Moon,
-  MoreHorizontal,
+  Monitor,
   Phone,
+  Save,
   Shield,
   ShieldCheck,
   Smartphone,
-  Sun,
-  Tablet,
+  Sparkles,
+  Star,
   Trash2,
-  Unlock,
-  User,
-  UserCircle,
-  X,
+  Trophy,
+  User as UserIcon,
+  Zap,
 } from "lucide-react";
 import { Sidebar, Topbar } from "./dashboard";
 
@@ -41,7 +40,7 @@ export const Route = createFileRoute("/profile")({
       {
         name: "description",
         content:
-          "Kelola profil, keamanan, sesi perangkat, dan preferensi notifikasi akun NodeKPT kamu.",
+          "Manage your NodeKPT account: personal information, security settings, verification, notifications, and connected devices.",
       },
     ],
   }),
@@ -51,18 +50,28 @@ export const Route = createFileRoute("/profile")({
 type TabId = "overview" | "personal" | "security" | "notifications" | "sessions";
 
 function ProfilePage() {
-  const [activeTab, setActiveTab] = useState<TabId>("overview");
+  const [tab, setTab] = useState<TabId>("overview");
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
-      <Sidebar />
-      <div className="flex flex-1 flex-col">
-        <Topbar />
-        <main className="flex-1 px-4 py-6 sm:px-6 lg:px-10 lg:py-10">
-          <div className="mx-auto max-w-6xl space-y-6">
+    <div className="theme-light min-h-screen bg-background text-foreground">
+      <div className="constellation pointer-events-none fixed inset-0 opacity-40" aria-hidden />
+      <div className="radial-glow pointer-events-none fixed left-1/3 top-0 h-[600px] w-[900px] -translate-x-1/2" aria-hidden />
+
+      <div className="relative flex">
+        <Sidebar activeLabel="Profile" />
+        <main className="min-w-0 flex-1">
+          <Topbar />
+          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+            <PageHeader />
             <ProfileHero />
-            <TabNav active={activeTab} onChange={setActiveTab} />
-            <TabPanel tab={activeTab} />
+            <Tabs current={tab} onChange={setTab} />
+            <div className="mt-6">
+              {tab === "overview" && <OverviewPanel />}
+              {tab === "personal" && <PersonalPanel />}
+              {tab === "security" && <SecurityPanel />}
+              {tab === "notifications" && <NotificationsPanel />}
+              {tab === "sessions" && <SessionsPanel />}
+            </div>
           </div>
         </main>
       </div>
@@ -70,309 +79,384 @@ function ProfilePage() {
   );
 }
 
-/* ---------- Hero ---------- */
-
-function ProfileHero() {
-  const completion = 82;
-  const badges = [
-    { label: "Verified", icon: BadgeCheck, color: "bg-emerald-100 text-emerald-700" },
-    { label: "Pro Buyer", icon: Crown, color: "bg-violet-100 text-violet-700" },
-  ];
-
+/* ---------- HEADER ---------- */
+function PageHeader() {
   return (
-    <section className="relative overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200/70">
-      <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700" />
-      <div className="relative px-6 pb-6 pt-16 sm:px-8 sm:pb-8 sm:pt-20">
-        <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-end sm:justify-between">
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <div className="grid h-24 w-24 place-items-center rounded-full border-4 border-white bg-slate-200 shadow-sm sm:h-28 sm:w-28">
-                <User className="h-12 w-12 text-slate-400 sm:h-14 sm:w-14" />
-              </div>
-              <button className="absolute bottom-1 right-1 rounded-full bg-slate-900 p-1.5 text-white shadow hover:bg-slate-800">
-                <UserCircle className="h-4 w-4" />
-              </button>
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">Demo Buyer</h1>
-              <p className="text-sm text-slate-500">buyer@nodekpt.com</p>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {badges.map((b) => (
-                  <span
-                    key={b.label}
-                    className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold ${b.color}`}
-                  >
-                    <b.icon className="h-3.5 w-3.5" />
-                    {b.label}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className="w-full sm:w-64">
-            <div className="mb-2 flex items-center justify-between text-sm">
-              <span className="font-medium text-slate-700">Profile Completion</span>
-              <span className="font-semibold text-slate-900">{completion}%</span>
-            </div>
-            <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">
-              <div
-                className="h-full rounded-full bg-emerald-500 transition-all"
-                style={{ width: `${completion}%` }}
-              />
-            </div>
-            <p className="mt-1.5 text-xs text-slate-500">Add phone + KYC to reach 100%.</p>
-          </div>
+    <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-[11px] font-medium text-muted-foreground">
+          <UserIcon className="h-3.5 w-3.5 text-[color:var(--accent-strong)]" />
+          Account Center
         </div>
+        <h1 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+          Profile & Account
+        </h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Manage your identity, security, and how NodeKPT keeps in touch with you.
+        </p>
       </div>
-    </section>
-  );
-}
-
-/* ---------- Tab Nav ---------- */
-
-const tabs: { id: TabId; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
-  { id: "overview", label: "Overview", icon: User },
-  { id: "personal", label: "Personal", icon: MapPin },
-  { id: "security", label: "Security", icon: Shield },
-  { id: "notifications", label: "Notifications", icon: Bell },
-  { id: "sessions", label: "Sessions", icon: History },
-];
-
-function TabNav({ active, onChange }: { active: TabId; onChange: (id: TabId) => void }) {
-  return (
-    <div className="rounded-xl bg-white p-1.5 shadow-sm ring-1 ring-slate-200/70">
-      <nav className="flex gap-1 overflow-x-auto">
-        {tabs.map((t) => {
-          const Icon = t.icon;
-          const isActive = active === t.id;
-          return (
-            <button
-              key={t.id}
-              onClick={() => onChange(t.id)}
-              className={`flex items-center gap-2 whitespace-nowrap rounded-lg px-4 py-2.5 text-sm font-semibold transition ${
-                isActive
-                  ? "bg-slate-900 text-white shadow-sm"
-                  : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
-              }`}
-            >
-              <Icon className="h-4 w-4" />
-              {t.label}
-            </button>
-          );
-        })}
-      </nav>
+      <div className="flex flex-wrap gap-2">
+        <button className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-3.5 py-2 text-sm font-medium text-foreground transition-colors hover:bg-[color:var(--accent-tint)]">
+          <Edit3 className="h-4 w-4 text-muted-foreground" strokeWidth={1.75} />
+          Edit profile
+        </button>
+        <button className="inline-flex items-center gap-2 rounded-lg bg-[color:var(--accent)] px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[color:var(--accent-strong)]">
+          <Save className="h-4 w-4" strokeWidth={2} />
+          Save changes
+        </button>
+      </div>
     </div>
   );
 }
 
-/* ---------- Tab Panel ---------- */
+/* ---------- HERO ---------- */
+function ProfileHero() {
+  return (
+    <div className="relative overflow-hidden rounded-2xl border border-border bg-card">
+      {/* Cover */}
+      <div className="relative h-32 bg-gradient-to-br from-[color:var(--accent)]/25 via-[color:var(--accent-tint)] to-transparent sm:h-40">
+        <div className="absolute inset-0 opacity-40 [background-image:radial-gradient(circle_at_1px_1px,var(--foreground)_1px,transparent_0)] [background-size:22px_22px]" />
+        <button className="absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-lg border border-border/60 bg-background/80 px-2.5 py-1.5 text-[11px] font-medium text-foreground backdrop-blur transition-colors hover:bg-background">
+          <Camera className="h-3.5 w-3.5" strokeWidth={1.75} />
+          Change cover
+        </button>
+      </div>
 
-function TabPanel({ tab }: { tab: TabId }) {
-  switch (tab) {
-    case "overview":
-      return <OverviewPanel />;
-    case "personal":
-      return <PersonalPanel />;
-    case "security":
-      return <SecurityPanel />;
-    case "notifications":
-      return <NotificationsPanel />;
-    case "sessions":
-      return <SessionsPanel />;
-    default:
-      return null;
-  }
+      <div className="relative px-5 pb-5 sm:px-8 sm:pb-8">
+        {/* Avatar */}
+        <div className="-mt-12 flex flex-col gap-4 sm:-mt-14 sm:flex-row sm:items-end sm:justify-between">
+          <div className="flex items-end gap-4">
+            <div className="relative">
+              <div className="grid h-24 w-24 place-items-center rounded-2xl border-4 border-card bg-gradient-to-br from-[color:var(--accent)] to-[color:var(--accent-strong)] text-3xl font-semibold text-white shadow-lg sm:h-28 sm:w-28">
+                AR
+              </div>
+              <button className="absolute -bottom-1 -right-1 grid h-8 w-8 place-items-center rounded-full border border-border bg-card text-muted-foreground transition-colors hover:text-[color:var(--accent-strong)]">
+                <Camera className="h-4 w-4" strokeWidth={1.75} />
+              </button>
+            </div>
+            <div className="pb-1">
+              <div className="flex items-center gap-2">
+                <h2 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+                  Andi Rahman
+                </h2>
+                <BadgeCheck className="h-5 w-5 text-[color:var(--accent-strong)]" strokeWidth={2} />
+              </div>
+              <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[13px] text-muted-foreground">
+                <span className="inline-flex items-center gap-1.5">
+                  <Mail className="h-3.5 w-3.5" strokeWidth={1.75} />
+                  andi.rahman@nodekpt.id
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <MapPin className="h-3.5 w-3.5" strokeWidth={1.75} />
+                  Jakarta, Indonesia
+                </span>
+              </div>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                <Chip icon={ShieldCheck} label="KYC Verified" tone="success" />
+                <Chip icon={Trophy} label="Pro Seller" tone="accent" />
+                <Chip icon={Star} label="4.9 Rating" tone="warning" />
+              </div>
+            </div>
+          </div>
+
+          <div className="hidden shrink-0 flex-col items-end gap-1 sm:flex">
+            <div className="text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+              Member since
+            </div>
+            <div className="text-sm font-semibold text-foreground">March 12, 2023</div>
+            <div className="mt-1 inline-flex items-center gap-1 rounded-full bg-[color:var(--accent-tint)] px-2 py-0.5 text-[11px] font-medium text-[color:var(--accent-strong)]">
+              <Sparkles className="h-3 w-3" strokeWidth={2} />
+              Level 5 · Trusted
+            </div>
+          </div>
+        </div>
+
+        {/* Completion */}
+        <div className="mt-6 grid gap-4 sm:grid-cols-3">
+          <CompletionCard percent={85} />
+          <MiniStat icon={Zap} label="Active Services" value="12" hint="+2 this month" />
+          <MiniStat icon={CreditCard} label="Lifetime Spend" value="Rp 18.4M" hint="Since 2023" />
+        </div>
+      </div>
+    </div>
+  );
 }
 
-/* ---------- Overview Panel ---------- */
+function Chip({
+  icon: Icon,
+  label,
+  tone,
+}: {
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  label: string;
+  tone: "success" | "accent" | "warning";
+}) {
+  const tones = {
+    success: "border-emerald-200 bg-emerald-50 text-emerald-700",
+    accent:
+      "border-[color:var(--accent)]/25 bg-[color:var(--accent-tint)] text-[color:var(--accent-strong)]",
+    warning: "border-amber-200 bg-amber-50 text-amber-700",
+  } as const;
+  return (
+    <span
+      className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium ${tones[tone]}`}
+    >
+      <Icon className="h-3 w-3" strokeWidth={2} />
+      {label}
+    </span>
+  );
+}
 
+function CompletionCard({ percent }: { percent: number }) {
+  return (
+    <div className="rounded-xl border border-border bg-background/60 p-4">
+      <div className="flex items-center justify-between">
+        <div className="text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+          Profile completion
+        </div>
+        <span className="text-sm font-semibold text-foreground">{percent}%</span>
+      </div>
+      <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-border">
+        <div
+          className="h-full rounded-full bg-gradient-to-r from-[color:var(--accent)] to-[color:var(--accent-strong)]"
+          style={{ width: `${percent}%` }}
+        />
+      </div>
+      <div className="mt-2 text-[11px] text-muted-foreground">
+        Add tax ID and enable 2FA to reach 100%.
+      </div>
+    </div>
+  );
+}
+
+function MiniStat({
+  icon: Icon,
+  label,
+  value,
+  hint,
+}: {
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  label: string;
+  value: string;
+  hint: string;
+}) {
+  return (
+    <div className="rounded-xl border border-border bg-background/60 p-4">
+      <div className="flex items-center justify-between">
+        <div className="text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+          {label}
+        </div>
+        <Icon className="h-4 w-4 text-[color:var(--accent-strong)]" strokeWidth={1.75} />
+      </div>
+      <div className="mt-2 text-xl font-semibold tracking-tight text-foreground">{value}</div>
+      <div className="mt-1 text-[11px] text-muted-foreground">{hint}</div>
+    </div>
+  );
+}
+
+/* ---------- TABS ---------- */
+function Tabs({ current, onChange }: { current: TabId; onChange: (t: TabId) => void }) {
+  const items: { id: TabId; label: string; icon: React.ComponentType<{ className?: string; strokeWidth?: number }> }[] = [
+    { id: "overview", label: "Overview", icon: UserIcon },
+    { id: "personal", label: "Personal Info", icon: Edit3 },
+    { id: "security", label: "Security", icon: Shield },
+    { id: "notifications", label: "Notifications", icon: Bell },
+    { id: "sessions", label: "Devices & Sessions", icon: Monitor },
+  ];
+  return (
+    <div className="mt-8 flex gap-1 overflow-x-auto rounded-xl border border-border bg-card p-1">
+      {items.map(({ id, label, icon: Icon }) => {
+        const active = current === id;
+        return (
+          <button
+            key={id}
+            onClick={() => onChange(id)}
+            className={`inline-flex shrink-0 items-center gap-2 rounded-lg px-3.5 py-2 text-[13px] font-medium transition-colors ${
+              active
+                ? "bg-[color:var(--accent-tint)] text-[color:var(--accent-strong)]"
+                : "text-muted-foreground hover:bg-[color:var(--accent-tint)]/60 hover:text-foreground"
+            }`}
+          >
+            <Icon className="h-4 w-4" strokeWidth={1.75} />
+            {label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+/* ---------- OVERVIEW ---------- */
 function OverviewPanel() {
-  const referralCode = "NODEKPT-ASDF1234";
-
-  const handleCopy = () => {
-    if (typeof navigator !== "undefined") {
-      navigator.clipboard.writeText(referralCode);
-    }
-  };
-
   return (
     <div className="grid gap-6 lg:grid-cols-3">
-      <div className="space-y-6 lg:col-span-2">
-        <Card>
-          <h2 className="mb-4 text-lg font-semibold text-slate-900">Account Summary</h2>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <InfoItem icon={Mail} label="Email" value="buyer@nodekpt.com" />
-            <InfoItem icon={Phone} label="Phone" value="+62 877 7867 8031" />
-            <InfoItem icon={MapPin} label="Location" value="Jakarta, Indonesia" />
-            <InfoItem icon={Building2} label="Company" value="-" />
-          </div>
+      <div className="lg:col-span-2 space-y-6">
+        <Card title="Account Summary" icon={UserIcon}>
+          <dl className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
+            <Field label="Full name" value="Andi Rahman" />
+            <Field label="Username" value="@andirahman" />
+            <Field label="Email" value="andi.rahman@nodekpt.id" verified />
+            <Field label="Phone" value="+62 812-3456-7890" verified />
+            <Field label="Country" value="Indonesia" />
+            <Field label="Timezone" value="GMT+7 · Jakarta" />
+          </dl>
         </Card>
 
-        <Card>
-          <h2 className="mb-4 text-lg font-semibold text-slate-900">Verification Status</h2>
-          <div className="space-y-4">
-            <VerificationRow
-              label="Email Verified"
-              status="verified"
-              description="Email kamu sudah terverifikasi."
-            />
-            <VerificationRow
-              label="Phone Verified"
-              status="verified"
-              description="Nomor HP sudah terverifikasi."
-            />
-            <VerificationRow
-              label="KYC Identity"
-              status="pending"
-              description="Upload KTP/paspor untuk meningkatkan limit."
-            />
-            <VerificationRow
-              label="Tax Identity (NPWP)"
-              status="optional"
-              description="Opsional — diperlukan untuk invoice PPN."
-            />
+        <Card title="Verification Status" icon={ShieldCheck}>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <VerificationRow icon={Mail} title="Email address" status="verified" />
+            <VerificationRow icon={Phone} title="Phone number" status="verified" />
+            <VerificationRow icon={Fingerprint} title="Identity (KYC)" status="verified" />
+            <VerificationRow icon={Building2} title="Business / Tax ID" status="pending" />
           </div>
         </Card>
       </div>
 
       <div className="space-y-6">
-        <Card className="bg-gradient-to-br from-slate-900 to-slate-800 text-white">
-          <div className="flex items-center gap-2">
-            <Award className="h-5 w-5 text-emerald-400" />
-            <h2 className="text-lg font-semibold">Referral Program</h2>
+        <Card title="Referral Code" icon={Sparkles}>
+          <div className="rounded-lg border border-dashed border-[color:var(--accent)]/40 bg-[color:var(--accent-tint)] p-4">
+            <div className="text-[11px] font-medium uppercase tracking-[0.14em] text-[color:var(--accent-strong)]">
+              Your code
+            </div>
+            <div className="mt-1 flex items-center justify-between gap-2">
+              <span className="font-mono text-lg font-semibold text-foreground">ANDI-NKPT-2024</span>
+              <button className="inline-flex items-center gap-1 rounded-md border border-border bg-card px-2 py-1 text-[11px] font-medium text-foreground hover:bg-background">
+                <Copy className="h-3 w-3" strokeWidth={2} />
+                Copy
+              </button>
+            </div>
           </div>
-          <p className="mt-2 text-sm text-slate-300">
-            Ajak teman dan dapatkan reward untuk setiap pendaftaran pertama.
-          </p>
-          <div className="mt-4 flex items-center gap-2">
-            <input
-              readOnly
-              value={referralCode}
-              className="flex-1 rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-300 outline-none"
-            />
-            <button
-              onClick={handleCopy}
-              className="rounded-lg bg-emerald-500 px-3 py-2 text-sm font-semibold text-white hover:bg-emerald-600"
-            >
-              <Copy className="h-4 w-4" />
-            </button>
+          <div className="mt-3 text-[12px] text-muted-foreground">
+            Earn <span className="font-semibold text-foreground">10%</span> commission for every new
+            user that signs up with your code.
           </div>
         </Card>
 
-        <Card>
-          <h2 className="mb-4 text-lg font-semibold text-slate-900">Quick Stats</h2>
-          <div className="space-y-3">
-            <StatItem label="Total Orders" value="12" />
-            <StatItem label="Active Services" value="3" />
-            <StatItem label="Pending Invoices" value="1" />
-            <StatItem label="Reward Points" value="2.450" />
-          </div>
+        <Card title="Quick Actions" icon={Zap}>
+          <ul className="space-y-1">
+            {[
+              { icon: Key, label: "Change password" },
+              { icon: Smartphone, label: "Enable 2FA" },
+              { icon: Languages, label: "Change language" },
+              { icon: Trash2, label: "Delete account", danger: true },
+            ].map(({ icon: Icon, label, danger }) => (
+              <li key={label}>
+                <button
+                  className={`flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-[13px] transition-colors ${
+                    danger
+                      ? "text-red-600 hover:bg-red-50"
+                      : "text-foreground hover:bg-[color:var(--accent-tint)]"
+                  }`}
+                >
+                  <span className="inline-flex items-center gap-2.5">
+                    <Icon className="h-4 w-4" strokeWidth={1.75} />
+                    {label}
+                  </span>
+                  <ChevronRight className="h-4 w-4 text-muted-foreground" strokeWidth={1.75} />
+                </button>
+              </li>
+            ))}
+          </ul>
         </Card>
       </div>
     </div>
   );
 }
 
-function InfoItem({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  label: string;
-  value: string;
-}) {
+function Field({ label, value, verified }: { label: string; value: string; verified?: boolean }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl bg-slate-50 p-3">
-      <div className="grid h-9 w-9 place-items-center rounded-lg bg-white text-slate-600 shadow-sm">
-        <Icon className="h-4 w-4" />
-      </div>
-      <div>
-        <p className="text-xs font-medium text-slate-500">{label}</p>
-        <p className="text-sm font-semibold text-slate-900">{value}</p>
-      </div>
+    <div>
+      <dt className="text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+        {label}
+      </dt>
+      <dd className="mt-1 flex items-center gap-2 text-sm font-medium text-foreground">
+        {value}
+        {verified && (
+          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium text-emerald-700">
+            <Check className="h-2.5 w-2.5" strokeWidth={3} />
+            Verified
+          </span>
+        )}
+      </dd>
     </div>
   );
 }
 
 function VerificationRow({
-  label,
+  icon: Icon,
+  title,
   status,
-  description,
 }: {
-  label: string;
-  status: "verified" | "pending" | "optional";
-  description: string;
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  title: string;
+  status: "verified" | "pending" | "missing";
 }) {
-  const styles = {
-    verified: "bg-emerald-50 text-emerald-700 border-emerald-200",
-    pending: "bg-amber-50 text-amber-700 border-amber-200",
-    optional: "bg-slate-100 text-slate-600 border-slate-200",
-  };
-  const labels = {
-    verified: "Verified",
-    pending: "Pending",
-    optional: "Optional",
-  };
-
+  const map = {
+    verified: {
+      cls: "bg-emerald-50 text-emerald-700 border-emerald-200",
+      label: "Verified",
+    },
+    pending: {
+      cls: "bg-amber-50 text-amber-700 border-amber-200",
+      label: "Pending",
+    },
+    missing: {
+      cls: "bg-red-50 text-red-700 border-red-200",
+      label: "Missing",
+    },
+  } as const;
+  const s = map[status];
   return (
-    <div className="flex items-center justify-between rounded-xl border border-slate-200 p-3">
-      <div>
-        <p className="text-sm font-semibold text-slate-900">{label}</p>
-        <p className="text-xs text-slate-500">{description}</p>
+    <div className="flex items-center justify-between rounded-lg border border-border bg-background/60 px-3.5 py-3">
+      <div className="flex items-center gap-3">
+        <div className="grid h-9 w-9 place-items-center rounded-lg bg-[color:var(--accent-tint)]">
+          <Icon className="h-4 w-4 text-[color:var(--accent-strong)]" strokeWidth={1.75} />
+        </div>
+        <div className="text-[13px] font-medium text-foreground">{title}</div>
       </div>
-      <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${styles[status]}`}>
-        {labels[status]}
+      <span className={`rounded-full border px-2 py-0.5 text-[11px] font-medium ${s.cls}`}>
+        {s.label}
       </span>
     </div>
   );
 }
 
-function StatItem({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-center justify-between border-b border-slate-100 pb-3 last:border-0 last:pb-0">
-      <span className="text-sm text-slate-500">{label}</span>
-      <span className="text-sm font-bold text-slate-900">{value}</span>
-    </div>
-  );
-}
-
-/* ---------- Personal Panel ---------- */
-
+/* ---------- PERSONAL ---------- */
 function PersonalPanel() {
   return (
     <div className="grid gap-6 lg:grid-cols-3">
       <div className="lg:col-span-2">
-        <Card>
-          <h2 className="mb-4 text-lg font-semibold text-slate-900">Personal Information</h2>
-          <div className="grid gap-5 sm:grid-cols-2">
-            <TextField label="First Name" defaultValue="Demo" />
-            <TextField label="Last Name" defaultValue="Buyer" />
-            <TextField label="Email" type="email" defaultValue="buyer@nodekpt.com" />
-            <TextField label="Phone" defaultValue="+62 877 7867 8031" />
+        <Card title="Personal Information" icon={Edit3}>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Input label="First name" defaultValue="Andi" />
+            <Input label="Last name" defaultValue="Rahman" />
+            <Input label="Display name" defaultValue="andirahman" />
+            <Input label="Email" defaultValue="andi.rahman@nodekpt.id" type="email" />
+            <Input label="Phone" defaultValue="+62 812-3456-7890" />
+            <Input label="Date of birth" defaultValue="1994-08-14" type="date" />
             <div className="sm:col-span-2">
-              <TextField label="Address" defaultValue="Jl. Sudirman No. 1" />
+              <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                Bio
+              </label>
+              <textarea
+                rows={3}
+                defaultValue="Cloud engineer & VPS seller based in Jakarta. Building reliable infrastructure for Indonesian developers."
+                className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors focus:border-[color:var(--accent)]"
+              />
             </div>
-            <TextField label="City" defaultValue="Jakarta" />
-            <TextField label="State/Region" defaultValue="DKI Jakarta" />
-            <TextField label="Country" defaultValue="Indonesia" />
-            <TextField label="Zip Code" defaultValue="10110" />
-          </div>
-          <div className="mt-6">
-            <button className="rounded-lg bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-800">
-              Save Changes
-            </button>
           </div>
         </Card>
       </div>
 
       <div>
-        <Card>
-          <h2 className="mb-4 text-lg font-semibold text-slate-900">Language & Region</h2>
+        <Card title="Address" icon={MapPin}>
           <div className="space-y-4">
-            <SelectField label="Language" defaultValue="Indonesia" options={["Indonesia", "English", "中文"]} />
-            <SelectField label="Timezone" defaultValue="Asia/Jakarta" options={["Asia/Jakarta", "Asia/Singapore", "UTC"]} />
-            <SelectField label="Currency" defaultValue="IDR" options={["IDR", "USD", "SGD"]} />
+            <Input label="Street" defaultValue="Jl. Sudirman No. 42" />
+            <div className="grid grid-cols-2 gap-3">
+              <Input label="City" defaultValue="Jakarta" />
+              <Input label="Postal code" defaultValue="10220" />
+            </div>
+            <Select label="Country" options={["Indonesia", "Singapore", "Malaysia"]} />
           </div>
         </Card>
       </div>
@@ -380,350 +464,353 @@ function PersonalPanel() {
   );
 }
 
-/* ---------- Security Panel ---------- */
+function Input({
+  label,
+  defaultValue,
+  type = "text",
+}: {
+  label: string;
+  defaultValue?: string;
+  type?: string;
+}) {
+  return (
+    <div>
+      <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+        {label}
+      </label>
+      <input
+        type={type}
+        defaultValue={defaultValue}
+        className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors focus:border-[color:var(--accent)]"
+      />
+    </div>
+  );
+}
 
+function Select({ label, options }: { label: string; options: string[] }) {
+  return (
+    <div>
+      <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+        {label}
+      </label>
+      <select className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors focus:border-[color:var(--accent)]">
+        {options.map((o) => (
+          <option key={o}>{o}</option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+/* ---------- SECURITY ---------- */
 function SecurityPanel() {
-  const score = 78;
-  const scoreColor = score >= 80 ? "bg-emerald-500" : score >= 60 ? "bg-amber-500" : "bg-rose-500";
-  const scoreLabel = score >= 80 ? "Strong" : score >= 60 ? "Good" : "Weak";
-
   return (
     <div className="grid gap-6 lg:grid-cols-3">
-      <div className="space-y-6 lg:col-span-2">
-        <Card>
-          <h2 className="mb-4 text-lg font-semibold text-slate-900">Change Password</h2>
-          <div className="space-y-4">
-            <TextField label="Current Password" type="password" />
-            <TextField label="New Password" type="password" />
-            <TextField label="Confirm New Password" type="password" />
+      <div className="lg:col-span-2 space-y-6">
+        <Card title="Password" icon={Lock}>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Input label="Current password" type="password" defaultValue="********" />
+            <div />
+            <Input label="New password" type="password" />
+            <Input label="Confirm new password" type="password" />
           </div>
-          <div className="mt-6">
-            <button className="rounded-lg bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-800">
-              Update Password
+          <div className="mt-4 flex justify-end">
+            <button className="inline-flex items-center gap-2 rounded-lg bg-[color:var(--accent)] px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-[color:var(--accent-strong)]">
+              <Save className="h-4 w-4" strokeWidth={2} />
+              Update password
             </button>
           </div>
         </Card>
 
-        <Card>
-          <h2 className="mb-4 text-lg font-semibold text-slate-900">Two-Factor Authentication</h2>
-          <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4">
-            <Shield className="mt-0.5 h-5 w-5 text-amber-600" />
-            <div className="flex-1">
-              <p className="text-sm font-semibold text-amber-900">2FA is not enabled</p>
-              <p className="text-xs text-amber-700">
-                Aktifkan 2FA untuk melindungi akun kamu dengan lapisan tambahan.
-              </p>
-            </div>
-            <button className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700">
-              Enable
-            </button>
+        <Card title="Two-Factor Authentication" icon={Smartphone}>
+          <div className="space-y-3">
+            <ToggleRow
+              icon={Smartphone}
+              title="Authenticator app"
+              desc="Use Google Authenticator, Authy, or 1Password."
+              enabled
+            />
+            <ToggleRow
+              icon={Mail}
+              title="Email codes"
+              desc="Receive a one-time code by email at each login."
+              enabled={false}
+            />
+            <ToggleRow
+              icon={Key}
+              title="Hardware security key"
+              desc="Sign in with a YubiKey or other WebAuthn device."
+              enabled={false}
+            />
           </div>
         </Card>
       </div>
 
       <div className="space-y-6">
-        <Card>
-          <h2 className="mb-4 text-lg font-semibold text-slate-900">Security Score</h2>
-          <div className="flex items-center justify-center py-4">
-            <div className="relative grid h-32 w-32 place-items-center">
-              <svg className="h-full w-full -rotate-90" viewBox="0 0 36 36">
-                <path className="fill-none stroke-slate-100" strokeWidth="3" d="M18 2.084a15.916 15.916 0 0 1 0 31.832" />
-                <path
-                  className={`fill-none ${scoreColor}`}
-                  strokeWidth="3"
-                  strokeDasharray={`${score}, 100`}
-                  d="M18 2.084a15.916 15.916 0 0 1 0 31.832"
-                />
-              </svg>
-              <div className="absolute text-center">
-                <p className="text-2xl font-bold text-slate-900">{score}</p>
-                <p className="text-xs font-medium text-slate-500">{scoreLabel}</p>
-              </div>
+        <Card title="Security Score" icon={ShieldCheck}>
+          <div className="text-center">
+            <div className="mx-auto grid h-24 w-24 place-items-center rounded-full border-4 border-[color:var(--accent-tint)]">
+              <div className="text-2xl font-semibold text-foreground">82</div>
+            </div>
+            <div className="mt-3 text-sm font-medium text-foreground">Strong protection</div>
+            <div className="mt-1 text-[12px] text-muted-foreground">
+              Add a backup 2FA method to reach 100%.
             </div>
           </div>
-          <div className="space-y-2 text-sm">
-            <SecurityCheck label="Strong password" ok />
-            <SecurityCheck label="2FA enabled" ok={false} />
-            <SecurityCheck label="Recovery email set" ok />
-            <SecurityCheck label="No suspicious logins" ok />
-          </div>
         </Card>
 
-        <Card>
-          <h2 className="mb-4 text-lg font-semibold text-slate-900">Recovery</h2>
-          <div className="space-y-4">
-            <TextField label="Recovery Email" type="email" defaultValue="backup@email.com" />
-            <button className="w-full rounded-lg border border-slate-200 bg-white py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
-              Update Recovery Email
-            </button>
-          </div>
-        </Card>
-      </div>
-    </div>
-  );
-}
-
-function SecurityCheck({ label, ok }: { label: string; ok: boolean }) {
-  return (
-    <div className="flex items-center justify-between">
-      <span className="text-slate-600">{label}</span>
-      {ok ? <Check className="h-4 w-4 text-emerald-500" /> : <X className="h-4 w-4 text-rose-500" />}
-    </div>
-  );
-}
-
-/* ---------- Notifications Panel ---------- */
-
-function NotificationsPanel() {
-  const rows = [
-    { channel: "Order updates", email: true, push: true, sms: false },
-    { channel: "Invoices & billing", email: true, push: true, sms: true },
-    { channel: "Promotions", email: false, push: false, sms: false },
-    { channel: "Security alerts", email: true, push: true, sms: true },
-    { channel: "Service reminders", email: true, push: false, sms: false },
-  ];
-
-  return (
-    <Card>
-      <h2 className="mb-4 text-lg font-semibold text-slate-900">Notification Preferences</h2>
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[500px]">
-          <thead>
-            <tr className="border-b border-slate-200 text-left text-xs font-semibold uppercase text-slate-500">
-              <th className="pb-3 pr-4">Channel</th>
-              <th className="pb-3 pr-4 text-center">Email</th>
-              <th className="pb-3 pr-4 text-center">Push</th>
-              <th className="pb-3 text-center">SMS</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row) => (
-              <tr key={row.channel} className="border-b border-slate-100 last:border-0">
-                <td className="py-3 pr-4 text-sm font-medium text-slate-900">{row.channel}</td>
-                <td className="py-3 pr-4 text-center">
-                  <Toggle checked={row.email} />
-                </td>
-                <td className="py-3 pr-4 text-center">
-                  <Toggle checked={row.push} />
-                </td>
-                <td className="py-3 text-center">
-                  <Toggle checked={row.sms} />
-                </td>
-              </tr>
+        <Card title="Recent Activity" icon={Calendar}>
+          <ul className="space-y-3 text-[12px]">
+            {[
+              { t: "Signed in", d: "Chrome on macOS · Jakarta · 2h ago" },
+              { t: "Password changed", d: "Yesterday, 14:22" },
+              { t: "New device authorized", d: "iPhone 15 · 3 days ago" },
+            ].map((a) => (
+              <li key={a.t} className="flex items-start gap-2.5">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--accent)]" />
+                <div>
+                  <div className="font-medium text-foreground">{a.t}</div>
+                  <div className="text-muted-foreground">{a.d}</div>
+                </div>
+              </li>
             ))}
-          </tbody>
-        </table>
+          </ul>
+        </Card>
       </div>
-      <div className="mt-6">
-        <button className="rounded-lg bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-800">
-          Save Preferences
-        </button>
-      </div>
-    </Card>
+    </div>
   );
 }
 
-function Toggle({ checked }: { checked: boolean }) {
+function ToggleRow({
+  icon: Icon,
+  title,
+  desc,
+  enabled,
+}: {
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  title: string;
+  desc: string;
+  enabled: boolean;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-3 rounded-lg border border-border bg-background/60 px-4 py-3">
+      <div className="flex items-start gap-3">
+        <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[color:var(--accent-tint)]">
+          <Icon className="h-4 w-4 text-[color:var(--accent-strong)]" strokeWidth={1.75} />
+        </div>
+        <div>
+          <div className="text-[13px] font-semibold text-foreground">{title}</div>
+          <div className="mt-0.5 text-[12px] text-muted-foreground">{desc}</div>
+        </div>
+      </div>
+      <Toggle enabled={enabled} />
+    </div>
+  );
+}
+
+function Toggle({ enabled }: { enabled: boolean }) {
+  const [on, setOn] = useState(enabled);
   return (
     <button
-      className={`relative inline-flex h-6 w-11 items-center rounded-full transition ${
-        checked ? "bg-emerald-500" : "bg-slate-200"
+      onClick={() => setOn(!on)}
+      className={`relative h-5 w-9 shrink-0 rounded-full transition-colors ${
+        on ? "bg-[color:var(--accent)]" : "bg-border"
       }`}
     >
       <span
-        className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${
-          checked ? "translate-x-6" : "translate-x-1"
+        className={`absolute top-0.5 h-4 w-4 rounded-full bg-white shadow transition-all ${
+          on ? "left-4" : "left-0.5"
         }`}
       />
     </button>
   );
 }
 
-/* ---------- Sessions Panel ---------- */
+/* ---------- NOTIFICATIONS ---------- */
+function NotificationsPanel() {
+  const groups = [
+    {
+      title: "Account & Security",
+      items: [
+        { label: "New sign-in from unknown device", email: true, push: true },
+        { label: "Password or 2FA changes", email: true, push: true },
+        { label: "KYC status updates", email: true, push: false },
+      ],
+    },
+    {
+      title: "Billing",
+      items: [
+        { label: "Invoice issued", email: true, push: false },
+        { label: "Payment received", email: true, push: true },
+        { label: "Wallet low balance", email: false, push: true },
+      ],
+    },
+    {
+      title: "Marketplace",
+      items: [
+        { label: "New order on your listing", email: true, push: true },
+        { label: "Product review received", email: false, push: true },
+        { label: "Promotions and offers", email: false, push: false },
+      ],
+    },
+  ];
+  return (
+    <div className="space-y-6">
+      {groups.map((g) => (
+        <Card key={g.title} title={g.title} icon={Bell}>
+          <div className="overflow-hidden rounded-lg border border-border">
+            <table className="w-full text-[13px]">
+              <thead className="bg-background/60 text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
+                <tr>
+                  <th className="px-4 py-2 text-left font-medium">Notification</th>
+                  <th className="px-4 py-2 text-center font-medium">Email</th>
+                  <th className="px-4 py-2 text-center font-medium">Push</th>
+                </tr>
+              </thead>
+              <tbody>
+                {g.items.map((row, i) => (
+                  <tr
+                    key={row.label}
+                    className={i % 2 === 0 ? "bg-card" : "bg-background/40"}
+                  >
+                    <td className="px-4 py-3 text-foreground">{row.label}</td>
+                    <td className="px-4 py-3 text-center">
+                      <div className="inline-flex">
+                        <Toggle enabled={row.email} />
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 text-center">
+                      <div className="inline-flex">
+                        <Toggle enabled={row.push} />
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Card>
+      ))}
+    </div>
+  );
+}
 
+/* ---------- SESSIONS ---------- */
 function SessionsPanel() {
   const sessions = [
     {
-      id: "1",
-      device: "Chrome on macOS",
-      icon: Laptop,
-      location: "Jakarta, Indonesia",
-      ip: "103.1xx.xx.12",
-      lastActive: "Active now",
+      device: "MacBook Pro 14",
+      browser: "Chrome 126 · macOS Sonoma",
+      loc: "Jakarta, ID",
+      ip: "182.253.xx.xx",
+      when: "Active now",
       current: true,
     },
     {
-      id: "2",
-      device: "Safari on iPhone",
-      icon: Smartphone,
-      location: "Jakarta, Indonesia",
-      ip: "114.1xx.xx.45",
-      lastActive: "2 hours ago",
+      device: "iPhone 15 Pro",
+      browser: "Safari · iOS 17.5",
+      loc: "Jakarta, ID",
+      ip: "114.10.xx.xx",
+      when: "2 hours ago",
       current: false,
     },
     {
-      id: "3",
-      device: "Chrome on Android",
-      icon: Smartphone,
-      location: "Bandung, Indonesia",
-      ip: "182.2xx.xx.89",
-      lastActive: "3 days ago",
+      device: "Windows PC",
+      browser: "Firefox 128 · Windows 11",
+      loc: "Bandung, ID",
+      ip: "36.72.xx.xx",
+      when: "Yesterday, 21:04",
       current: false,
     },
     {
-      id: "4",
-      device: "Edge on Windows",
-      icon: Laptop,
-      location: "Singapore",
-      ip: "43.2xx.xx.10",
-      lastActive: "2 weeks ago",
+      device: "iPad Air",
+      browser: "Safari · iPadOS 17",
+      loc: "Bali, ID",
+      ip: "180.244.xx.xx",
+      when: "3 days ago",
       current: false,
     },
   ];
-
   return (
-    <div className="grid gap-6 lg:grid-cols-3">
-      <div className="lg:col-span-2">
-        <Card>
-          <h2 className="mb-4 text-lg font-semibold text-slate-900">Active Sessions</h2>
-          <div className="space-y-3">
-            {sessions.map((s) => (
-              <div
-                key={s.id}
-                className="flex items-center justify-between rounded-xl border border-slate-200 p-4"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="grid h-10 w-10 place-items-center rounded-lg bg-slate-100 text-slate-600">
-                    <s.icon className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <p className="text-sm font-semibold text-slate-900">{s.device}</p>
-                      {s.current ? (
-                        <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-700">
-                          Current
-                        </span>
-                      ) : null}
-                    </div>
-                    <p className="text-xs text-slate-500">
-                      {s.location} · IP {s.ip} · {s.lastActive}
-                    </p>
-                  </div>
-                </div>
-                {!s.current ? (
-                  <button className="rounded-lg border border-rose-200 p-2 text-rose-600 hover:bg-rose-50">
-                    <Trash2 className="h-4 w-4" />
-                  </button>
-                ) : null}
+    <Card title="Active Devices & Sessions" icon={Monitor}>
+      <div className="mb-4 flex items-center justify-between">
+        <div className="text-[12px] text-muted-foreground">
+          {sessions.length} devices signed in to your account
+        </div>
+        <button className="inline-flex items-center gap-1.5 rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 text-[12px] font-medium text-red-700 transition-colors hover:bg-red-100">
+          <Trash2 className="h-3.5 w-3.5" strokeWidth={1.75} />
+          Sign out all others
+        </button>
+      </div>
+      <ul className="space-y-2">
+        {sessions.map((s) => (
+          <li
+            key={s.device + s.ip}
+            className="flex flex-col gap-3 rounded-xl border border-border bg-background/60 p-4 sm:flex-row sm:items-center sm:justify-between"
+          >
+            <div className="flex items-start gap-3">
+              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-[color:var(--accent-tint)]">
+                {s.device.toLowerCase().includes("iphone") ||
+                s.device.toLowerCase().includes("ipad") ? (
+                  <Smartphone className="h-4 w-4 text-[color:var(--accent-strong)]" strokeWidth={1.75} />
+                ) : (
+                  <Monitor className="h-4 w-4 text-[color:var(--accent-strong)]" strokeWidth={1.75} />
+                )}
               </div>
-            ))}
-          </div>
-          <div className="mt-6">
-            <button className="rounded-lg border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50">
-              Log Out All Other Sessions
-            </button>
-          </div>
-        </Card>
-      </div>
-
-      <div>
-        <Card>
-          <h2 className="mb-4 text-lg font-semibold text-slate-900">Login History</h2>
-          <div className="space-y-4">
-            <HistoryItem time="Today, 09:41" event="Successful login" location="Jakarta, ID" />
-            <HistoryItem time="Yesterday, 18:20" event="Successful login" location="Jakarta, ID" />
-            <HistoryItem time="Jun 28, 14:03" event="Password changed" location="Jakarta, ID" />
-            <HistoryItem time="Jun 25, 08:15" event="2FA disabled" location="Bandung, ID" />
-          </div>
-        </Card>
-      </div>
-    </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[13px] font-semibold text-foreground">{s.device}</span>
+                  {s.current && (
+                    <span className="rounded-full bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium text-emerald-700">
+                      This device
+                    </span>
+                  )}
+                </div>
+                <div className="mt-0.5 text-[12px] text-muted-foreground">{s.browser}</div>
+                <div className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-[11px] text-muted-foreground">
+                  <span className="inline-flex items-center gap-1">
+                    <Globe className="h-3 w-3" strokeWidth={1.75} />
+                    {s.loc} · {s.ip}
+                  </span>
+                  <span className="inline-flex items-center gap-1">
+                    <Calendar className="h-3 w-3" strokeWidth={1.75} />
+                    {s.when}
+                  </span>
+                </div>
+              </div>
+            </div>
+            {!s.current && (
+              <button className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-[12px] font-medium text-foreground hover:bg-[color:var(--accent-tint)]">
+                <Trash2 className="h-3.5 w-3.5 text-muted-foreground" strokeWidth={1.75} />
+                Revoke
+              </button>
+            )}
+          </li>
+        ))}
+      </ul>
+    </Card>
   );
 }
 
-function HistoryItem({
-  time,
-  event,
-  location,
-}: {
-  time: string;
-  event: string;
-  location: string;
-}) {
-  return (
-    <div className="flex items-start gap-3 border-b border-slate-100 pb-3 last:border-0 last:pb-0">
-      <div className="mt-0.5 h-2 w-2 rounded-full bg-emerald-500" />
-      <div>
-        <p className="text-sm font-medium text-slate-900">{event}</p>
-        <p className="text-xs text-slate-500">
-          {time} · {location}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-/* ---------- Reusable UI ---------- */
-
+/* ---------- CARD ---------- */
 function Card({
+  title,
+  icon: Icon,
   children,
-  className = "",
 }: {
+  title: string;
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
   children: React.ReactNode;
-  className?: string;
 }) {
   return (
-    <section
-      className={`rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm ${className}`}
-    >
+    <section className="rounded-2xl border border-border bg-card p-5 sm:p-6">
+      <div className="mb-4 flex items-center gap-2.5">
+        <div className="grid h-8 w-8 place-items-center rounded-lg bg-[color:var(--accent-tint)]">
+          <Icon className="h-4 w-4 text-[color:var(--accent-strong)]" strokeWidth={1.75} />
+        </div>
+        <h3 className="text-sm font-semibold tracking-tight text-foreground">{title}</h3>
+      </div>
       {children}
     </section>
-  );
-}
-
-function TextField({
-  label,
-  type = "text",
-  defaultValue,
-}: {
-  label: string;
-  type?: string;
-  defaultValue?: string;
-}) {
-  return (
-    <div>
-      <label className="mb-1.5 block text-sm font-semibold text-slate-700">{label}</label>
-      <input
-        type={type}
-        defaultValue={defaultValue}
-        className="h-11 w-full rounded-lg border border-slate-200 bg-white px-3.5 text-sm text-slate-900 outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-200"
-      />
-    </div>
-  );
-}
-
-function SelectField({
-  label,
-  defaultValue,
-  options,
-}: {
-  label: string;
-  defaultValue?: string;
-  options: string[];
-}) {
-  return (
-    <div>
-      <label className="mb-1.5 block text-sm font-semibold text-slate-700">{label}</label>
-      <select
-        defaultValue={defaultValue}
-        className="h-11 w-full rounded-lg border border-slate-200 bg-white px-3.5 text-sm text-slate-900 outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-200"
-      >
-        {options.map((o) => (
-          <option key={o} value={o}>
-            {o}
-          </option>
-        ))}
-      </select>
-    </div>
   );
 }
