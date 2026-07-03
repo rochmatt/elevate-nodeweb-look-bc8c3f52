@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   BadgeCheck,
   Bell,
@@ -7,6 +7,7 @@ import {
   Calendar,
   Camera,
   Check,
+  CheckCircle2,
   ChevronRight,
   Copy,
   CreditCard,
@@ -28,7 +29,9 @@ import {
   Star,
   Trash2,
   Trophy,
+  Upload,
   User as UserIcon,
+  X,
   Zap,
 } from "lucide-react";
 import { Sidebar, Topbar } from "./dashboard";
@@ -49,8 +52,52 @@ export const Route = createFileRoute("/profile")({
 
 type TabId = "overview" | "personal" | "security" | "notifications" | "sessions";
 
+export type ProfileData = {
+  firstName: string;
+  lastName: string;
+  displayName: string;
+  email: string;
+  phone: string;
+  dob: string;
+  bio: string;
+  country: string;
+  city: string;
+  street: string;
+  postal: string;
+  avatarColor: string;
+};
+
+const DEFAULT_PROFILE: ProfileData = {
+  firstName: "Andi",
+  lastName: "Rahman",
+  displayName: "andirahman",
+  email: "andi.rahman@nodekpt.id",
+  phone: "+62 812-3456-7890",
+  dob: "1994-08-14",
+  bio: "Cloud engineer & VPS seller based in Jakarta. Building reliable infrastructure for Indonesian developers.",
+  country: "Indonesia",
+  city: "Jakarta",
+  street: "Jl. Sudirman No. 42",
+  postal: "10220",
+  avatarColor: "from-[color:var(--accent)] to-[color:var(--accent-strong)]",
+};
+
 function ProfilePage() {
   const [tab, setTab] = useState<TabId>("overview");
+  const [profile, setProfile] = useState<ProfileData>(DEFAULT_PROFILE);
+  const [editOpen, setEditOpen] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
+
+  const showToast = (msg: string) => {
+    setToast(msg);
+    window.setTimeout(() => setToast(null), 2600);
+  };
+
+  const initials = useMemo(
+    () =>
+      `${profile.firstName?.[0] ?? ""}${profile.lastName?.[0] ?? ""}`.toUpperCase() || "NK",
+    [profile.firstName, profile.lastName],
+  );
 
   return (
     <div className="theme-light min-h-screen bg-background text-foreground">
@@ -62,25 +109,60 @@ function ProfilePage() {
         <main className="min-w-0 flex-1">
           <Topbar />
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
-            <PageHeader />
-            <ProfileHero />
+            <PageHeader onEdit={() => setEditOpen(true)} />
+            <ProfileHero
+              profile={profile}
+              initials={initials}
+              onEdit={() => setEditOpen(true)}
+            />
             <Tabs current={tab} onChange={setTab} />
             <div className="mt-6">
-              {tab === "overview" && <OverviewPanel />}
-              {tab === "personal" && <PersonalPanel />}
-              {tab === "security" && <SecurityPanel />}
+              {tab === "overview" && (
+                <OverviewPanel
+                  profile={profile}
+                  onQuick={(id) => setTab(id)}
+                  onCopy={() => showToast("Referral code copied to clipboard")}
+                />
+              )}
+              {tab === "personal" && (
+                <PersonalPanel
+                  profile={profile}
+                  onSave={(next) => {
+                    setProfile(next);
+                    showToast("Profile updated successfully");
+                  }}
+                />
+              )}
+              {tab === "security" && <SecurityPanel onSaved={() => showToast("Password updated")} />}
               {tab === "notifications" && <NotificationsPanel />}
-              {tab === "sessions" && <SessionsPanel />}
+              {tab === "sessions" && (
+                <SessionsPanel onRevoke={(d) => showToast(`Signed out of ${d}`)} />
+              )}
             </div>
           </div>
         </main>
       </div>
+
+      {editOpen && (
+        <EditProfileModal
+          profile={profile}
+          initials={initials}
+          onClose={() => setEditOpen(false)}
+          onSave={(next) => {
+            setProfile(next);
+            setEditOpen(false);
+            showToast("Profile updated successfully");
+          }}
+        />
+      )}
+
+      <Toast message={toast} />
     </div>
   );
 }
 
 /* ---------- HEADER ---------- */
-function PageHeader() {
+function PageHeader({ onEdit }: { onEdit: () => void }) {
   return (
     <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
       <div>
@@ -96,13 +178,12 @@ function PageHeader() {
         </p>
       </div>
       <div className="flex flex-wrap gap-2">
-        <button className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-3.5 py-2 text-sm font-medium text-foreground transition-colors hover:bg-[color:var(--accent-tint)]">
-          <Edit3 className="h-4 w-4 text-muted-foreground" strokeWidth={1.75} />
+        <button
+          onClick={onEdit}
+          className="inline-flex items-center gap-2 rounded-lg bg-[color:var(--accent)] px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[color:var(--accent-strong)]"
+        >
+          <Edit3 className="h-4 w-4" strokeWidth={2} />
           Edit profile
-        </button>
-        <button className="inline-flex items-center gap-2 rounded-lg bg-[color:var(--accent)] px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[color:var(--accent-strong)]">
-          <Save className="h-4 w-4" strokeWidth={2} />
-          Save changes
         </button>
       </div>
     </div>
@@ -110,10 +191,17 @@ function PageHeader() {
 }
 
 /* ---------- HERO ---------- */
-function ProfileHero() {
+function ProfileHero({
+  profile,
+  initials,
+  onEdit,
+}: {
+  profile: ProfileData;
+  initials: string;
+  onEdit: () => void;
+}) {
   return (
     <div className="relative overflow-hidden rounded-2xl border border-border bg-card">
-      {/* Cover */}
       <div className="relative h-32 bg-gradient-to-br from-[color:var(--accent)]/25 via-[color:var(--accent-tint)] to-transparent sm:h-40">
         <div className="absolute inset-0 opacity-40 [background-image:radial-gradient(circle_at_1px_1px,var(--foreground)_1px,transparent_0)] [background-size:22px_22px]" />
         <button className="absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-lg border border-border/60 bg-background/80 px-2.5 py-1.5 text-[11px] font-medium text-foreground backdrop-blur transition-colors hover:bg-background">
@@ -123,32 +211,37 @@ function ProfileHero() {
       </div>
 
       <div className="relative px-5 pb-5 sm:px-8 sm:pb-8">
-        {/* Avatar */}
         <div className="-mt-12 flex flex-col gap-4 sm:-mt-14 sm:flex-row sm:items-end sm:justify-between">
           <div className="flex items-end gap-4">
             <div className="relative">
-              <div className="grid h-24 w-24 place-items-center rounded-2xl border-4 border-card bg-gradient-to-br from-[color:var(--accent)] to-[color:var(--accent-strong)] text-3xl font-semibold text-white shadow-lg sm:h-28 sm:w-28">
-                AR
+              <div
+                className={`grid h-24 w-24 place-items-center rounded-2xl border-4 border-card bg-gradient-to-br ${profile.avatarColor} text-3xl font-semibold text-white shadow-lg sm:h-28 sm:w-28`}
+              >
+                {initials}
               </div>
-              <button className="absolute -bottom-1 -right-1 grid h-8 w-8 place-items-center rounded-full border border-border bg-card text-muted-foreground transition-colors hover:text-[color:var(--accent-strong)]">
+              <button
+                onClick={onEdit}
+                className="absolute -bottom-1 -right-1 grid h-8 w-8 place-items-center rounded-full border border-border bg-card text-muted-foreground transition-colors hover:text-[color:var(--accent-strong)]"
+                aria-label="Edit avatar"
+              >
                 <Camera className="h-4 w-4" strokeWidth={1.75} />
               </button>
             </div>
             <div className="pb-1">
               <div className="flex items-center gap-2">
                 <h2 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
-                  Andi Rahman
+                  {profile.firstName} {profile.lastName}
                 </h2>
                 <BadgeCheck className="h-5 w-5 text-[color:var(--accent-strong)]" strokeWidth={2} />
               </div>
               <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[13px] text-muted-foreground">
                 <span className="inline-flex items-center gap-1.5">
                   <Mail className="h-3.5 w-3.5" strokeWidth={1.75} />
-                  andi.rahman@nodekpt.id
+                  {profile.email}
                 </span>
                 <span className="inline-flex items-center gap-1.5">
                   <MapPin className="h-3.5 w-3.5" strokeWidth={1.75} />
-                  Jakarta, Indonesia
+                  {profile.city}, {profile.country}
                 </span>
               </div>
               <div className="mt-2 flex flex-wrap gap-1.5">
@@ -171,7 +264,6 @@ function ProfileHero() {
           </div>
         </div>
 
-        {/* Completion */}
         <div className="mt-6 grid gap-4 sm:grid-cols-3">
           <CompletionCard percent={85} />
           <MiniStat icon={Zap} label="Active Services" value="12" hint="+2 this month" />
@@ -287,17 +379,47 @@ function Tabs({ current, onChange }: { current: TabId; onChange: (t: TabId) => v
 }
 
 /* ---------- OVERVIEW ---------- */
-function OverviewPanel() {
+function OverviewPanel({
+  profile,
+  onQuick,
+  onCopy,
+}: {
+  profile: ProfileData;
+  onQuick: (tab: TabId) => void;
+  onCopy: () => void;
+}) {
+  const quickActions: {
+    icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+    label: string;
+    tab?: TabId;
+    danger?: boolean;
+  }[] = [
+    { icon: Edit3, label: "Edit personal info", tab: "personal" },
+    { icon: Key, label: "Change password", tab: "security" },
+    { icon: Smartphone, label: "Enable 2FA", tab: "security" },
+    { icon: Languages, label: "Change language" },
+    { icon: Trash2, label: "Delete account", danger: true },
+  ];
+
+  const copyReferral = async () => {
+    try {
+      await navigator.clipboard.writeText("ANDI-NKPT-2024");
+    } catch {
+      /* clipboard unavailable */
+    }
+    onCopy();
+  };
+
   return (
     <div className="grid gap-6 lg:grid-cols-3">
       <div className="lg:col-span-2 space-y-6">
         <Card title="Account Summary" icon={UserIcon}>
           <dl className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
-            <Field label="Full name" value="Andi Rahman" />
-            <Field label="Username" value="@andirahman" />
-            <Field label="Email" value="andi.rahman@nodekpt.id" verified />
-            <Field label="Phone" value="+62 812-3456-7890" verified />
-            <Field label="Country" value="Indonesia" />
+            <Field label="Full name" value={`${profile.firstName} ${profile.lastName}`} />
+            <Field label="Username" value={`@${profile.displayName}`} />
+            <Field label="Email" value={profile.email} verified />
+            <Field label="Phone" value={profile.phone} verified />
+            <Field label="Country" value={profile.country} />
             <Field label="Timezone" value="GMT+7 · Jakarta" />
           </dl>
         </Card>
@@ -320,7 +442,10 @@ function OverviewPanel() {
             </div>
             <div className="mt-1 flex items-center justify-between gap-2">
               <span className="font-mono text-lg font-semibold text-foreground">ANDI-NKPT-2024</span>
-              <button className="inline-flex items-center gap-1 rounded-md border border-border bg-card px-2 py-1 text-[11px] font-medium text-foreground hover:bg-background">
+              <button
+                onClick={copyReferral}
+                className="inline-flex items-center gap-1 rounded-md border border-border bg-card px-2 py-1 text-[11px] font-medium text-foreground hover:bg-background"
+              >
                 <Copy className="h-3 w-3" strokeWidth={2} />
                 Copy
               </button>
@@ -334,14 +459,10 @@ function OverviewPanel() {
 
         <Card title="Quick Actions" icon={Zap}>
           <ul className="space-y-1">
-            {[
-              { icon: Key, label: "Change password" },
-              { icon: Smartphone, label: "Enable 2FA" },
-              { icon: Languages, label: "Change language" },
-              { icon: Trash2, label: "Delete account", danger: true },
-            ].map(({ icon: Icon, label, danger }) => (
+            {quickActions.map(({ icon: Icon, label, tab, danger }) => (
               <li key={label}>
                 <button
+                  onClick={() => tab && onQuick(tab)}
                   className={`flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-[13px] transition-colors ${
                     danger
                       ? "text-red-600 hover:bg-red-50"
@@ -392,18 +513,9 @@ function VerificationRow({
   status: "verified" | "pending" | "missing";
 }) {
   const map = {
-    verified: {
-      cls: "bg-emerald-50 text-emerald-700 border-emerald-200",
-      label: "Verified",
-    },
-    pending: {
-      cls: "bg-amber-50 text-amber-700 border-amber-200",
-      label: "Pending",
-    },
-    missing: {
-      cls: "bg-red-50 text-red-700 border-red-200",
-      label: "Missing",
-    },
+    verified: { cls: "bg-emerald-50 text-emerald-700 border-emerald-200", label: "Verified" },
+    pending: { cls: "bg-amber-50 text-amber-700 border-amber-200", label: "Pending" },
+    missing: { cls: "bg-red-50 text-red-700 border-red-200", label: "Missing" },
   } as const;
   const s = map[status];
   return (
@@ -422,27 +534,59 @@ function VerificationRow({
 }
 
 /* ---------- PERSONAL ---------- */
-function PersonalPanel() {
+function PersonalPanel({
+  profile,
+  onSave,
+}: {
+  profile: ProfileData;
+  onSave: (next: ProfileData) => void;
+}) {
+  const [form, setForm] = useState<ProfileData>(profile);
+  useEffect(() => setForm(profile), [profile]);
+
+  const dirty = JSON.stringify(form) !== JSON.stringify(profile);
+  const set = <K extends keyof ProfileData>(key: K, value: ProfileData[K]) =>
+    setForm((prev) => ({ ...prev, [key]: value }));
+
   return (
     <div className="grid gap-6 lg:grid-cols-3">
       <div className="lg:col-span-2">
         <Card title="Personal Information" icon={Edit3}>
           <div className="grid gap-4 sm:grid-cols-2">
-            <Input label="First name" defaultValue="Andi" />
-            <Input label="Last name" defaultValue="Rahman" />
-            <Input label="Display name" defaultValue="andirahman" />
-            <Input label="Email" defaultValue="andi.rahman@nodekpt.id" type="email" />
-            <Input label="Phone" defaultValue="+62 812-3456-7890" />
-            <Input label="Date of birth" defaultValue="1994-08-14" type="date" />
+            <Input label="First name" value={form.firstName} onChange={(v) => set("firstName", v)} />
+            <Input label="Last name" value={form.lastName} onChange={(v) => set("lastName", v)} />
+            <Input
+              label="Display name"
+              value={form.displayName}
+              onChange={(v) => set("displayName", v)}
+            />
+            <Input
+              label="Email"
+              type="email"
+              value={form.email}
+              onChange={(v) => set("email", v)}
+            />
+            <Input label="Phone" value={form.phone} onChange={(v) => set("phone", v)} />
+            <Input
+              label="Date of birth"
+              type="date"
+              value={form.dob}
+              onChange={(v) => set("dob", v)}
+            />
             <div className="sm:col-span-2">
               <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
                 Bio
               </label>
               <textarea
                 rows={3}
-                defaultValue="Cloud engineer & VPS seller based in Jakarta. Building reliable infrastructure for Indonesian developers."
+                value={form.bio}
+                onChange={(e) => set("bio", e.target.value)}
+                maxLength={280}
                 className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors focus:border-[color:var(--accent)]"
               />
+              <div className="mt-1 text-right text-[11px] text-muted-foreground">
+                {form.bio.length}/280
+              </div>
             </div>
           </div>
         </Card>
@@ -451,14 +595,62 @@ function PersonalPanel() {
       <div>
         <Card title="Address" icon={MapPin}>
           <div className="space-y-4">
-            <Input label="Street" defaultValue="Jl. Sudirman No. 42" />
+            <Input label="Street" value={form.street} onChange={(v) => set("street", v)} />
             <div className="grid grid-cols-2 gap-3">
-              <Input label="City" defaultValue="Jakarta" />
-              <Input label="Postal code" defaultValue="10220" />
+              <Input label="City" value={form.city} onChange={(v) => set("city", v)} />
+              <Input label="Postal code" value={form.postal} onChange={(v) => set("postal", v)} />
             </div>
-            <Select label="Country" options={["Indonesia", "Singapore", "Malaysia"]} />
+            <Select
+              label="Country"
+              value={form.country}
+              onChange={(v) => set("country", v)}
+              options={["Indonesia", "Singapore", "Malaysia", "Thailand", "Vietnam"]}
+            />
           </div>
         </Card>
+      </div>
+
+      <div className="lg:col-span-3 sticky bottom-4 z-10">
+        <div
+          className={`flex flex-col gap-3 rounded-xl border p-3 shadow-sm backdrop-blur transition-colors sm:flex-row sm:items-center sm:justify-between ${
+            dirty
+              ? "border-[color:var(--accent)]/40 bg-card/95"
+              : "border-border bg-card/70"
+          }`}
+        >
+          <div className="text-[12px] text-muted-foreground">
+            {dirty ? (
+              <span className="inline-flex items-center gap-1.5 text-foreground">
+                <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
+                You have unsaved changes
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1.5">
+                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
+                All changes saved
+              </span>
+            )}
+          </div>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              disabled={!dirty}
+              onClick={() => setForm(profile)}
+              className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-3.5 py-2 text-sm font-medium text-foreground transition-colors hover:bg-[color:var(--accent-tint)] disabled:opacity-40"
+            >
+              Discard
+            </button>
+            <button
+              type="button"
+              disabled={!dirty}
+              onClick={() => onSave(form)}
+              className="inline-flex items-center gap-2 rounded-lg bg-[color:var(--accent)] px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[color:var(--accent-strong)] disabled:opacity-40"
+            >
+              <Save className="h-4 w-4" strokeWidth={2} />
+              Save changes
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -466,11 +658,15 @@ function PersonalPanel() {
 
 function Input({
   label,
+  value,
   defaultValue,
+  onChange,
   type = "text",
 }: {
   label: string;
+  value?: string;
   defaultValue?: string;
+  onChange?: (value: string) => void;
   type?: string;
 }) {
   return (
@@ -480,20 +676,36 @@ function Input({
       </label>
       <input
         type={type}
+        value={value}
         defaultValue={defaultValue}
+        onChange={onChange ? (e) => onChange(e.target.value) : undefined}
         className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors focus:border-[color:var(--accent)]"
       />
     </div>
   );
 }
 
-function Select({ label, options }: { label: string; options: string[] }) {
+function Select({
+  label,
+  options,
+  value,
+  onChange,
+}: {
+  label: string;
+  options: string[];
+  value?: string;
+  onChange?: (value: string) => void;
+}) {
   return (
     <div>
       <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
         {label}
       </label>
-      <select className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors focus:border-[color:var(--accent)]">
+      <select
+        value={value}
+        onChange={onChange ? (e) => onChange(e.target.value) : undefined}
+        className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors focus:border-[color:var(--accent)]"
+      >
         {options.map((o) => (
           <option key={o}>{o}</option>
         ))}
@@ -503,7 +715,7 @@ function Select({ label, options }: { label: string; options: string[] }) {
 }
 
 /* ---------- SECURITY ---------- */
-function SecurityPanel() {
+function SecurityPanel({ onSaved }: { onSaved: () => void }) {
   return (
     <div className="grid gap-6 lg:grid-cols-3">
       <div className="lg:col-span-2 space-y-6">
@@ -515,7 +727,10 @@ function SecurityPanel() {
             <Input label="Confirm new password" type="password" />
           </div>
           <div className="mt-4 flex justify-end">
-            <button className="inline-flex items-center gap-2 rounded-lg bg-[color:var(--accent)] px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-[color:var(--accent-strong)]">
+            <button
+              onClick={onSaved}
+              className="inline-flex items-center gap-2 rounded-lg bg-[color:var(--accent)] px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-[color:var(--accent-strong)]"
+            >
               <Save className="h-4 w-4" strokeWidth={2} />
               Update password
             </button>
@@ -669,10 +884,7 @@ function NotificationsPanel() {
               </thead>
               <tbody>
                 {g.items.map((row, i) => (
-                  <tr
-                    key={row.label}
-                    className={i % 2 === 0 ? "bg-card" : "bg-background/40"}
-                  >
+                  <tr key={row.label} className={i % 2 === 0 ? "bg-card" : "bg-background/40"}>
                     <td className="px-4 py-3 text-foreground">{row.label}</td>
                     <td className="px-4 py-3 text-center">
                       <div className="inline-flex">
@@ -696,48 +908,36 @@ function NotificationsPanel() {
 }
 
 /* ---------- SESSIONS ---------- */
-function SessionsPanel() {
-  const sessions = [
-    {
-      device: "MacBook Pro 14",
-      browser: "Chrome 126 · macOS Sonoma",
-      loc: "Jakarta, ID",
-      ip: "182.253.xx.xx",
-      when: "Active now",
-      current: true,
-    },
-    {
-      device: "iPhone 15 Pro",
-      browser: "Safari · iOS 17.5",
-      loc: "Jakarta, ID",
-      ip: "114.10.xx.xx",
-      when: "2 hours ago",
-      current: false,
-    },
-    {
-      device: "Windows PC",
-      browser: "Firefox 128 · Windows 11",
-      loc: "Bandung, ID",
-      ip: "36.72.xx.xx",
-      when: "Yesterday, 21:04",
-      current: false,
-    },
-    {
-      device: "iPad Air",
-      browser: "Safari · iPadOS 17",
-      loc: "Bali, ID",
-      ip: "180.244.xx.xx",
-      when: "3 days ago",
-      current: false,
-    },
+function SessionsPanel({ onRevoke }: { onRevoke: (device: string) => void }) {
+  const initial = [
+    { device: "MacBook Pro 14", browser: "Chrome 126 · macOS Sonoma", loc: "Jakarta, ID", ip: "182.253.xx.xx", when: "Active now", current: true },
+    { device: "iPhone 15 Pro", browser: "Safari · iOS 17.5", loc: "Jakarta, ID", ip: "114.10.xx.xx", when: "2 hours ago", current: false },
+    { device: "Windows PC", browser: "Firefox 128 · Windows 11", loc: "Bandung, ID", ip: "36.72.xx.xx", when: "Yesterday, 21:04", current: false },
+    { device: "iPad Air", browser: "Safari · iPadOS 17", loc: "Bali, ID", ip: "180.244.xx.xx", when: "3 days ago", current: false },
   ];
+  const [sessions, setSessions] = useState(initial);
+
+  const revoke = (ip: string, device: string) => {
+    setSessions((prev) => prev.filter((s) => s.ip !== ip));
+    onRevoke(device);
+  };
+  const revokeAll = () => {
+    const others = sessions.filter((s) => !s.current);
+    setSessions((prev) => prev.filter((s) => s.current));
+    if (others.length) onRevoke(`${others.length} other device${others.length > 1 ? "s" : ""}`);
+  };
+
   return (
     <Card title="Active Devices & Sessions" icon={Monitor}>
       <div className="mb-4 flex items-center justify-between">
         <div className="text-[12px] text-muted-foreground">
-          {sessions.length} devices signed in to your account
+          {sessions.length} device{sessions.length > 1 ? "s" : ""} signed in to your account
         </div>
-        <button className="inline-flex items-center gap-1.5 rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 text-[12px] font-medium text-red-700 transition-colors hover:bg-red-100">
+        <button
+          onClick={revokeAll}
+          disabled={sessions.filter((s) => !s.current).length === 0}
+          className="inline-flex items-center gap-1.5 rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 text-[12px] font-medium text-red-700 transition-colors hover:bg-red-100 disabled:opacity-40"
+        >
           <Trash2 className="h-3.5 w-3.5" strokeWidth={1.75} />
           Sign out all others
         </button>
@@ -780,7 +980,10 @@ function SessionsPanel() {
               </div>
             </div>
             {!s.current && (
-              <button className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-[12px] font-medium text-foreground hover:bg-[color:var(--accent-tint)]">
+              <button
+                onClick={() => revoke(s.ip, s.device)}
+                className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-[12px] font-medium text-foreground hover:bg-[color:var(--accent-tint)]"
+              >
                 <Trash2 className="h-3.5 w-3.5 text-muted-foreground" strokeWidth={1.75} />
                 Revoke
               </button>
@@ -789,6 +992,195 @@ function SessionsPanel() {
         ))}
       </ul>
     </Card>
+  );
+}
+
+/* ---------- EDIT PROFILE MODAL ---------- */
+const AVATAR_COLORS = [
+  { id: "from-[color:var(--accent)] to-[color:var(--accent-strong)]", label: "Signature" },
+  { id: "from-emerald-500 to-teal-600", label: "Emerald" },
+  { id: "from-rose-500 to-pink-600", label: "Rose" },
+  { id: "from-amber-500 to-orange-600", label: "Amber" },
+  { id: "from-violet-500 to-fuchsia-600", label: "Violet" },
+  { id: "from-slate-700 to-slate-900", label: "Graphite" },
+];
+
+function EditProfileModal({
+  profile,
+  initials,
+  onClose,
+  onSave,
+}: {
+  profile: ProfileData;
+  initials: string;
+  onClose: () => void;
+  onSave: (next: ProfileData) => void;
+}) {
+  const [form, setForm] = useState<ProfileData>(profile);
+  const set = <K extends keyof ProfileData>(key: K, value: ProfileData[K]) =>
+    setForm((prev) => ({ ...prev, [key]: value }));
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [onClose]);
+
+  const previewInitials =
+    `${form.firstName?.[0] ?? ""}${form.lastName?.[0] ?? ""}`.toUpperCase() || initials;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center">
+      <div
+        className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
+        onClick={onClose}
+        aria-hidden
+      />
+      <div className="relative m-0 max-h-[92vh] w-full max-w-2xl overflow-hidden rounded-t-2xl border border-border bg-card shadow-2xl sm:m-4 sm:rounded-2xl">
+        <div className="flex items-center justify-between border-b border-border px-5 py-4 sm:px-6">
+          <div>
+            <div className="text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+              Edit profile
+            </div>
+            <h3 className="mt-0.5 text-base font-semibold tracking-tight text-foreground">
+              Update your account details
+            </h3>
+          </div>
+          <button
+            onClick={onClose}
+            className="grid h-8 w-8 place-items-center rounded-lg border border-border bg-background text-muted-foreground transition-colors hover:text-foreground"
+            aria-label="Close"
+          >
+            <X className="h-4 w-4" strokeWidth={1.75} />
+          </button>
+        </div>
+
+        <div className="max-h-[calc(92vh-8rem)] overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">
+          {/* Avatar */}
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+            <div
+              className={`grid h-20 w-20 shrink-0 place-items-center rounded-2xl bg-gradient-to-br ${form.avatarColor} text-2xl font-semibold text-white shadow-md`}
+            >
+              {previewInitials}
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="text-[13px] font-semibold text-foreground">Avatar</div>
+              <div className="mt-0.5 text-[12px] text-muted-foreground">
+                Pick a color or upload a picture.
+              </div>
+              <div className="mt-2 flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-2.5 py-1.5 text-[12px] font-medium text-foreground hover:bg-[color:var(--accent-tint)]"
+                >
+                  <Upload className="h-3.5 w-3.5" strokeWidth={1.75} />
+                  Upload image
+                </button>
+                <div className="flex flex-wrap gap-1.5">
+                  {AVATAR_COLORS.map((c) => {
+                    const active = form.avatarColor === c.id;
+                    return (
+                      <button
+                        key={c.id}
+                        type="button"
+                        onClick={() => set("avatarColor", c.id)}
+                        title={c.label}
+                        className={`h-7 w-7 rounded-full bg-gradient-to-br ${c.id} ring-offset-2 ring-offset-card transition-all ${
+                          active ? "ring-2 ring-[color:var(--accent-strong)]" : "hover:scale-110"
+                        }`}
+                        aria-label={c.label}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="my-5 h-px w-full bg-border" />
+
+          {/* Fields */}
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Input label="First name" value={form.firstName} onChange={(v) => set("firstName", v)} />
+            <Input label="Last name" value={form.lastName} onChange={(v) => set("lastName", v)} />
+            <Input
+              label="Display name"
+              value={form.displayName}
+              onChange={(v) => set("displayName", v)}
+            />
+            <Input label="Email" type="email" value={form.email} onChange={(v) => set("email", v)} />
+            <Input label="Phone" value={form.phone} onChange={(v) => set("phone", v)} />
+            <Select
+              label="Country"
+              value={form.country}
+              onChange={(v) => set("country", v)}
+              options={["Indonesia", "Singapore", "Malaysia", "Thailand", "Vietnam"]}
+            />
+            <Input label="City" value={form.city} onChange={(v) => set("city", v)} />
+            <Input label="Street" value={form.street} onChange={(v) => set("street", v)} />
+            <div className="sm:col-span-2">
+              <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                Bio
+              </label>
+              <textarea
+                rows={3}
+                value={form.bio}
+                onChange={(e) => set("bio", e.target.value)}
+                maxLength={280}
+                className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors focus:border-[color:var(--accent)]"
+              />
+              <div className="mt-1 text-right text-[11px] text-muted-foreground">
+                {form.bio.length}/280
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-end gap-2 border-t border-border bg-background/60 px-5 py-3 sm:px-6">
+          <button
+            type="button"
+            onClick={onClose}
+            className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-3.5 py-2 text-sm font-medium text-foreground transition-colors hover:bg-[color:var(--accent-tint)]"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={() => onSave(form)}
+            className="inline-flex items-center gap-2 rounded-lg bg-[color:var(--accent)] px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[color:var(--accent-strong)]"
+          >
+            <Save className="h-4 w-4" strokeWidth={2} />
+            Save changes
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- TOAST ---------- */
+function Toast({ message }: { message: string | null }) {
+  return (
+    <div
+      aria-live="polite"
+      className={`pointer-events-none fixed bottom-6 left-1/2 z-50 -translate-x-1/2 transition-all duration-300 ${
+        message ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
+      }`}
+    >
+      {message && (
+        <div className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-[13px] font-medium text-foreground shadow-lg">
+          <CheckCircle2 className="h-4 w-4 text-emerald-500" strokeWidth={2} />
+          {message}
+        </div>
+      )}
+    </div>
   );
 }
 
