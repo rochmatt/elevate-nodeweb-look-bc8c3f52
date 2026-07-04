@@ -924,8 +924,8 @@ function ProductList({
             }`}
           >
             <div className="flex min-w-0 items-center gap-3">
-              <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-[color:var(--accent)]/25 bg-[color:var(--accent-tint)]">
-                <CatIcon className="h-5 w-5 text-[color:var(--accent-strong)]" strokeWidth={1.75} />
+              <div className="h-14 w-14 shrink-0 sm:h-16 sm:w-16">
+                <ProductThumbnail p={p} size="sm" />
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5">
@@ -933,7 +933,7 @@ function ProductList({
                   <BadgePill badge={p.badge} />
                 </div>
                 <div className="mt-0.5 flex items-center gap-1.5 text-[11px] text-muted-foreground">
-                  <span>{p.flag}</span>
+                  <CatIcon className="h-3 w-3 shrink-0" />
                   <span className="truncate">{p.location}</span>
                   <span className="text-foreground/30">·</span>
                   <span className="truncate">{p.seller}</span>
