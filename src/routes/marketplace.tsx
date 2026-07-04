@@ -15,7 +15,7 @@ import {
   Heart,
   LayoutGrid,
   List,
-  MapPin,
+  
   MemoryStick,
   Plus,
   Search,
