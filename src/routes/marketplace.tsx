@@ -15,7 +15,7 @@ import {
   Heart,
   LayoutGrid,
   List,
-  MapPin,
+  
   MemoryStick,
   Plus,
   Search,
@@ -521,6 +521,8 @@ function FilterSection({
 /*  PRODUCT DATA + GRID/LIST                                     */
 /* ============================================================ */
 type ProductBadge = "popular" | "new" | "best" | "deal" | null;
+type ThumbTheme = "indigo" | "emerald" | "gold" | "slate" | "rose" | "cyan" | "violet" | "amber";
+type OS = "ubuntu" | "debian" | "centos" | "windows" | "alpine" | "proxy";
 type Product = {
   id: string;
   name: string;
@@ -543,6 +545,8 @@ type Product = {
   delivery: string;
   stock: number;
   badge: ProductBadge;
+  theme: ThumbTheme;
+  os: OS;
 };
 
 const products: Product[] = [
@@ -552,6 +556,7 @@ const products: Product[] = [
     location: "Singapore", flag: "🇸🇬", rating: 4.9, reviews: 1240, sold: 3421,
     price: 165000, oldPrice: 195000, vcpu: "4 vCPU", ram: "8 GB", disk: "160 GB NVMe",
     bandwidth: "3 TB", delivery: "~15 min", stock: 3, badge: "popular",
+    theme: "gold", os: "ubuntu",
   },
   {
     id: "p2", name: "Nano Starter", category: "Cloud VPS", categoryKey: "cloud",
@@ -559,6 +564,7 @@ const products: Product[] = [
     location: "Jakarta", flag: "🇮🇩", rating: 4.7, reviews: 842, sold: 1980,
     price: 85000, vcpu: "2 vCPU", ram: "4 GB", disk: "80 GB SSD",
     bandwidth: "1 TB", delivery: "Instant", stock: 42, badge: null,
+    theme: "emerald", os: "debian",
   },
   {
     id: "p3", name: "Epyc High-CPU", category: "Cloud VPS", categoryKey: "cloud",
@@ -566,6 +572,7 @@ const products: Product[] = [
     location: "Singapore", flag: "🇸🇬", rating: 5.0, reviews: 42, sold: 88,
     price: 340000, vcpu: "8 vCPU", ram: "16 GB", disk: "250 GB NVMe",
     bandwidth: "Unlimited", delivery: "~1 hour", stock: 12, badge: "new",
+    theme: "violet", os: "ubuntu",
   },
   {
     id: "p4", name: "Enterprise Dedicated", category: "Bare Metal", categoryKey: "bare",
@@ -573,6 +580,7 @@ const products: Product[] = [
     location: "Germany", flag: "🇩🇪", rating: 4.8, reviews: 412, sold: 620,
     price: 1450000, vcpu: "Xeon 12C", ram: "64 GB DDR4", disk: "2× 1TB NVMe",
     bandwidth: "10 Gbps", delivery: "~2 hours", stock: 2, badge: "best",
+    theme: "slate", os: "centos",
   },
   {
     id: "p5", name: "Cloud Compute Pro", category: "Cloud VPS", categoryKey: "cloud",
@@ -580,6 +588,7 @@ const products: Product[] = [
     location: "United States", flag: "🇺🇸", rating: 4.6, reviews: 731, sold: 1450,
     price: 145000, oldPrice: 175000, vcpu: "2 vCPU", ram: "4 GB", disk: "80 GB NVMe",
     bandwidth: "5 TB", delivery: "Instant", stock: 24, badge: "deal",
+    theme: "indigo", os: "windows",
   },
   {
     id: "p6", name: "Residential Static", category: "Residential Proxy", categoryKey: "residential",
@@ -587,6 +596,7 @@ const products: Product[] = [
     location: "Jakarta", flag: "🇮🇩", rating: 4.5, reviews: 184, sold: 512,
     price: 45000, vcpu: "10M+ IPs", ram: "SOCKS5/HTTP", disk: "Rotating",
     bandwidth: "Unlimited", delivery: "~15 min", stock: 200, badge: null,
+    theme: "cyan", os: "proxy",
   },
   {
     id: "p7", name: "Datacenter Bulk", category: "Datacenter Proxy", categoryKey: "datacenter",
@@ -594,6 +604,7 @@ const products: Product[] = [
     location: "United States", flag: "🇺🇸", rating: 4.4, reviews: 96, sold: 218,
     price: 28000, vcpu: "1000 IPs", ram: "HTTP/HTTPS", disk: "Static",
     bandwidth: "Unlimited", delivery: "Instant", stock: 999, badge: null,
+    theme: "rose", os: "proxy",
   },
   {
     id: "p8", name: "Bare Metal Compact", category: "Bare Metal", categoryKey: "bare",
@@ -601,6 +612,7 @@ const products: Product[] = [
     location: "Japan", flag: "🇯🇵", rating: 4.9, reviews: 312, sold: 420,
     price: 890000, vcpu: "Ryzen 8C", ram: "32 GB", disk: "1 TB NVMe",
     bandwidth: "1 Gbps", delivery: "~30 min", stock: 6, badge: "popular",
+    theme: "amber", os: "alpine",
   },
   {
     id: "p9", name: "VPS v2 Mini", category: "Cloud VPS", categoryKey: "cloud",
@@ -608,8 +620,108 @@ const products: Product[] = [
     location: "Singapore", flag: "🇸🇬", rating: 4.9, reviews: 312, sold: 780,
     price: 175353, vcpu: "2 vCPU", ram: "4 GB", disk: "80 GB NVMe",
     bandwidth: "5 TB", delivery: "Instant", stock: 18, badge: null,
+    theme: "indigo", os: "ubuntu",
   },
 ];
+
+/* ---------- Thumbnail ---------- */
+const themeMap: Record<ThumbTheme, { bg: string; glow: string; ring: string; icon: string; grid: string }> = {
+  indigo:  { bg: "from-indigo-500 via-indigo-600 to-slate-900", glow: "bg-indigo-300/40",  ring: "ring-indigo-400/40",  icon: "text-white",     grid: "text-white/10" },
+  emerald: { bg: "from-emerald-500 via-teal-600 to-slate-900",  glow: "bg-emerald-300/40", ring: "ring-emerald-400/40", icon: "text-white",     grid: "text-white/10" },
+  gold:    { bg: "from-amber-400 via-yellow-500 to-amber-700",  glow: "bg-amber-200/50",   ring: "ring-amber-300/40",   icon: "text-white",     grid: "text-white/15" },
+  slate:   { bg: "from-slate-700 via-slate-800 to-slate-950",   glow: "bg-slate-400/30",   ring: "ring-slate-500/40",   icon: "text-slate-100", grid: "text-white/10" },
+  rose:    { bg: "from-rose-500 via-pink-600 to-purple-900",    glow: "bg-rose-300/40",    ring: "ring-rose-400/40",    icon: "text-white",     grid: "text-white/10" },
+  cyan:    { bg: "from-cyan-400 via-sky-600 to-indigo-900",     glow: "bg-cyan-200/50",    ring: "ring-cyan-300/40",    icon: "text-white",     grid: "text-white/10" },
+  violet:  { bg: "from-violet-500 via-purple-600 to-slate-900", glow: "bg-violet-300/40",  ring: "ring-violet-400/40",  icon: "text-white",     grid: "text-white/10" },
+  amber:   { bg: "from-orange-500 via-red-600 to-slate-900",    glow: "bg-orange-300/40",  ring: "ring-orange-400/40",  icon: "text-white",     grid: "text-white/10" },
+};
+
+const osLabel: Record<OS, string> = {
+  ubuntu: "Ubuntu 22.04", debian: "Debian 12", centos: "AlmaLinux 9",
+  windows: "Win Server 2022", alpine: "Alpine 3.19", proxy: "Multi-region",
+};
+
+function OsGlyph({ os, className = "" }: { os: OS; className?: string }) {
+  const cls = `h-3.5 w-3.5 ${className}`;
+  if (os === "windows")
+    return (
+      <svg viewBox="0 0 20 20" className={cls} fill="currentColor" aria-hidden>
+        <path d="M2 4l7-1v7H2V4zm0 8h7v6l-7-1v-5zm8-9l8-1v9h-8V3zm0 9h8v9l-8-1v-8z" />
+      </svg>
+    );
+  if (os === "proxy")
+    return (
+      <svg viewBox="0 0 20 20" className={cls} fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
+        <circle cx="10" cy="10" r="7" />
+        <path d="M3 10h14M10 3c2.5 3 2.5 11 0 14M10 3c-2.5 3-2.5 11 0 14" />
+      </svg>
+    );
+  return (
+    <svg viewBox="0 0 20 20" className={cls} fill="currentColor" aria-hidden>
+      <path d="M10 2c-2.2 0-3.5 2-3.5 4.5 0 1.3.4 2.3 1 3-1.6 1-3 2.6-3 5 0 2.6 2.5 3.5 5.5 3.5s5.5-.9 5.5-3.5c0-2.4-1.4-4-3-5 .6-.7 1-1.7 1-3C13.5 4 12.2 2 10 2zm-1.3 4c.5 0 .8.5.8 1s-.3 1-.8 1-.8-.5-.8-1 .3-1 .8-1zm2.6 0c.5 0 .8.5.8 1s-.3 1-.8 1-.8-.5-.8-1 .3-1 .8-1z" />
+    </svg>
+  );
+}
+
+function ProductThumbnail({ p, size = "md" }: { p: Product; size?: "md" | "sm" }) {
+  const t = themeMap[p.theme];
+  const CatIcon = p.categoryKey === "bare" ? HardDrive : p.categoryKey === "cloud" ? Server : Globe2;
+  const isSm = size === "sm";
+  return (
+    <div
+      className={`relative isolate overflow-hidden bg-gradient-to-br ${t.bg} ${
+        isSm ? "h-full w-full rounded-xl" : "aspect-[16/9] w-full rounded-t-2xl"
+      }`}
+    >
+      <svg className={`absolute inset-0 h-full w-full ${t.grid}`} aria-hidden>
+        <defs>
+          <pattern id={`grid-${p.id}-${size}`} width="22" height="22" patternUnits="userSpaceOnUse">
+            <path d="M22 0H0V22" fill="none" stroke="currentColor" strokeWidth="0.6" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill={`url(#grid-${p.id}-${size})`} />
+      </svg>
+      <div className={`pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full blur-3xl ${t.glow}`} aria-hidden />
+      <div className="pointer-events-none absolute -bottom-10 -left-6 h-24 w-24 rounded-full bg-white/10 blur-2xl" aria-hidden />
+      <CatIcon
+        className={`absolute -bottom-3 -right-3 opacity-25 ${t.icon} ${isSm ? "h-16 w-16" : "h-40 w-40"}`}
+        strokeWidth={1}
+        aria-hidden
+      />
+
+      {!isSm && (
+        <>
+          <div className="absolute inset-x-0 top-0 flex items-start justify-between p-3">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-black/30 px-2 py-1 text-[10px] font-semibold text-white backdrop-blur-sm">
+              <span className="text-sm leading-none">{p.flag}</span>
+              <span className="uppercase tracking-wider">{p.location}</span>
+            </span>
+            <BadgePill badge={p.badge} />
+          </div>
+          <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-3">
+            <div className={`inline-flex items-center gap-2 rounded-lg bg-white/15 px-2.5 py-1.5 text-[11px] font-semibold text-white ring-1 backdrop-blur-md ${t.ring}`}>
+              <OsGlyph os={p.os} />
+              <span className="tracking-tight">{osLabel[p.os]}</span>
+            </div>
+            <button
+              aria-label="Wishlist"
+              className="grid h-8 w-8 place-items-center rounded-full bg-white/15 text-white ring-1 ring-white/25 backdrop-blur-md transition-colors hover:bg-white/25"
+            >
+              <Heart className="h-3.5 w-3.5" strokeWidth={2} />
+            </button>
+          </div>
+        </>
+      )}
+
+      {isSm && (
+        <div className="absolute inset-x-0 bottom-0 flex items-center justify-between px-1.5 pb-1">
+          <span className="text-[11px] leading-none">{p.flag}</span>
+          <OsGlyph os={p.os} className="text-white/80" />
+        </div>
+      )}
+    </div>
+  );
+}
 
 function ProductGrid({
   list, compare, onToggleCompare, billing,
@@ -667,121 +779,110 @@ function ProductCard({
 
   return (
     <div
-      className={`card-interactive group relative flex flex-col p-4 transition-all ${
+      className={`card-interactive group relative flex flex-col overflow-hidden p-0 transition-all ${
         selected ? "ring-2 ring-[color:var(--accent)]/50" : ""
       }`}
     >
-      {/* Seller strip */}
-      <div className="flex items-start justify-between gap-2">
-        <div className="flex min-w-0 items-center gap-2">
-          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-[color:var(--accent)]/25 bg-[color:var(--accent-tint)] text-[11px] font-bold text-[color:var(--accent-strong)]">
-            {p.sellerInitial}
+      {/* Thumbnail */}
+      <ProductThumbnail p={p} />
+
+      <div className="flex flex-1 flex-col p-4">
+        {/* Seller strip */}
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex min-w-0 items-center gap-2">
+            <div className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-[color:var(--accent)]/25 bg-[color:var(--accent-tint)] text-[11px] font-bold text-[color:var(--accent-strong)]">
+              {p.sellerInitial}
+            </div>
+            <div className="min-w-0">
+              <div className="flex items-center gap-1 text-[12px] font-bold text-foreground">
+                <span className="truncate">{p.seller}</span>
+                <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-[color:var(--accent-strong)]" />
+              </div>
+              <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
+                <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                <span className="font-semibold text-foreground">{p.rating}</span>
+                <span>({p.reviews.toLocaleString()})</span>
+                <span className="text-foreground/30">·</span>
+                <span className="text-[color:var(--accent-strong)]">{p.sellerTier}</span>
+              </div>
+            </div>
           </div>
+          <span className={`inline-flex items-center gap-1 rounded-full border border-border/60 bg-background/60 px-2 py-0.5 text-[10px] font-semibold text-muted-foreground`}>
+            <CatIcon className="h-3 w-3" /> {p.category}
+          </span>
+        </div>
+
+        {/* Title */}
+        <h4 className="mt-3 truncate text-[15px] font-bold tracking-tight text-foreground">{p.name}</h4>
+
+        {/* Specs */}
+        <div className="mt-2 grid grid-cols-2 gap-1.5 rounded-xl border border-border/60 bg-foreground/[0.02] p-2.5">
+          <Spec icon={Cpu} label={p.vcpu} />
+          <Spec icon={MemoryStick} label={p.ram} />
+          <Spec icon={HardDrive} label={p.disk} />
+          <Spec icon={Wifi} label={p.bandwidth} />
+        </div>
+
+        {/* Meta */}
+        <div className="mt-3 flex items-center justify-between text-[10px] font-medium">
+          <span className="inline-flex items-center gap-1 text-muted-foreground">
+            <Zap className="h-3 w-3 text-[color:var(--accent-strong)]" /> {p.delivery}
+          </span>
+          <span className={`inline-flex items-center gap-1 font-bold ${stockTone}`}>
+            <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse" />
+            {p.stock <= 3 ? `Only ${p.stock} left` : `${p.stock} in stock`}
+          </span>
+        </div>
+
+        {/* Price + CTA */}
+        <div className="mt-3 flex items-end justify-between border-t border-border/60 pt-3">
           <div className="min-w-0">
-            <div className="flex items-center gap-1 text-[12px] font-bold text-foreground">
-              <span className="truncate">{p.seller}</span>
-              <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-[color:var(--accent-strong)]" />
+            <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
+              {billing === "yearly" ? "Billed yearly" : "Starting from"}
             </div>
-            <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
-              <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-              <span className="font-semibold text-foreground">{p.rating}</span>
-              <span>({p.reviews.toLocaleString()})</span>
-              <span className="text-foreground/30">·</span>
-              <span className="text-[color:var(--accent-strong)]">{p.sellerTier}</span>
+            <div className="flex items-baseline gap-1">
+              <span className="text-[11px] font-semibold text-muted-foreground">Rp</span>
+              <span className="text-xl font-bold leading-none tracking-tight text-foreground">
+                {currentPrice.toLocaleString("id-ID")}
+              </span>
+              <span className="text-[11px] text-muted-foreground">/mo</span>
             </div>
+            {p.oldPrice && billing === "monthly" && (
+              <div className="mt-0.5 text-[10px] text-muted-foreground line-through">
+                Rp {p.oldPrice.toLocaleString("id-ID")}
+              </div>
+            )}
           </div>
-        </div>
-        <BadgePill badge={p.badge} />
-      </div>
-
-      {/* Title + category */}
-      <div className="mt-3 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-        <CatIcon className="h-3 w-3" /> {p.category}
-      </div>
-      <h4 className="mt-1 truncate text-[15px] font-bold tracking-tight text-foreground">{p.name}</h4>
-
-      {/* Location */}
-      <div className="mt-1.5 flex items-center gap-1.5 text-[11px] text-muted-foreground">
-        <span className="text-sm leading-none">{p.flag}</span>
-        <MapPin className="h-3 w-3" />
-        <span className="truncate">{p.location}</span>
-      </div>
-
-      {/* Specs */}
-      <div className="mt-3 grid grid-cols-2 gap-1.5 rounded-xl border border-border/60 bg-foreground/[0.02] p-2.5">
-        <Spec icon={Cpu} label={p.vcpu} />
-        <Spec icon={MemoryStick} label={p.ram} />
-        <Spec icon={HardDrive} label={p.disk} />
-        <Spec icon={Wifi} label={p.bandwidth} />
-      </div>
-
-      {/* Meta */}
-      <div className="mt-3 flex items-center justify-between text-[10px] font-medium">
-        <span className="inline-flex items-center gap-1 text-muted-foreground">
-          <Zap className="h-3 w-3 text-[color:var(--accent-strong)]" /> {p.delivery}
-        </span>
-        <span className={`inline-flex items-center gap-1 font-bold ${stockTone}`}>
-          <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse" />
-          {p.stock <= 3 ? `Only ${p.stock} left` : `${p.stock} in stock`}
-        </span>
-      </div>
-
-      {/* Price + CTA */}
-      <div className="mt-3 flex items-end justify-between border-t border-border/60 pt-3">
-        <div className="min-w-0">
-          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
-            {billing === "yearly" ? "Per month, billed yearly" : "Starting from"}
-          </div>
-          <div className="flex items-baseline gap-1">
-            <span className="text-[11px] font-semibold text-muted-foreground">Rp</span>
-            <span className="text-xl font-bold leading-none tracking-tight text-foreground">
-              {currentPrice.toLocaleString("id-ID")}
-            </span>
-            <span className="text-[11px] text-muted-foreground">/mo</span>
-          </div>
-          {p.oldPrice && billing === "monthly" && (
-            <div className="mt-0.5 text-[10px] text-muted-foreground line-through">
-              Rp {p.oldPrice.toLocaleString("id-ID")}
-            </div>
-          )}
-        </div>
-        <div className="flex shrink-0 gap-1.5">
-          <button
-            aria-label="Wishlist"
-            className="grid h-9 w-9 place-items-center rounded-lg border border-border bg-card text-foreground/70 transition-colors hover:border-[color:var(--accent)]/40 hover:text-[color:var(--accent-strong)]"
-          >
-            <Heart className="h-4 w-4" strokeWidth={1.75} />
-          </button>
           <button className="btn-primary !h-9 !py-0 !px-3.5 !text-[12px]">
             <ShoppingCart className="h-3.5 w-3.5" />
             Deploy
           </button>
         </div>
-      </div>
 
-      {/* Compare footer */}
-      <button
-        onClick={onToggleCompare}
-        className={`mt-3 -mb-1 -mx-1 flex items-center justify-between rounded-lg border px-3 py-2 text-[11px] font-semibold uppercase tracking-tight transition-colors ${
-          selected
-            ? "border-[color:var(--accent)]/40 bg-[color:var(--accent-tint)] text-[color:var(--accent-strong)]"
-            : "border-border bg-card/60 text-muted-foreground hover:text-foreground"
-        }`}
-      >
-        <span className="inline-flex items-center gap-2">
-          <span
-            className={`grid h-4 w-4 place-items-center rounded border ${
-              selected
-                ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white"
-                : "border-border bg-background"
-            }`}
-          >
-            {selected && <Check className="h-3 w-3" strokeWidth={3} />}
+        {/* Compare footer */}
+        <button
+          onClick={onToggleCompare}
+          className={`mt-3 flex items-center justify-between rounded-lg border px-3 py-2 text-[11px] font-semibold uppercase tracking-tight transition-colors ${
+            selected
+              ? "border-[color:var(--accent)]/40 bg-[color:var(--accent-tint)] text-[color:var(--accent-strong)]"
+              : "border-border bg-card/60 text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          <span className="inline-flex items-center gap-2">
+            <span
+              className={`grid h-4 w-4 place-items-center rounded border ${
+                selected
+                  ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white"
+                  : "border-border bg-background"
+              }`}
+            >
+              {selected && <Check className="h-3 w-3" strokeWidth={3} />}
+            </span>
+            Compare
           </span>
-          Compare
-        </span>
-        <span className="text-[10px] normal-case text-foreground/50">{p.sold.toLocaleString()} sold</span>
-      </button>
+          <span className="text-[10px] normal-case text-foreground/50">{p.sold.toLocaleString()} sold</span>
+        </button>
+      </div>
     </div>
   );
 }
@@ -823,8 +924,8 @@ function ProductList({
             }`}
           >
             <div className="flex min-w-0 items-center gap-3">
-              <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-[color:var(--accent)]/25 bg-[color:var(--accent-tint)]">
-                <CatIcon className="h-5 w-5 text-[color:var(--accent-strong)]" strokeWidth={1.75} />
+              <div className="h-14 w-14 shrink-0 sm:h-16 sm:w-16">
+                <ProductThumbnail p={p} size="sm" />
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5">
@@ -832,7 +933,7 @@ function ProductList({
                   <BadgePill badge={p.badge} />
                 </div>
                 <div className="mt-0.5 flex items-center gap-1.5 text-[11px] text-muted-foreground">
-                  <span>{p.flag}</span>
+                  <CatIcon className="h-3 w-3 shrink-0" />
                   <span className="truncate">{p.location}</span>
                   <span className="text-foreground/30">·</span>
                   <span className="truncate">{p.seller}</span>
