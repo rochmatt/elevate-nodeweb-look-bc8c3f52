@@ -779,121 +779,110 @@ function ProductCard({
 
   return (
     <div
-      className={`card-interactive group relative flex flex-col p-4 transition-all ${
+      className={`card-interactive group relative flex flex-col overflow-hidden p-0 transition-all ${
         selected ? "ring-2 ring-[color:var(--accent)]/50" : ""
       }`}
     >
-      {/* Seller strip */}
-      <div className="flex items-start justify-between gap-2">
-        <div className="flex min-w-0 items-center gap-2">
-          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-[color:var(--accent)]/25 bg-[color:var(--accent-tint)] text-[11px] font-bold text-[color:var(--accent-strong)]">
-            {p.sellerInitial}
+      {/* Thumbnail */}
+      <ProductThumbnail p={p} />
+
+      <div className="flex flex-1 flex-col p-4">
+        {/* Seller strip */}
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex min-w-0 items-center gap-2">
+            <div className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-[color:var(--accent)]/25 bg-[color:var(--accent-tint)] text-[11px] font-bold text-[color:var(--accent-strong)]">
+              {p.sellerInitial}
+            </div>
+            <div className="min-w-0">
+              <div className="flex items-center gap-1 text-[12px] font-bold text-foreground">
+                <span className="truncate">{p.seller}</span>
+                <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-[color:var(--accent-strong)]" />
+              </div>
+              <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
+                <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                <span className="font-semibold text-foreground">{p.rating}</span>
+                <span>({p.reviews.toLocaleString()})</span>
+                <span className="text-foreground/30">·</span>
+                <span className="text-[color:var(--accent-strong)]">{p.sellerTier}</span>
+              </div>
+            </div>
           </div>
+          <span className={`inline-flex items-center gap-1 rounded-full border border-border/60 bg-background/60 px-2 py-0.5 text-[10px] font-semibold text-muted-foreground`}>
+            <CatIcon className="h-3 w-3" /> {p.category}
+          </span>
+        </div>
+
+        {/* Title */}
+        <h4 className="mt-3 truncate text-[15px] font-bold tracking-tight text-foreground">{p.name}</h4>
+
+        {/* Specs */}
+        <div className="mt-2 grid grid-cols-2 gap-1.5 rounded-xl border border-border/60 bg-foreground/[0.02] p-2.5">
+          <Spec icon={Cpu} label={p.vcpu} />
+          <Spec icon={MemoryStick} label={p.ram} />
+          <Spec icon={HardDrive} label={p.disk} />
+          <Spec icon={Wifi} label={p.bandwidth} />
+        </div>
+
+        {/* Meta */}
+        <div className="mt-3 flex items-center justify-between text-[10px] font-medium">
+          <span className="inline-flex items-center gap-1 text-muted-foreground">
+            <Zap className="h-3 w-3 text-[color:var(--accent-strong)]" /> {p.delivery}
+          </span>
+          <span className={`inline-flex items-center gap-1 font-bold ${stockTone}`}>
+            <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse" />
+            {p.stock <= 3 ? `Only ${p.stock} left` : `${p.stock} in stock`}
+          </span>
+        </div>
+
+        {/* Price + CTA */}
+        <div className="mt-3 flex items-end justify-between border-t border-border/60 pt-3">
           <div className="min-w-0">
-            <div className="flex items-center gap-1 text-[12px] font-bold text-foreground">
-              <span className="truncate">{p.seller}</span>
-              <BadgeCheck className="h-3.5 w-3.5 shrink-0 text-[color:var(--accent-strong)]" />
+            <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
+              {billing === "yearly" ? "Billed yearly" : "Starting from"}
             </div>
-            <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
-              <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-              <span className="font-semibold text-foreground">{p.rating}</span>
-              <span>({p.reviews.toLocaleString()})</span>
-              <span className="text-foreground/30">·</span>
-              <span className="text-[color:var(--accent-strong)]">{p.sellerTier}</span>
+            <div className="flex items-baseline gap-1">
+              <span className="text-[11px] font-semibold text-muted-foreground">Rp</span>
+              <span className="text-xl font-bold leading-none tracking-tight text-foreground">
+                {currentPrice.toLocaleString("id-ID")}
+              </span>
+              <span className="text-[11px] text-muted-foreground">/mo</span>
             </div>
+            {p.oldPrice && billing === "monthly" && (
+              <div className="mt-0.5 text-[10px] text-muted-foreground line-through">
+                Rp {p.oldPrice.toLocaleString("id-ID")}
+              </div>
+            )}
           </div>
-        </div>
-        <BadgePill badge={p.badge} />
-      </div>
-
-      {/* Title + category */}
-      <div className="mt-3 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-        <CatIcon className="h-3 w-3" /> {p.category}
-      </div>
-      <h4 className="mt-1 truncate text-[15px] font-bold tracking-tight text-foreground">{p.name}</h4>
-
-      {/* Location */}
-      <div className="mt-1.5 flex items-center gap-1.5 text-[11px] text-muted-foreground">
-        <span className="text-sm leading-none">{p.flag}</span>
-        <MapPin className="h-3 w-3" />
-        <span className="truncate">{p.location}</span>
-      </div>
-
-      {/* Specs */}
-      <div className="mt-3 grid grid-cols-2 gap-1.5 rounded-xl border border-border/60 bg-foreground/[0.02] p-2.5">
-        <Spec icon={Cpu} label={p.vcpu} />
-        <Spec icon={MemoryStick} label={p.ram} />
-        <Spec icon={HardDrive} label={p.disk} />
-        <Spec icon={Wifi} label={p.bandwidth} />
-      </div>
-
-      {/* Meta */}
-      <div className="mt-3 flex items-center justify-between text-[10px] font-medium">
-        <span className="inline-flex items-center gap-1 text-muted-foreground">
-          <Zap className="h-3 w-3 text-[color:var(--accent-strong)]" /> {p.delivery}
-        </span>
-        <span className={`inline-flex items-center gap-1 font-bold ${stockTone}`}>
-          <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse" />
-          {p.stock <= 3 ? `Only ${p.stock} left` : `${p.stock} in stock`}
-        </span>
-      </div>
-
-      {/* Price + CTA */}
-      <div className="mt-3 flex items-end justify-between border-t border-border/60 pt-3">
-        <div className="min-w-0">
-          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
-            {billing === "yearly" ? "Per month, billed yearly" : "Starting from"}
-          </div>
-          <div className="flex items-baseline gap-1">
-            <span className="text-[11px] font-semibold text-muted-foreground">Rp</span>
-            <span className="text-xl font-bold leading-none tracking-tight text-foreground">
-              {currentPrice.toLocaleString("id-ID")}
-            </span>
-            <span className="text-[11px] text-muted-foreground">/mo</span>
-          </div>
-          {p.oldPrice && billing === "monthly" && (
-            <div className="mt-0.5 text-[10px] text-muted-foreground line-through">
-              Rp {p.oldPrice.toLocaleString("id-ID")}
-            </div>
-          )}
-        </div>
-        <div className="flex shrink-0 gap-1.5">
-          <button
-            aria-label="Wishlist"
-            className="grid h-9 w-9 place-items-center rounded-lg border border-border bg-card text-foreground/70 transition-colors hover:border-[color:var(--accent)]/40 hover:text-[color:var(--accent-strong)]"
-          >
-            <Heart className="h-4 w-4" strokeWidth={1.75} />
-          </button>
           <button className="btn-primary !h-9 !py-0 !px-3.5 !text-[12px]">
             <ShoppingCart className="h-3.5 w-3.5" />
             Deploy
           </button>
         </div>
-      </div>
 
-      {/* Compare footer */}
-      <button
-        onClick={onToggleCompare}
-        className={`mt-3 -mb-1 -mx-1 flex items-center justify-between rounded-lg border px-3 py-2 text-[11px] font-semibold uppercase tracking-tight transition-colors ${
-          selected
-            ? "border-[color:var(--accent)]/40 bg-[color:var(--accent-tint)] text-[color:var(--accent-strong)]"
-            : "border-border bg-card/60 text-muted-foreground hover:text-foreground"
-        }`}
-      >
-        <span className="inline-flex items-center gap-2">
-          <span
-            className={`grid h-4 w-4 place-items-center rounded border ${
-              selected
-                ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white"
-                : "border-border bg-background"
-            }`}
-          >
-            {selected && <Check className="h-3 w-3" strokeWidth={3} />}
+        {/* Compare footer */}
+        <button
+          onClick={onToggleCompare}
+          className={`mt-3 flex items-center justify-between rounded-lg border px-3 py-2 text-[11px] font-semibold uppercase tracking-tight transition-colors ${
+            selected
+              ? "border-[color:var(--accent)]/40 bg-[color:var(--accent-tint)] text-[color:var(--accent-strong)]"
+              : "border-border bg-card/60 text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          <span className="inline-flex items-center gap-2">
+            <span
+              className={`grid h-4 w-4 place-items-center rounded border ${
+                selected
+                  ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white"
+                  : "border-border bg-background"
+              }`}
+            >
+              {selected && <Check className="h-3 w-3" strokeWidth={3} />}
+            </span>
+            Compare
           </span>
-          Compare
-        </span>
-        <span className="text-[10px] normal-case text-foreground/50">{p.sold.toLocaleString()} sold</span>
-      </button>
+          <span className="text-[10px] normal-case text-foreground/50">{p.sold.toLocaleString()} sold</span>
+        </button>
+      </div>
     </div>
   );
 }
