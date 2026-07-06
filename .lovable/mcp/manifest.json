@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "sdk_version": "0.20.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "none"
+  },
+  "mcp": {
+    "server": {
+      "name": "nodekpt-mcp",
+      "version": "0.1.0",
+      "title": "Nodekpt Marketplace MCP"
+    },
+    "tools": [
+      {
+        "name": "list_packages",
+        "title": "List marketplace packages",
+        "description": "List server packages available in the marketplace. Optionally filter by category or location.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "category": {
+              "description": "Filter by product category.",
+              "type": "string",
+              "enum": [
+                "bare-metal",
+                "vps",
+                "gpu"
+              ]
+            },
+            "location": {
+              "description": "Filter by data center location (case-insensitive substring).",
+              "type": "string"
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_package",
+        "title": "Get package details",
+        "description": "Get detailed specifications and pricing for a specific marketplace package by id.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Package id, e.g. 'bm-ams-01'."
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
