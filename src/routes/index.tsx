@@ -134,6 +134,7 @@ function Home() {
     <div className="theme-light min-h-screen overflow-x-hidden">
       <Nav />
       <InfoTicker />
+      <QuickMenu />
       <Hero />
 
       <Locations />
