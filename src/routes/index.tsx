@@ -21,7 +21,6 @@ import thumbBareMetal from "@/assets/thumb-baremetal.jpg";
 import thumbVps from "@/assets/thumb-vps.jpg";
 import { AuthActions } from "@/components/UserMenu";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
-import { PaymentMethods } from "@/components/PaymentMethods";
 
 const SITE_URL = "https://elevate-nodeweb-look.lovable.app";
 const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
@@ -983,9 +982,7 @@ function Footer() {
           ))}
         </div>
 
-        <PaymentMethods />
-
-        <div className="mt-8 flex flex-col items-start justify-between gap-3 border-t border-[var(--border-subtle)] pt-6 text-xs text-[var(--text-faint)] sm:flex-row sm:items-center">
+        <div className="mt-12 flex flex-col items-start justify-between gap-3 border-t border-[var(--border-subtle)] pt-6 text-xs text-[var(--text-faint)] sm:flex-row sm:items-center">
           <div>© 2026 NodeKPT. All rights reserved.</div>
           <div>Pay in IDR · QRIS · VA · E-Wallet</div>
         </div>
