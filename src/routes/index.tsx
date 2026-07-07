@@ -16,6 +16,8 @@ import {
   HardDrive,
   MemoryStick,
 } from "lucide-react";
+import thumbBareMetal from "@/assets/thumb-baremetal.jpg";
+import thumbVps from "@/assets/thumb-vps.jpg";
 
 const SITE_URL = "https://elevate-nodeweb-look.lovable.app";
 const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
