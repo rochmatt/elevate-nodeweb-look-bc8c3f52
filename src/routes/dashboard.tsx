@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -11,6 +12,7 @@ import {
   LifeBuoy,
   LogOut,
   Mail,
+  Menu,
   MessageSquare,
   Package,
   Receipt,
@@ -35,6 +37,8 @@ import {
   FileText,
   Handshake,
 } from "lucide-react";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { MobileBottomNav } from "@/components/MobileBottomNav";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
