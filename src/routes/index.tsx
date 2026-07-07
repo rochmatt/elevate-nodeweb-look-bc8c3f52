@@ -1081,7 +1081,320 @@ function StepColumn({
   );
 }
 
-/* ----------------------------- SELLER CTA ----------------------------- */
+/* ----------------------------- PROMO BAR ----------------------------- */
+function PromoBar() {
+  return (
+    <div className="relative overflow-hidden bg-gradient-to-r from-[var(--accent-strong)] via-[var(--accent)] to-sky-500 text-white">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-3 gap-y-1 px-4 py-2 text-center text-[12px] font-medium sm:text-[13px]">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider">
+          <Sparkles className="h-3 w-3" /> New
+        </span>
+        <span>Diskon <b>30%</b> semua VPS bulan pertama — pakai kode</span>
+        <code className="rounded bg-white/20 px-1.5 py-0.5 font-mono text-[11px] font-bold tracking-wider">NODEKPT30</code>
+        <span className="hidden items-center gap-1 sm:inline-flex opacity-90">
+          <Timer className="h-3 w-3" /> Berakhir 30 Nov
+        </span>
+      </div>
+    </div>
+  );
+}
+
+/* ----------------------------- STATS ----------------------------- */
+function Stats() {
+  const stats = [
+    { icon: Users, value: "12.4k+", label: "Pelanggan aktif" },
+    { icon: Server, value: "820+", label: "Node terdeploy" },
+    { icon: Globe, value: "18", label: "Lokasi global" },
+    { icon: TrendingUp, value: "99.97%", label: "Uptime rata-rata" },
+  ];
+  return (
+    <section className="border-t border-[var(--border-subtle)] bg-white">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-4 py-10 sm:px-6 md:grid-cols-4 md:gap-6 md:py-14">
+        {stats.map(({ icon: Icon, value, label }) => (
+          <div
+            key={label}
+            className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg)] p-5 shadow-[var(--card-shadow)]"
+          >
+            <div className="grid h-9 w-9 place-items-center rounded-lg bg-[var(--accent-tint)] text-[var(--accent-strong)]">
+              <Icon className="h-4.5 w-4.5" />
+            </div>
+            <div className="mt-3 text-2xl font-black tracking-tight text-[var(--text)] md:text-3xl">
+              {value}
+            </div>
+            <div className="mt-1 text-xs font-medium text-[var(--text-muted)] md:text-sm">
+              {label}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ----------------------------- PROMO DEALS ----------------------------- */
+function PromoDeals() {
+  const deals = [
+    {
+      icon: Percent,
+      badge: "-30%",
+      title: "Bulan Pertama VPS",
+      desc: "Semua paket VPS Ryzen & Xeon. Otomatis di checkout.",
+      code: "NODEKPT30",
+      accent: "from-rose-500 to-orange-500",
+    },
+    {
+      icon: Gift,
+      badge: "Bonus",
+      title: "Kredit Rp 100rb",
+      desc: "Untuk pendaftar baru — dapat dipakai top-up wallet.",
+      code: "WELCOME100",
+      accent: "from-emerald-500 to-teal-500",
+    },
+    {
+      icon: Tag,
+      badge: "Hemat 15%",
+      title: "Kontrak 12 Bulan",
+      desc: "Diskon otomatis untuk Bare Metal komitmen tahunan.",
+      code: "YEAR15",
+      accent: "from-indigo-500 to-sky-500",
+    },
+  ];
+  return (
+    <section id="promo" className="border-t border-[var(--border-subtle)] bg-[var(--bg)]">
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-tint)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--accent-strong)]">
+              <Sparkles className="h-3 w-3" /> Promo bulan ini
+            </div>
+            <h2 className="mt-3 text-2xl font-black tracking-tight text-[var(--text)] sm:text-3xl md:text-4xl">
+              Penawaran &amp; diskon terbaru
+            </h2>
+            <p className="mt-2 max-w-xl text-sm text-[var(--text-muted)] md:text-base">
+              Kombinasikan kode promo dengan paket favorit untuk hemat lebih banyak.
+            </p>
+          </div>
+          <a href="#marketplace" className="btn-secondary h-10 px-4 text-sm">
+            Lihat marketplace <ArrowRight className="h-4 w-4" />
+          </a>
+        </div>
+
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          {deals.map(({ icon: Icon, badge, title, desc, code, accent }) => (
+            <div
+              key={title}
+              className="group relative overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-white p-5 shadow-[var(--card-shadow)] transition-all hover:-translate-y-0.5 hover:shadow-lg"
+            >
+              <div className={`absolute -right-8 -top-8 h-28 w-28 rounded-full bg-gradient-to-br ${accent} opacity-20 blur-2xl`} />
+              <div className="flex items-start justify-between">
+                <div className={`grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br ${accent} text-white shadow-md`}>
+                  <Icon className="h-5 w-5" />
+                </div>
+                <span className={`rounded-full bg-gradient-to-br ${accent} px-2.5 py-1 text-[11px] font-bold text-white`}>
+                  {badge}
+                </span>
+              </div>
+              <div className="mt-4 text-lg font-bold text-[var(--text)]">{title}</div>
+              <p className="mt-1 text-sm text-[var(--text-muted)]">{desc}</p>
+              <div className="mt-4 flex items-center justify-between rounded-lg border border-dashed border-[var(--border-subtle)] bg-[var(--bg)] px-3 py-2">
+                <span className="text-[11px] font-medium uppercase tracking-wider text-[var(--text-faint)]">Kode</span>
+                <code className="font-mono text-sm font-bold text-[var(--accent-strong)]">{code}</code>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ----------------------------- TESTIMONIALS ----------------------------- */
+function Testimonials() {
+  const items = [
+    {
+      name: "Andra P.",
+      role: "Founder, dev studio",
+      quote: "Deploy VPS di NodeKPT ~1 menit dan bayar QRIS. Panelnya bersih, cocok buat tim kecil.",
+      rating: 5,
+      color: "#ef4444",
+    },
+    {
+      name: "Maya S.",
+      role: "Backend engineer",
+      quote: "Bare metal Ryzen-nya kencang untuk workload CI. Harga masuk akal dan support responsif.",
+      rating: 5,
+      color: "#0d9488",
+    },
+    {
+      name: "Ivan K.",
+      role: "Seller marketplace",
+      quote: "Sebagai seller, listing produk mudah dan pembayaran cair tepat waktu. Recommended.",
+      rating: 5,
+      color: "#6366f1",
+    },
+  ];
+  return (
+    <section className="border-t border-[var(--border-subtle)] bg-white">
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 md:py-20">
+        <div className="text-center">
+          <div className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-tint)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--accent-strong)]">
+            Testimoni
+          </div>
+          <h2 className="mt-3 text-2xl font-black tracking-tight text-[var(--text)] sm:text-3xl md:text-4xl">
+            Dipercaya ribuan developer &amp; bisnis
+          </h2>
+        </div>
+
+        <div className="mt-10 grid gap-4 md:grid-cols-3">
+          {items.map((t) => (
+            <figure
+              key={t.name}
+              className="flex h-full flex-col rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg)] p-6 shadow-[var(--card-shadow)]"
+            >
+              <div className="flex items-center gap-1 text-amber-400">
+                {Array.from({ length: t.rating }).map((_, i) => (
+                  <Star key={i} className="h-4 w-4 fill-current" />
+                ))}
+              </div>
+              <blockquote className="mt-3 flex-1 text-sm leading-relaxed text-[var(--text-muted)]">
+                “{t.quote}”
+              </blockquote>
+              <figcaption className="mt-5 flex items-center gap-3">
+                <span
+                  className="grid h-10 w-10 place-items-center rounded-full text-sm font-semibold text-white"
+                  style={{ backgroundColor: t.color }}
+                >
+                  {t.name.charAt(0)}
+                </span>
+                <div>
+                  <div className="text-sm font-semibold text-[var(--text)]">{t.name}</div>
+                  <div className="text-xs text-[var(--text-faint)]">{t.role}</div>
+                </div>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ----------------------------- FAQ ----------------------------- */
+function FAQ() {
+  const faqs = [
+    {
+      q: "Berapa cepat VPS aktif setelah pembayaran?",
+      a: "Rata-rata di bawah 60 detik untuk VPS, dan hingga 1 jam untuk Bare Metal, tergantung lokasi.",
+    },
+    {
+      q: "Metode pembayaran apa saja yang didukung?",
+      a: "QRIS, Virtual Account semua bank besar, kartu kredit, dan saldo wallet NodeKPT.",
+    },
+    {
+      q: "Apakah bisa upgrade paket kapan saja?",
+      a: "Bisa. Upgrade dilakukan dari panel dan tagihan akan diproratakan otomatis.",
+    },
+    {
+      q: "Bagaimana kebijakan refund?",
+      a: "Garansi uang kembali 7 hari untuk pengguna baru pada paket VPS reguler.",
+    },
+    {
+      q: "Bisakah saya jualan VPS di NodeKPT?",
+      a: "Bisa. Daftar sebagai seller, lengkapi verifikasi, lalu listing paket via dashboard.",
+    },
+  ];
+  const [open, setOpen] = useState<number | null>(0);
+  return (
+    <section className="border-t border-[var(--border-subtle)] bg-[var(--bg)]">
+      <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6 md:py-20">
+        <div className="text-center">
+          <div className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-tint)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--accent-strong)]">
+            FAQ
+          </div>
+          <h2 className="mt-3 text-2xl font-black tracking-tight text-[var(--text)] sm:text-3xl md:text-4xl">
+            Pertanyaan yang sering diajukan
+          </h2>
+        </div>
+
+        <div className="mt-8 space-y-3">
+          {faqs.map((f, i) => {
+            const isOpen = open === i;
+            return (
+              <div
+                key={f.q}
+                className="overflow-hidden rounded-xl border border-[var(--border-subtle)] bg-white shadow-[var(--card-shadow)]"
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpen(isOpen ? null : i)}
+                  aria-expanded={isOpen}
+                  className="flex w-full items-center justify-between gap-3 px-5 py-4 text-left"
+                >
+                  <span className="text-sm font-semibold text-[var(--text)] sm:text-base">{f.q}</span>
+                  <ChevronDown
+                    className={`h-4 w-4 shrink-0 text-[var(--text-muted)] transition-transform ${isOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+                {isOpen && (
+                  <div className="px-5 pb-4 text-sm leading-relaxed text-[var(--text-muted)]">
+                    {f.a}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ----------------------------- NEWSLETTER ----------------------------- */
+function NewsletterCTA() {
+  const [email, setEmail] = useState("");
+  return (
+    <section className="border-t border-[var(--border-subtle)] bg-white">
+      <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 md:py-20">
+        <div className="relative overflow-hidden rounded-3xl border border-[var(--border-subtle)] bg-gradient-to-br from-[var(--accent-tint)] via-white to-sky-50 p-8 sm:p-12">
+          <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[var(--accent)]/20 blur-3xl" />
+          <div className="relative grid gap-6 md:grid-cols-[1.4fr_1fr] md:items-center">
+            <div>
+              <h3 className="text-xl font-black tracking-tight text-[var(--text)] sm:text-2xl md:text-3xl">
+                Dapatkan promo &amp; info produk terbaru
+              </h3>
+              <p className="mt-2 text-sm text-[var(--text-muted)] md:text-base">
+                Berlangganan newsletter NodeKPT — hanya kirim yang penting.
+              </p>
+            </div>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (!email) return;
+                toast.success("Berhasil berlangganan!", { description: email });
+                setEmail("");
+              }}
+              className="flex flex-col gap-2 sm:flex-row"
+            >
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="email@domain.com"
+                className="h-11 flex-1 rounded-full border border-[var(--border-subtle)] bg-white px-4 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-faint)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-ring)]"
+              />
+              <button type="submit" className="btn-primary h-11 justify-center px-5 text-sm">
+                Langganan
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
 function SellerCTA() {
   return (
     <section
