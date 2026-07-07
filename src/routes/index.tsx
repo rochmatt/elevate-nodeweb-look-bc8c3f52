@@ -58,22 +58,22 @@ function Home() {
 function Nav() {
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border-subtle)] bg-[color:var(--bg)]/85 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center gap-4 px-6 py-3.5">
-        <a href="/" className="flex items-center gap-2.5">
+      <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-3 sm:gap-4 sm:px-6 sm:py-3.5">
+        <a href="/" className="flex shrink-0 items-center gap-2 sm:gap-2.5">
           <div className="grid h-9 w-9 place-items-center rounded-lg bg-[var(--accent)] text-white shadow-[0_6px_18px_-6px_var(--accent-ring)]">
             <Layers className="h-4.5 w-4.5" strokeWidth={2.4} />
           </div>
           <div className="leading-tight">
-            <div className="text-[17px] font-bold tracking-tight text-[var(--text)]">
+            <div className="text-[15px] font-bold tracking-tight text-[var(--text)] sm:text-[17px]">
               Node<span className="text-[var(--accent)]">KPT</span>
             </div>
-            <div className="text-[10px] font-medium uppercase tracking-[0.16em] text-[var(--text-faint)]">
+            <div className="hidden text-[10px] font-medium uppercase tracking-[0.16em] text-[var(--text-faint)] sm:block">
               Find the right VPS
             </div>
           </div>
         </a>
 
-        <div className="ml-4 hidden flex-1 md:block">
+        <div className="ml-2 hidden min-w-0 flex-1 md:block">
           <div className="relative max-w-xl">
             <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--text-faint)]" />
             <input
@@ -96,7 +96,13 @@ function Nav() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-1.5">
+        <div className="ml-auto flex shrink-0 items-center gap-1 md:ml-0 md:gap-1.5">
+          <button
+            aria-label="Search"
+            className="grid h-10 w-10 place-items-center rounded-full text-[var(--text-muted)] hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)] md:hidden"
+          >
+            <Search className="h-4.5 w-4.5" />
+          </button>
           <button
             aria-label="Cart"
             className="grid h-10 w-10 place-items-center rounded-full text-[var(--text-muted)] hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)]"
@@ -104,8 +110,9 @@ function Nav() {
             <ShoppingCart className="h-4.5 w-4.5" />
           </button>
           <button className="btn-ghost hidden sm:inline-flex">Log in</button>
-          <button className="btn-primary">
-            Sign up Free
+          <button className="btn-primary h-9 px-3 text-xs sm:h-10 sm:px-4 sm:text-sm">
+            <span className="hidden xs:inline sm:inline">Sign up</span>
+            <span className="xs:hidden sm:hidden">Sign up</span>
             <ArrowRight className="h-3.5 w-3.5" />
           </button>
         </div>
@@ -113,6 +120,7 @@ function Nav() {
     </header>
   );
 }
+
 
 /* ----------------------------- HERO ----------------------------- */
 function Hero() {
