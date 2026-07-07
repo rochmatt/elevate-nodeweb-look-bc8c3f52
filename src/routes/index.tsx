@@ -175,7 +175,7 @@ function WelcomeModal() {
       setOpen(next);
     }}>
       <DialogContent
-        className="theme-light fixed left-1/2 top-1/2 max-h-[75dvh] w-[84vw] max-w-md -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-2xl border border-[var(--border-subtle)] bg-white p-0 shadow-[0_24px_70px_-24px_rgba(15,23,42,0.25)] !duration-0 data-[state=open]:!animate-none data-[state=closed]:!animate-none sm:max-h-[85dvh] sm:w-[92vw] [&>button]:hidden [&>button]:!hidden"
+        className="theme-light fixed left-1/2 top-1/2 max-h-[75dvh] w-[84vw] max-w-md -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-2xl border border-[var(--border-subtle)] bg-white p-0 shadow-[0_24px_70px_-24px_rgba(15,23,42,0.25)] !duration-0 data-[state=open]:!animate-none data-[state=closed]:!animate-none sm:max-h-[85dvh] sm:w-[92vw] [&>button]:!hidden"
       >
         <div className="relative overflow-hidden">
           <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-[var(--accent-tint)] blur-2xl sm:h-32 sm:w-32" />
