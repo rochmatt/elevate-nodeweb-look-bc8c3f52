@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -11,6 +12,7 @@ import {
   LifeBuoy,
   LogOut,
   Mail,
+  Menu,
   MessageSquare,
   Package,
   Receipt,
@@ -35,6 +37,8 @@ import {
   FileText,
   Handshake,
 } from "lucide-react";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { MobileBottomNav } from "@/components/MobileBottomNav";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -60,7 +64,7 @@ function Dashboard() {
       <div className="relative flex">
         <Sidebar activeLabel="Dashboard" />
         <main className="min-w-0 flex-1">
-          <Topbar />
+          <Topbar activeLabel="Dashboard" />
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
             <Header />
             <Stats />
@@ -74,6 +78,7 @@ function Dashboard() {
           </div>
         </main>
       </div>
+      <MobileBottomNav />
     </div>
   );
 }
@@ -110,6 +115,42 @@ export function Sidebar({ activeLabel = "Dashboard" }: { activeLabel?: string })
 
   return (
     <aside className="sticky top-0 hidden h-screen w-72 shrink-0 border-r border-border bg-card lg:flex lg:flex-col">
+      <SidebarBody activeLabel={activeLabel} />
+    </aside>
+  );
+}
+
+export function SidebarBody({ activeLabel = "Dashboard" }: { activeLabel?: string }) {
+  const overview = [
+    { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
+    { icon: Store, label: "Marketplace", href: "/marketplace" },
+    { icon: Globe, label: "Proxy Services", href: "#" },
+    { icon: Server, label: "Compute (VPS)", href: "#" },
+    { icon: HardDrive, label: "Bare Metal Servers", href: "/bare-metal" },
+    { icon: Download, label: "Winstaller", href: "#" },
+  ];
+  const inventory = [
+    { icon: Database, label: "Object Storage" },
+    { icon: HardDrive, label: "Block Storage" },
+    { icon: Network, label: "Network Management (IP, DNS)" },
+    { icon: KeyRound, label: "API Access" },
+    { icon: Package, label: "Orders", href: "/orders" },
+    { icon: Store, label: "Manage Packages", href: "/manage-packages" },
+    { icon: FileText, label: "Billing & Invoices", href: "/invoices" },
+    { icon: Wallet, label: "Wallet & Balance", href: "/wallet" },
+    { icon: Heart, label: "Wishlist" },
+    { icon: Gift, label: "Referrals" },
+    { icon: Scale, label: "Disputes" },
+  ];
+  const account = [
+    { icon: BookOpen, label: "Guide" },
+    { icon: LifeBuoy, label: "Support" },
+    { icon: Mail, label: "Contact" },
+    { icon: User, label: "Profile", href: "/profile" },
+  ];
+
+  return (
+    <div className="flex h-full flex-col">
       <Link to="/" className="flex items-center gap-3 border-b border-border px-6 py-5">
         <div className="grid h-10 w-10 place-items-center rounded-xl border border-[color:var(--accent)]/25 bg-[color:var(--accent-tint)]">
           <span className="text-base font-bold leading-none text-[color:var(--accent-strong)]">N</span>
@@ -121,7 +162,6 @@ export function Sidebar({ activeLabel = "Dashboard" }: { activeLabel?: string })
       </Link>
 
       <div className="flex-1 overflow-y-auto px-3 py-5">
-        {/* Compact Become a Seller banner */}
         <button className="group mb-6 flex w-full items-center gap-3 rounded-xl border border-[color:var(--accent)]/20 bg-[color:var(--accent-tint)] px-3.5 py-3 text-left transition-colors hover:border-[color:var(--accent)]/40">
           <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[color:var(--accent)] text-white">
             <Handshake className="h-4 w-4" strokeWidth={1.75} />
@@ -142,7 +182,7 @@ export function Sidebar({ activeLabel = "Dashboard" }: { activeLabel?: string })
         <LogOut className="h-4 w-4 text-muted-foreground" strokeWidth={1.75} />
         Logout
       </button>
-    </aside>
+    </div>
   );
 }
 
@@ -203,10 +243,41 @@ function NavGroup({
 
 /* ---------- TOPBAR ---------- */
 
-export function Topbar() {
+export function Topbar({ activeLabel }: { activeLabel?: string } = {}) {
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center justify-end gap-2 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4 lg:px-8">
+      <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4 lg:px-8">
+        {/* Mobile: hamburger + brand (hidden on lg because sidebar renders them) */}
+        <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+          <SheetTrigger asChild>
+            <button
+              type="button"
+              aria-label="Open menu"
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-lg text-foreground/70 transition-colors hover:bg-foreground/5 hover:text-foreground lg:hidden"
+            >
+              <Menu className="h-5 w-5" strokeWidth={1.75} />
+            </button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-[288px] max-w-[85vw] border-r border-border bg-card p-0">
+            <SheetTitle className="sr-only">Navigation menu</SheetTitle>
+            <div onClick={() => setMenuOpen(false)}>
+              <SidebarBody activeLabel={activeLabel} />
+            </div>
+          </SheetContent>
+        </Sheet>
+
+        <Link
+          to="/"
+          className="flex min-w-0 items-center gap-2 lg:hidden"
+          aria-label="NodeKPT home"
+        >
+          <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-[color:var(--accent)]/25 bg-[color:var(--accent-tint)]">
+            <span className="text-sm font-bold leading-none text-[color:var(--accent-strong)]">N</span>
+          </div>
+          <span className="truncate text-sm font-bold tracking-tight text-foreground">NodeKPT</span>
+        </Link>
+
         <div className="ml-auto flex items-center gap-0.5 sm:gap-1">
           <IconButton icon={ShoppingCart} badge="3" />
           <IconButton icon={MessageSquare} />
