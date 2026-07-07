@@ -27,6 +27,7 @@ import {
   Sparkles,
   X,
   MessageCircle,
+  Menu,
 } from "lucide-react";
 import thumbBareMetal from "@/assets/thumb-baremetal.jpg";
 import thumbVps from "@/assets/thumb-vps.jpg";
