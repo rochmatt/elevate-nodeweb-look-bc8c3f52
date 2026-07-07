@@ -295,13 +295,9 @@ function InfoTicker() {
 
 const NAV_LINKS = ["Marketplace", "Tools", "Features", "Become a Seller"];
 
-function useActiveHashLink(href: string) {
-  const hash = useRouterState({ select: (s) => s.location.hash });
-  return hash === href;
-}
-
 function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { hash } = useLocation();
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border-subtle)] bg-[color:var(--bg)]/85 backdrop-blur-xl">
@@ -332,7 +328,7 @@ function Nav() {
           </div>
         </div>
 
-        <DesktopNavLinks />
+        <DesktopNavLinks activeHash={hash} />
 
         <div className="ml-auto flex shrink-0 items-center gap-1 md:ml-0 md:gap-1.5">
           <button
@@ -367,7 +363,7 @@ function Nav() {
               Menu
             </SheetTitle>
           </SheetHeader>
-          <MobileNavLinks onNavigate={() => setMobileOpen(false)} />
+          <MobileNavLinks activeHash={hash} onNavigate={() => setMobileOpen(false)} />
           <div className="border-t border-[var(--border-subtle)] p-4 lg:hidden">
             <AuthActions />
           </div>
@@ -377,12 +373,12 @@ function Nav() {
   );
 }
 
-function DesktopNavLinks() {
+function DesktopNavLinks({ activeHash }: { activeHash: string }) {
   return (
     <nav className="ml-auto hidden items-center gap-1 lg:flex">
       {NAV_LINKS.map((l) => {
         const href = `#${l.toLowerCase().replace(/\s/g, "-")}`;
-        const active = useActiveHashLink(href);
+        const active = activeHash === href;
         return (
           <a
             key={l}
@@ -402,12 +398,12 @@ function DesktopNavLinks() {
   );
 }
 
-function MobileNavLinks({ onNavigate }: { onNavigate: () => void }) {
+function MobileNavLinks({ activeHash, onNavigate }: { activeHash: string; onNavigate: () => void }) {
   return (
     <nav aria-label="Mobile" className="flex flex-col p-2">
       {NAV_LINKS.map((l) => {
         const href = `#${l.toLowerCase().replace(/\s/g, "-")}`;
-        const active = useActiveHashLink(href);
+        const active = activeHash === href;
         return (
           <SheetClose asChild key={l}>
             <a
