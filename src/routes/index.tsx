@@ -34,6 +34,9 @@ import {
 } from "lucide-react";
 import thumbBareMetal from "@/assets/thumb-baremetal.jpg";
 import thumbVps from "@/assets/thumb-vps.jpg";
+import heroSlide1 from "@/assets/hero-slide-1.jpg";
+import heroSlide2 from "@/assets/hero-slide-2.jpg";
+import heroSlide3 from "@/assets/hero-slide-3.jpg";
 import { AuthActions } from "@/components/UserMenu";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
 import {
@@ -505,7 +508,13 @@ function Hero() {
       <div className="radial-glow pointer-events-none absolute left-1/2 top-1/3 h-[560px] w-[900px] -translate-x-1/2 -translate-y-1/2" />
 
       <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 pb-20 pt-10 sm:px-6 sm:pt-14 lg:grid-cols-[1.15fr_1fr] lg:gap-14 lg:pb-32 lg:pt-24">
-        <div className="min-w-0">
+        {/* Mobile: image slider replaces headline copy */}
+        <div className="min-w-0 lg:hidden">
+          <MobileHeroSlider />
+        </div>
+
+        {/* Desktop: original headline copy */}
+        <div className="hidden min-w-0 lg:block">
           <h1 className="text-[clamp(2rem,8vw,4.5rem)] font-black leading-[1.05] tracking-tight text-[var(--text)]">
             Buy &amp; Sell{" "}
             <span className="text-[var(--accent)]">Cloud,</span>{" "}
@@ -551,12 +560,121 @@ function Hero() {
           </ul>
         </div>
 
-        <div className="min-w-0">
+        <div className="hidden min-w-0 lg:block">
           <TerminalCard />
         </div>
       </div>
 
     </section>
+  );
+}
+
+const HERO_SLIDES = [
+  {
+    src: heroSlide1,
+    title: "Cloud VPS",
+    subtitle: "Deploy instantly, scale anytime",
+    href: "#marketplace",
+  },
+  {
+    src: heroSlide2,
+    title: "Bare Metal",
+    subtitle: "Raw power, dedicated hardware",
+    href: "/bare-metal",
+  },
+  {
+    src: heroSlide3,
+    title: "Global Proxy",
+    subtitle: "Worldwide network, low latency",
+    href: "#marketplace",
+  },
+];
+
+function MobileHeroSlider() {
+  const [index, setIndex] = useState(0);
+  const count = HERO_SLIDES.length;
+  const touchStartX = useRef<number | null>(null);
+  const paused = useRef(false);
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      if (!paused.current) setIndex((i) => (i + 1) % count);
+    }, 4500);
+    return () => window.clearInterval(id);
+  }, [count]);
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    paused.current = true;
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const start = touchStartX.current;
+    touchStartX.current = null;
+    paused.current = false;
+    if (start == null) return;
+    const dx = e.changedTouches[0].clientX - start;
+    if (Math.abs(dx) < 40) return;
+    if (dx < 0) setIndex((i) => (i + 1) % count);
+    else setIndex((i) => (i - 1 + count) % count);
+  };
+
+  return (
+    <div className="relative">
+      <div
+        className="relative overflow-hidden rounded-2xl bg-[var(--surface-2)] shadow-[0_20px_50px_-25px_rgba(15,23,42,0.35)] ring-1 ring-black/5"
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+      >
+        <div
+          className="flex transition-transform duration-500 ease-out"
+          style={{ transform: `translateX(-${index * 100}%)` }}
+        >
+          {HERO_SLIDES.map((s, i) => (
+            <a
+              key={s.title}
+              href={s.href}
+              className="relative block aspect-[4/3] w-full shrink-0"
+              aria-label={`${s.title} — ${s.subtitle}`}
+            >
+              <img
+                src={s.src}
+                alt={s.title}
+                width={1200}
+                height={900}
+                loading={i === 0 ? "eager" : "lazy"}
+                className="absolute inset-0 h-full w-full object-cover"
+                draggable={false}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-5">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/80">
+                  {s.subtitle}
+                </p>
+                <h2 className="mt-1 text-2xl font-black leading-tight text-white">
+                  {s.title}
+                </h2>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-4 flex items-center justify-center gap-2">
+        {HERO_SLIDES.map((s, i) => (
+          <button
+            key={s.title}
+            type="button"
+            aria-label={`Go to slide ${i + 1}`}
+            onClick={() => setIndex(i)}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              i === index
+                ? "w-6 bg-[var(--accent)]"
+                : "w-1.5 bg-[var(--border)]"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
   );
 }
 
