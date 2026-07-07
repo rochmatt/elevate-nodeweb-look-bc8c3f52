@@ -139,6 +139,15 @@ function Home() {
 /* ----------------------------- WELCOME MODAL ----------------------------- */
 const WELCOME_MODAL_KEY = "nodekpt-welcome-shown";
 
+function TickerItem({ icon, label }: { icon: React.ReactNode; label: string }) {
+  return (
+    <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+      {icon}
+      {label}
+    </span>
+  );
+}
+
 function WelcomeModal() {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
