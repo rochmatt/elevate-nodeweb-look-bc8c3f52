@@ -259,7 +259,7 @@ export function Topbar({ activeLabel }: { activeLabel?: string } = {}) {
               <Menu className="h-5 w-5" strokeWidth={1.75} />
             </button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-[288px] max-w-[85vw] border-r border-border bg-card p-0">
+          <SheetContent side="left" className="theme-light w-[288px] max-w-[85vw] border-r border-border bg-card p-0">
             <SheetTitle className="sr-only">Navigation menu</SheetTitle>
             <div onClick={() => setMenuOpen(false)}>
               <SidebarBody activeLabel={activeLabel} />
