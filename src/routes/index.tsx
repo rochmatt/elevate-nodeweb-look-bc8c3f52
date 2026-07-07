@@ -345,6 +345,9 @@ function Nav() {
 
         <DesktopNavLinks activeHash={hash} />
 
+        {/* debug */}
+        <span data-debug-hash={hash} className="hidden" />
+
         <div className="ml-auto flex shrink-0 items-center gap-1 md:ml-0 md:gap-1.5">
           <button
             aria-label="Search"
