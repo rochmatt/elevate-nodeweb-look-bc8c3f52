@@ -244,17 +244,18 @@ function TerminalCard() {
         </div>
       </div>
 
-      <div className="absolute -bottom-6 -left-4 rounded-2xl border border-[var(--border-subtle)] bg-white px-5 py-3.5 shadow-[0_18px_40px_-18px_rgba(15,23,42,0.25)]">
+      <div className="absolute -bottom-5 -left-2 rounded-2xl border border-[var(--border-subtle)] bg-white px-4 py-3 shadow-[0_18px_40px_-18px_rgba(15,23,42,0.25)] sm:-bottom-6 sm:-left-4 sm:px-5 sm:py-3.5">
         <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--text-faint)]">
           Latency
         </div>
-        <div className="text-3xl font-black leading-none tracking-tight text-[var(--text)]">
-          12<span className="ml-1 text-lg font-bold text-[var(--text-muted)]">ms</span>
+        <div className="text-2xl font-black leading-none tracking-tight text-[var(--text)] sm:text-3xl">
+          12<span className="ml-1 text-base font-bold text-[var(--text-muted)] sm:text-lg">ms</span>
         </div>
         <div className="mt-1 text-[10px] text-[var(--text-faint)]">
           Asia · rata-rata
         </div>
       </div>
+
     </div>
   );
 }
