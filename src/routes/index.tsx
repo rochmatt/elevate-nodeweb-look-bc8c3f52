@@ -316,7 +316,7 @@ function useHash() {
 }
 
 function Nav() {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const hash = useHash();
 
   return (
@@ -352,10 +352,22 @@ function Nav() {
 
         <div className="ml-auto flex shrink-0 items-center gap-1 md:ml-0 md:gap-1.5">
           <button
-            aria-label="Search"
-            className="grid h-10 w-10 place-items-center rounded-full text-[var(--text-muted)] hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)] md:hidden"
+            type="button"
+            aria-label={mobileSearchOpen ? "Close search" : "Open search"}
+            aria-expanded={mobileSearchOpen}
+            aria-controls="mobile-search"
+            onClick={() => setMobileSearchOpen((v) => !v)}
+            className={`grid h-10 w-10 place-items-center rounded-full transition-colors md:hidden ${
+              mobileSearchOpen
+                ? "bg-[var(--accent-tint)] text-[var(--accent-strong)]"
+                : "text-[var(--text-muted)] hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)]"
+            }`}
           >
-            <Search className="h-4.5 w-4.5" />
+            {mobileSearchOpen ? (
+              <X className="h-4.5 w-4.5" />
+            ) : (
+              <Search className="h-4.5 w-4.5" />
+            )}
           </button>
           <button
             aria-label="Cart"
@@ -365,6 +377,26 @@ function Nav() {
           </button>
           <div className="hidden lg:block">
             <AuthActions />
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="mobile-search"
+        className={`md:hidden overflow-hidden border-t border-[var(--border-subtle)] transition-[max-height,opacity] duration-300 ease-out ${
+          mobileSearchOpen ? "max-h-24 opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="mx-auto max-w-7xl px-4 py-3">
+          <div className="relative">
+            <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--text-faint)]" />
+            <input
+              type="search"
+              autoFocus={mobileSearchOpen}
+              aria-label="Search VPS, location, or seller"
+              placeholder="Search VPS, location, or seller..."
+              className="h-11 w-full rounded-full border border-[var(--border-subtle)] bg-white pl-10 pr-4 text-sm text-[var(--text)] outline-none transition-colors placeholder:text-[var(--text-faint)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-ring)]"
+            />
           </div>
         </div>
       </div>
