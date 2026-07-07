@@ -97,6 +97,41 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap",
       },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              "@id": "https://elevate-nodeweb-look.lovable.app/#organization",
+              name: "NodeKPT",
+              url: "https://elevate-nodeweb-look.lovable.app",
+              logo: "https://elevate-nodeweb-look.lovable.app/favicon.ico",
+              sameAs: [],
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://elevate-nodeweb-look.lovable.app/#website",
+              name: "NodeKPT",
+              url: "https://elevate-nodeweb-look.lovable.app",
+              publisher: {
+                "@id": "https://elevate-nodeweb-look.lovable.app/#organization",
+              },
+              potentialAction: {
+                "@type": "SearchAction",
+                target: {
+                  "@type": "EntryPoint",
+                  urlTemplate: "https://elevate-nodeweb-look.lovable.app/marketplace?q={search_term_string}",
+                },
+                "query-input": "required name=search_term_string",
+              },
+            },
+          ],
+        }),
+      },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
