@@ -629,7 +629,7 @@ function StepColumn({
   steps: { t: string; d: string }[];
 }) {
   return (
-    <div className="card-surface p-8">
+    <div className="card-surface p-6 sm:p-8">
       <div className="mb-6 text-xs font-bold uppercase tracking-[0.22em] text-[var(--accent)]">
         {title}
       </div>
