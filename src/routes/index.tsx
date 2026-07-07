@@ -169,12 +169,7 @@ function Nav() {
           >
             <ShoppingCart className="h-4.5 w-4.5" />
           </button>
-          <button className="btn-ghost hidden sm:inline-flex">Log in</button>
-          <button className="btn-primary h-9 px-3 text-xs sm:h-10 sm:px-4 sm:text-sm">
-            <span className="hidden xs:inline sm:inline">Sign up</span>
-            <span className="xs:hidden sm:hidden">Sign up</span>
-            <ArrowRight className="h-3.5 w-3.5" />
-          </button>
+          <AuthActions />
         </div>
       </div>
     </header>
