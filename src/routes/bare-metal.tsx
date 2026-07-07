@@ -51,13 +51,22 @@ export const Route = createFileRoute("/bare-metal")({
   validateSearch: zodValidator(filterSchema),
   head: () => ({
     meta: [
-      { title: "Bare Metal — NodeKPT · Dedicated Hardware, Hourly or Monthly" },
+      { title: "Bare Metal — NodeKPT" },
       {
         name: "description",
         content:
-          "Realtime dedicated servers in 12 datacenters. Configure your rig, deploy in ~90s, pay in IDR per hour or per month. Full root, IPMI, unmetered traffic.",
+          "Realtime dedicated servers in 12 datacenters. Configure your rig, deploy in ~90s, pay in IDR per hour or per month.",
       },
+      { property: "og:title", content: "Bare Metal — NodeKPT" },
+      {
+        property: "og:description",
+        content:
+          "Dedicated bare metal servers in 12 datacenters. Deploy in ~90s, pay in IDR per hour or per month.",
+      },
+      { property: "og:url", content: "https://elevate-nodeweb-look.lovable.app/bare-metal" },
+      { property: "og:type", content: "website" },
     ],
+    links: [{ rel: "canonical", href: "https://elevate-nodeweb-look.lovable.app/bare-metal" }],
   }),
   component: BareMetalPage,
 });
