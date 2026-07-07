@@ -601,21 +601,22 @@ function HowItWorks() {
 
   return (
     <section className="relative">
-      <div className="mx-auto max-w-7xl px-6 py-24 md:py-28">
+      <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 md:py-28">
         <div className="mx-auto max-w-2xl text-center">
           <div className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[var(--accent)]">
             How it works
           </div>
-          <h2 className="mt-3 text-4xl font-black tracking-tight text-[var(--text)] md:text-5xl">
+          <h2 className="mt-3 text-3xl font-black tracking-tight text-[var(--text)] sm:text-4xl md:text-5xl">
             Simple for <span className="text-[var(--accent)]">Everyone</span>
           </h2>
         </div>
 
-        <div className="mt-14 grid gap-8 lg:grid-cols-2">
+        <div className="mt-10 grid gap-6 sm:mt-14 sm:gap-8 lg:grid-cols-2">
           <StepColumn title="For Buyers" steps={buyer} />
           <StepColumn title="For Sellers" steps={seller} />
         </div>
       </div>
+
     </section>
   );
 }
