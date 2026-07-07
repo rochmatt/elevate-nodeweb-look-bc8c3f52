@@ -488,46 +488,52 @@ function MarketplacePreview() {
 }
 
 function PackageCard({ pkg }: { pkg: Pkg }) {
+  const thumb = pkg.type === "VPS" ? thumbVps : thumbBareMetal;
   return (
     <article className="card-interactive group flex flex-col overflow-hidden">
-      {/* Header: dark strip with CPU highlight */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-[#0b1220] to-[#111a2e] p-4 text-white">
+      {/* Thumbnail */}
+      <div className="relative aspect-[16/10] overflow-hidden bg-[#0b1220]">
+        <img
+          src={thumb}
+          alt={`${pkg.type} — ${pkg.cpu}`}
+          loading="lazy"
+          width={1024}
+          height={640}
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
         <div
           aria-hidden
-          className="absolute inset-0 opacity-40"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 20% 20%, rgba(20,184,166,0.35), transparent 45%), radial-gradient(circle at 90% 80%, rgba(56,189,248,0.25), transparent 45%)",
-          }}
+          className="absolute inset-0 bg-gradient-to-t from-[#05070d] via-[#05070d]/70 to-transparent"
         />
-        <div className="relative flex items-center justify-between">
-          <div className="text-[9px] font-bold uppercase tracking-[0.22em] text-white/60">
-            NODEKPT.COM
-          </div>
+        <div className="absolute inset-x-0 top-0 flex items-center justify-between p-3">
+          <span className="rounded-full bg-black/40 px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.22em] text-white/80 backdrop-blur">
+            NODEKPT
+          </span>
           <span
-            className={`rounded-full px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider ${
+            className={`rounded-full px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider backdrop-blur ${
               pkg.type === "VPS"
-                ? "bg-[var(--accent)]/20 text-[var(--accent-soft)]"
-                : "bg-sky-500/20 text-sky-300"
+                ? "bg-[var(--accent)]/25 text-white"
+                : "bg-sky-500/30 text-white"
             }`}
           >
             {pkg.type}
           </span>
         </div>
-        <div className="relative mt-3">
-          <div className="text-[10px] font-semibold uppercase tracking-widest text-white/40">
+        <div className="absolute inset-x-0 bottom-0 p-4 text-white">
+          <div className="text-[10px] font-semibold uppercase tracking-widest text-white/60">
             CPU
           </div>
-          <div className="mt-0.5 text-[15px] font-bold leading-tight">
+          <div className="mt-0.5 text-[14px] font-bold leading-tight line-clamp-1">
             {pkg.cpu}
           </div>
-        </div>
-        <div className="relative mt-3 grid grid-cols-2 gap-2 text-[11px]">
-          <SpecMini icon={Cpu} label={pkg.cores} />
-          <SpecMini icon={MemoryStick} label={pkg.ram} />
-          <SpecMini icon={HardDrive} label={pkg.storage} full />
+          <div className="mt-2 grid grid-cols-2 gap-2 text-[11px]">
+            <SpecMini icon={Cpu} label={pkg.cores} />
+            <SpecMini icon={MemoryStick} label={pkg.ram} />
+            <SpecMini icon={HardDrive} label={pkg.storage} full />
+          </div>
         </div>
       </div>
+
 
       {/* Body */}
       <div className="flex flex-1 flex-col p-5">
