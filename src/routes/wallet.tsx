@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   ArrowDownLeft,
   ArrowUpRight,
@@ -11,6 +11,7 @@ import {
   Download,
   Gift,
   Landmark,
+  Package as PackageIcon,
   Plus,
   QrCode,
   Receipt,
@@ -18,12 +19,16 @@ import {
   Shield,
   ShoppingCart,
   Sparkles,
+  Sparkle,
+  Trash2,
   TrendingUp,
   Wallet as WalletIcon,
   Wallet2,
   Zap,
 } from "lucide-react";
 import { Sidebar, Topbar } from "./dashboard";
+import { useCart, type CartItem } from "@/hooks/useCart";
+
 
 export const Route = createFileRoute("/wallet")({
   head: () => ({
