@@ -34,13 +34,22 @@ import { Sidebar, Topbar } from "./dashboard";
 export const Route = createFileRoute("/marketplace")({
   head: () => ({
     meta: [
-      { title: "VPS Marketplace — NodeKPT · Find the best VPS from trusted sellers" },
+      { title: "VPS Marketplace — NodeKPT" },
       {
         name: "description",
         content:
-          "Browse VPS, Bare Metal, and Proxy services from verified sellers. Filter by location, price, vCPU and RAM. Pay in IDR (QRIS, VA). Full root access.",
+          "Browse VPS, Bare Metal, and Proxy services from verified sellers. Filter by location, price, vCPU and RAM. Pay in IDR (QRIS, VA).",
       },
+      { property: "og:title", content: "VPS Marketplace — NodeKPT" },
+      {
+        property: "og:description",
+        content:
+          "Browse VPS, Bare Metal, and Proxy services from verified sellers. Filter by location, price, vCPU and RAM.",
+      },
+      { property: "og:url", content: "https://elevate-nodeweb-look.lovable.app/marketplace" },
+      { property: "og:type", content: "website" },
     ],
+    links: [{ rel: "canonical", href: "https://elevate-nodeweb-look.lovable.app/marketplace" }],
   }),
   component: Marketplace,
 });
