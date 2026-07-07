@@ -293,7 +293,11 @@ function InfoTicker() {
 
 /* ----------------------------- NAV ----------------------------- */
 
+const NAV_LINKS = ["Marketplace", "Tools", "Features", "Become a Seller"];
+
 function Nav() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border-subtle)] bg-[color:var(--bg)]/85 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-3 sm:gap-4 sm:px-6 sm:py-3.5">
@@ -324,7 +328,7 @@ function Nav() {
         </div>
 
         <nav className="ml-auto hidden items-center gap-1 lg:flex">
-          {["Marketplace", "Tools", "Features", "Become a Seller"].map((l) => (
+          {NAV_LINKS.map((l) => (
             <a
               key={l}
               href={`#${l.toLowerCase().replace(/\s/g, "-")}`}
@@ -348,9 +352,43 @@ function Nav() {
           >
             <ShoppingCart className="h-4.5 w-4.5" />
           </button>
-          <AuthActions />
+          <button
+            aria-label="Open menu"
+            onClick={() => setMobileOpen(true)}
+            className="grid h-10 w-10 place-items-center rounded-full text-[var(--text-muted)] hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)] lg:hidden"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+          <div className="hidden lg:block">
+            <AuthActions />
+          </div>
         </div>
       </div>
+
+      <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+        <SheetContent side="right" className="w-[80vw] max-w-xs border-l border-[var(--border-subtle)] bg-[color:var(--bg)] p-0">
+          <SheetHeader className="border-b border-[var(--border-subtle)] px-5 py-4 text-left">
+            <SheetTitle className="text-base font-bold text-[var(--text)]">
+              Menu
+            </SheetTitle>
+          </SheetHeader>
+          <nav aria-label="Mobile" className="flex flex-col p-2">
+            {NAV_LINKS.map((l) => (
+              <SheetClose asChild key={l}>
+                <a
+                  href={`#${l.toLowerCase().replace(/\s/g, "-")}`}
+                  className="rounded-xl px-4 py-3 text-sm font-medium text-[var(--text-muted)] transition-colors hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)]"
+                >
+                  {l}
+                </a>
+              </SheetClose>
+            ))}
+          </nav>
+          <div className="border-t border-[var(--border-subtle)] p-4 lg:hidden">
+            <AuthActions />
+          </div>
+        </SheetContent>
+      </Sheet>
     </header>
   );
 }
