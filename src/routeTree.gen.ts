@@ -11,11 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WalletRouteImport } from './routes/wallet'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as OrdersRouteImport } from './routes/orders'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as ManagePackagesRouteImport } from './routes/manage-packages'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as InvoicesRouteImport } from './routes/invoices'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as BareMetalRouteImport } from './routes/bare-metal'
@@ -32,6 +34,11 @@ const WalletRoute = WalletRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileRoute = ProfileRouteImport.update({
@@ -57,6 +64,11 @@ const MarketplaceRoute = MarketplaceRouteImport.update({
 const ManagePackagesRoute = ManagePackagesRouteImport.update({
   id: '/manage-packages',
   path: '/manage-packages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InvoicesRoute = InvoicesRouteImport.update({
@@ -103,11 +115,13 @@ export interface FileRoutesByFullPath {
   '/bare-metal': typeof BareMetalRoute
   '/dashboard': typeof DashboardRoute
   '/invoices': typeof InvoicesRoute
+  '/login': typeof LoginRoute
   '/manage-packages': typeof ManagePackagesRoute
   '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
   '/orders': typeof OrdersRoute
   '/profile': typeof ProfileRoute
+  '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/wallet': typeof WalletRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
@@ -119,11 +133,13 @@ export interface FileRoutesByTo {
   '/bare-metal': typeof BareMetalRoute
   '/dashboard': typeof DashboardRoute
   '/invoices': typeof InvoicesRoute
+  '/login': typeof LoginRoute
   '/manage-packages': typeof ManagePackagesRoute
   '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
   '/orders': typeof OrdersRoute
   '/profile': typeof ProfileRoute
+  '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/wallet': typeof WalletRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
@@ -136,11 +152,13 @@ export interface FileRoutesById {
   '/bare-metal': typeof BareMetalRoute
   '/dashboard': typeof DashboardRoute
   '/invoices': typeof InvoicesRoute
+  '/login': typeof LoginRoute
   '/manage-packages': typeof ManagePackagesRoute
   '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
   '/orders': typeof OrdersRoute
   '/profile': typeof ProfileRoute
+  '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/wallet': typeof WalletRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
@@ -154,11 +172,13 @@ export interface FileRouteTypes {
     | '/bare-metal'
     | '/dashboard'
     | '/invoices'
+    | '/login'
     | '/manage-packages'
     | '/marketplace'
     | '/mcp'
     | '/orders'
     | '/profile'
+    | '/signup'
     | '/sitemap.xml'
     | '/wallet'
     | '/.mcp/list-tools'
@@ -170,11 +190,13 @@ export interface FileRouteTypes {
     | '/bare-metal'
     | '/dashboard'
     | '/invoices'
+    | '/login'
     | '/manage-packages'
     | '/marketplace'
     | '/mcp'
     | '/orders'
     | '/profile'
+    | '/signup'
     | '/sitemap.xml'
     | '/wallet'
     | '/.mcp/list-tools'
@@ -186,11 +208,13 @@ export interface FileRouteTypes {
     | '/bare-metal'
     | '/dashboard'
     | '/invoices'
+    | '/login'
     | '/manage-packages'
     | '/marketplace'
     | '/mcp'
     | '/orders'
     | '/profile'
+    | '/signup'
     | '/sitemap.xml'
     | '/wallet'
     | '/.mcp/list-tools'
@@ -203,11 +227,13 @@ export interface RootRouteChildren {
   BareMetalRoute: typeof BareMetalRoute
   DashboardRoute: typeof DashboardRoute
   InvoicesRoute: typeof InvoicesRoute
+  LoginRoute: typeof LoginRoute
   ManagePackagesRoute: typeof ManagePackagesRoute
   MarketplaceRoute: typeof MarketplaceRoute
   McpRoute: typeof McpRoute
   OrdersRoute: typeof OrdersRoute
   ProfileRoute: typeof ProfileRoute
+  SignupRoute: typeof SignupRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   WalletRoute: typeof WalletRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
@@ -229,6 +255,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile': {
@@ -264,6 +297,13 @@ declare module '@tanstack/react-router' {
       path: '/manage-packages'
       fullPath: '/manage-packages'
       preLoaderRoute: typeof ManagePackagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/invoices': {
@@ -323,11 +363,13 @@ const rootRouteChildren: RootRouteChildren = {
   BareMetalRoute: BareMetalRoute,
   DashboardRoute: DashboardRoute,
   InvoicesRoute: InvoicesRoute,
+  LoginRoute: LoginRoute,
   ManagePackagesRoute: ManagePackagesRoute,
   MarketplaceRoute: MarketplaceRoute,
   McpRoute: McpRoute,
   OrdersRoute: OrdersRoute,
   ProfileRoute: ProfileRoute,
+  SignupRoute: SignupRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   WalletRoute: WalletRoute,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
