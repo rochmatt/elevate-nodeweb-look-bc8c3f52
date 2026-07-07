@@ -243,10 +243,41 @@ function NavGroup({
 
 /* ---------- TOPBAR ---------- */
 
-export function Topbar() {
+export function Topbar({ activeLabel }: { activeLabel?: string } = {}) {
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center justify-end gap-2 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4 lg:px-8">
+      <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4 lg:px-8">
+        {/* Mobile: hamburger + brand (hidden on lg because sidebar renders them) */}
+        <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+          <SheetTrigger asChild>
+            <button
+              type="button"
+              aria-label="Open menu"
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-lg text-foreground/70 transition-colors hover:bg-foreground/5 hover:text-foreground lg:hidden"
+            >
+              <Menu className="h-5 w-5" strokeWidth={1.75} />
+            </button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-[288px] max-w-[85vw] border-r border-border bg-card p-0">
+            <SheetTitle className="sr-only">Navigation menu</SheetTitle>
+            <div onClick={() => setMenuOpen(false)}>
+              <SidebarBody activeLabel={activeLabel} />
+            </div>
+          </SheetContent>
+        </Sheet>
+
+        <Link
+          to="/"
+          className="flex min-w-0 items-center gap-2 lg:hidden"
+          aria-label="NodeKPT home"
+        >
+          <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-[color:var(--accent)]/25 bg-[color:var(--accent-tint)]">
+            <span className="text-sm font-bold leading-none text-[color:var(--accent-strong)]">N</span>
+          </div>
+          <span className="truncate text-sm font-bold tracking-tight text-foreground">NodeKPT</span>
+        </Link>
+
         <div className="ml-auto flex items-center gap-0.5 sm:gap-1">
           <IconButton icon={ShoppingCart} badge="3" />
           <IconButton icon={MessageSquare} />
