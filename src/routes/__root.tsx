@@ -108,14 +108,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               "@id": "https://elevate-nodeweb-look.lovable.app/#organization",
               name: "NodeKPT",
               url: "https://elevate-nodeweb-look.lovable.app",
-              logo: "https://elevate-nodeweb-look.lovable.app/favicon.ico",
-              sameAs: [],
+              logo: "https://elevate-nodeweb-look.lovable.app/favicon.svg",
+              description:
+                "Marketplace VPS, Bare Metal & Proxy dari seller terpercaya. Deploy dalam menit, bayar Rupiah, kontrol penuh via panel.",
+              sameAs: ["https://nodekpt.com"],
             },
             {
               "@type": "WebSite",
               "@id": "https://elevate-nodeweb-look.lovable.app/#website",
               name: "NodeKPT",
               url: "https://elevate-nodeweb-look.lovable.app",
+              inLanguage: "id-ID",
               publisher: {
                 "@id": "https://elevate-nodeweb-look.lovable.app/#organization",
               },
