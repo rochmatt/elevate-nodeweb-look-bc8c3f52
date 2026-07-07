@@ -135,6 +135,7 @@ function Home() {
       <Nav />
       <InfoTicker />
       <QuickMenu />
+      <TextMenu />
       <Hero />
 
       <Locations />
@@ -433,6 +434,47 @@ function QuickMenu() {
             );
           })}
         </div>
+      </div>
+    </section>
+  );
+}
+
+/* --------------------------- TEXT MENU --------------------------- */
+const TEXT_MENU = [
+  { label: "VPS Bare Metal", href: "#marketplace" },
+  { label: "Proxy", href: "#marketplace" },
+  { label: "Winstaller", href: "#tools" },
+  { label: "Install Hypervisor", href: "#tools" },
+];
+
+function TextMenu() {
+  const hash = useHash();
+
+  return (
+    <section
+      aria-label="Layanan populer"
+      className="relative z-30 border-b border-[var(--border-subtle)] bg-[var(--bg)]"
+    >
+      <div className="relative mx-auto max-w-7xl px-4 py-2.5 sm:px-6 sm:py-3">
+        <nav className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+          {TEXT_MENU.map(({ label, href }) => {
+            const active = hash === href;
+            return (
+              <a
+                key={label}
+                href={href}
+                aria-current={active ? "page" : undefined}
+                className={`rounded-full border px-3.5 py-1.5 text-[11px] font-medium tracking-tight transition-all duration-300 ease-out hover:-translate-y-0.5 active:scale-[0.97] sm:px-4 sm:py-2 sm:text-xs ${
+                  active
+                    ? "border-[var(--accent)]/40 bg-[var(--accent-tint)] text-[var(--accent-strong)] shadow-[0_6px_20px_-12px_var(--accent-ring)]"
+                    : "border-[var(--border-subtle)] bg-white/80 text-[var(--text-muted)] hover:border-[var(--accent)]/30 hover:bg-white hover:text-[var(--text)] hover:shadow-[0_10px_28px_-16px_var(--accent-ring)]"
+                }`}
+              >
+                {label}
+              </a>
+            );
+          })}
+        </nav>
       </div>
     </section>
   );
