@@ -1,5 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
+import { useCart } from "@/hooks/useCart";
 import {
   ArrowRight,
   Check,
