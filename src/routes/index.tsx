@@ -295,8 +295,22 @@ function InfoTicker() {
 
 const NAV_LINKS = ["Marketplace", "Tools", "Features", "Become a Seller"];
 
+function useHash() {
+  const [hash, setHash] = useState("");
+
+  useEffect(() => {
+    const update = () => setHash(window.location.hash);
+    update();
+    window.addEventListener("hashchange", update);
+    return () => window.removeEventListener("hashchange", update);
+  }, []);
+
+  return hash;
+}
+
 function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const hash = useHash();
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border-subtle)] bg-[color:var(--bg)]/85 backdrop-blur-xl">
@@ -327,17 +341,7 @@ function Nav() {
           </div>
         </div>
 
-        <nav className="ml-auto hidden items-center gap-1 lg:flex">
-          {NAV_LINKS.map((l) => (
-            <a
-              key={l}
-              href={`#${l.toLowerCase().replace(/\s/g, "-")}`}
-              className="rounded-full px-3.5 py-2 text-sm font-medium text-[var(--text-muted)] transition-colors hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)]"
-            >
-              {l}
-            </a>
-          ))}
-        </nav>
+        <DesktopNavLinks activeHash={hash} />
 
         <div className="ml-auto flex shrink-0 items-center gap-1 md:ml-0 md:gap-1.5">
           <button
@@ -372,24 +376,66 @@ function Nav() {
               Menu
             </SheetTitle>
           </SheetHeader>
-          <nav aria-label="Mobile" className="flex flex-col p-2">
-            {NAV_LINKS.map((l) => (
-              <SheetClose asChild key={l}>
-                <a
-                  href={`#${l.toLowerCase().replace(/\s/g, "-")}`}
-                  className="rounded-xl px-4 py-3 text-sm font-medium text-[var(--text-muted)] transition-colors hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)]"
-                >
-                  {l}
-                </a>
-              </SheetClose>
-            ))}
-          </nav>
+          <MobileNavLinks activeHash={hash} onNavigate={() => setMobileOpen(false)} />
           <div className="border-t border-[var(--border-subtle)] p-4 lg:hidden">
             <AuthActions />
           </div>
         </SheetContent>
       </Sheet>
     </header>
+  );
+}
+
+function DesktopNavLinks({ activeHash }: { activeHash: string }) {
+  return (
+    <nav className="ml-auto hidden items-center gap-1 lg:flex">
+      {NAV_LINKS.map((l) => {
+        const href = `#${l.toLowerCase().replace(/\s/g, "-")}`;
+        const active = activeHash === href;
+        return (
+          <a
+            key={l}
+            href={href}
+            aria-current={active ? "page" : undefined}
+            className={`rounded-full px-3.5 py-2 text-sm font-medium transition-colors ${
+              active
+                ? "bg-[var(--accent-tint)] text-[var(--accent-strong)]"
+                : "text-[var(--text-muted)] hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)]"
+            }`}
+          >
+            {l}
+          </a>
+        );
+      })}
+    </nav>
+  );
+}
+
+function MobileNavLinks({ activeHash, onNavigate }: { activeHash: string; onNavigate: () => void }) {
+  return (
+    <nav aria-label="Mobile" className="flex flex-col p-2">
+      {NAV_LINKS.map((l) => {
+        const href = `#${l.toLowerCase().replace(/\s/g, "-")}`;
+        const active = activeHash === href;
+        return (
+          <SheetClose asChild key={l}>
+            <a
+              href={href}
+              onClick={onNavigate}
+              aria-current={active ? "page" : undefined}
+              className={`flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
+                active
+                  ? "bg-[var(--accent-tint)] text-[var(--accent-strong)]"
+                  : "text-[var(--text-muted)] hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)]"
+              }`}
+            >
+              {l}
+              {active && <span className="h-2 w-2 rounded-full bg-[var(--accent)]" aria-hidden="true" />}
+            </a>
+          </SheetClose>
+        );
+      })}
+    </nav>
   );
 }
 
