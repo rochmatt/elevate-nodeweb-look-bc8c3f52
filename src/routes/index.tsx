@@ -295,9 +295,24 @@ function InfoTicker() {
 
 const NAV_LINKS = ["Marketplace", "Tools", "Features", "Become a Seller"];
 
+function useHash() {
+  const [hash, setHash] = useState(() =>
+    typeof window !== "undefined" ? window.location.hash : ""
+  );
+
+  useEffect(() => {
+    const update = () => setHash(window.location.hash);
+    update();
+    window.addEventListener("hashchange", update);
+    return () => window.removeEventListener("hashchange", update);
+  }, []);
+
+  return hash;
+}
+
 function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { hash } = useLocation();
+  const hash = useHash();
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border-subtle)] bg-[color:var(--bg)]/85 backdrop-blur-xl">
