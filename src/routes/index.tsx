@@ -682,8 +682,14 @@ function PackageCard({ pkg }: { pkg: Pkg }) {
               </div>
             )}
           </div>
-          <button className="btn-primary h-9 px-3.5 text-xs">
-            Deploy
+          <button
+            type="button"
+            onClick={handleDeploy}
+            disabled={adding}
+            className="btn-primary h-9 px-3.5 text-xs disabled:opacity-70"
+            aria-label={`Tambahkan ${pkg.name} ke cart`}
+          >
+            {adding ? "Added" : "Deploy"}
             <ArrowRight className="h-3 w-3" />
           </button>
         </div>
