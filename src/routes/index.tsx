@@ -513,7 +513,8 @@ function PackageCard({ pkg }: { pkg: Pkg }) {
           <div
             role="img"
             aria-label={altText}
-            className="absolute inset-0 flex flex-col items-center justify-center bg-[#0b1220] text-white/70"
+            tabIndex={0}
+            className="absolute inset-0 flex flex-col items-center justify-center bg-[#0b1220] text-white/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--accent)]"
           >
             <Server className="h-10 w-10 text-white/30" aria-hidden="true" />
             <span className="mt-2 text-[10px] font-semibold uppercase tracking-widest text-white/50">
