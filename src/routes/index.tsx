@@ -876,23 +876,38 @@ const tabs = ["All", "Germany", "Canada", "Australia", "Poland", "Singapore"];
 
 function LocationTabs({ activeTab, onChange }: { activeTab: string; onChange: (tab: string) => void }) {
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const didMountRef = useRef(false);
+
+  const scrollTabIntoView = useCallback((el: HTMLElement) => {
+    // Horizontal-only scroll: adjust the parent scroll container instead of
+    // scrollIntoView (which also scrolls the page vertically on mount).
+    const container = el.parentElement;
+    if (!container) return;
+    const target =
+      el.offsetLeft - container.clientWidth / 2 + el.clientWidth / 2;
+    container.scrollTo({ left: Math.max(0, target), behavior: "smooth" });
+  }, []);
 
   const focusTab = useCallback((index: number) => {
     const el = tabRefs.current[index];
     if (el) {
-      el.focus();
-      el.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
+      el.focus({ preventScroll: true });
+      scrollTabIntoView(el);
     }
-  }, []);
+  }, [scrollTabIntoView]);
 
-  // Scroll active tab into view whenever it changes (click, keyboard, or programmatic)
+  // Scroll active tab into view when it changes — skip on first mount to
+  // avoid the page auto-scrolling down to reveal the tab bar.
   useEffect(() => {
+    if (!didMountRef.current) {
+      didMountRef.current = true;
+      return;
+    }
     const index = tabs.indexOf(activeTab);
     const el = tabRefs.current[index];
-    if (el) {
-      el.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
-    }
-  }, [activeTab]);
+    if (el) scrollTabIntoView(el);
+  }, [activeTab, scrollTabIntoView]);
+
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     const currentIndex = tabs.indexOf(activeTab);
