@@ -823,7 +823,7 @@ function ProductCard({
         </div>
 
         {/* Title */}
-        <h4 className="mt-3 truncate text-[15px] font-bold tracking-tight text-foreground">{p.name}</h4>
+        <h2 className="mt-3 truncate text-[15px] font-bold tracking-tight text-foreground">{p.name}</h2>
 
         {/* Specs */}
         <div className="mt-2 grid grid-cols-2 gap-1.5 rounded-xl border border-border/60 bg-foreground/[0.02] p-2.5">
