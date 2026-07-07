@@ -462,40 +462,7 @@ function MarketplacePreview() {
         </div>
 
         <div className="-mx-5 mt-7 px-5 sm:mx-0 sm:px-0">
-          <div className="relative">
-            <div
-              role="tablist"
-              aria-label="Filter lokasi server"
-              className="overflow-x-auto rounded-full border border-[var(--border-subtle)] bg-white p-1 shadow-[var(--card-shadow)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:p-1.5"
-            >
-              <div className="flex snap-x snap-mandatory items-center gap-1 px-1 pr-10 sm:gap-1.5 sm:pr-1">
-                {tabs.map((t) => {
-                  const isActive = activeTab === t;
-                  return (
-                    <button
-                      key={t}
-                      type="button"
-                      role="tab"
-                      aria-selected={isActive}
-                      onClick={() => setActiveTab(t)}
-                      className={`snap-start shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 sm:px-4 sm:py-2 sm:text-sm lg:px-5 lg:py-2.5 ${
-                        isActive
-                          ? "bg-[var(--accent)] text-white shadow-[0_4px_12px_-4px_var(--accent-ring)]"
-                          : "text-[var(--text-muted)] hover:bg-[var(--card-muted)] hover:text-[var(--accent-strong)]"
-                      }`}
-                    >
-                      {t}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-            {/* Fade hint for mobile scroll */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute right-0 top-0 h-full w-12 rounded-r-full bg-gradient-to-l from-white via-white/80 to-transparent sm:hidden"
-            />
-          </div>
+          <LocationTabs activeTab={activeTab} onChange={setActiveTab} />
         </div>
 
         <div className="mt-8 grid gap-5 sm:mt-10 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
