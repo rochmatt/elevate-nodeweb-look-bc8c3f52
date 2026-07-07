@@ -129,48 +129,45 @@ function Hero() {
       <GridBackdrop />
       <div className="radial-glow pointer-events-none absolute left-1/2 top-1/3 h-[560px] w-[900px] -translate-x-1/2 -translate-y-1/2" />
 
-      <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-6 pb-24 pt-16 lg:grid-cols-[1.15fr_1fr] lg:pb-32 lg:pt-24">
-        <div>
-          <h1 className="text-[clamp(2.5rem,6vw,4.5rem)] font-black leading-[1.02] tracking-tight text-[var(--text)]">
+      <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 pb-20 pt-10 sm:px-6 sm:pt-14 lg:grid-cols-[1.15fr_1fr] lg:gap-14 lg:pb-32 lg:pt-24">
+        <div className="min-w-0">
+          <h1 className="text-[clamp(2rem,8vw,4.5rem)] font-black leading-[1.05] tracking-tight text-[var(--text)]">
             Buy &amp; Sell{" "}
-            <span className="text-[var(--accent)]">Cloud,</span>
-            <br />
-            <span className="text-[var(--accent)]">Bare Metal &amp;</span>
-            <br />
-            <span className="text-[var(--accent)]">Proxy</span>
-            <br />
+            <span className="text-[var(--accent)]">Cloud,</span>{" "}
+            <span className="text-[var(--accent)]">Bare Metal &amp;</span>{" "}
+            <span className="text-[var(--accent)]">Proxy</span>{" "}
             with{" "}
             <span className="bg-gradient-to-r from-[var(--accent-soft)] via-[var(--accent)] to-sky-500 bg-clip-text text-transparent">
               Full Control
             </span>
           </h1>
 
-          <p className="mt-7 max-w-lg text-lg leading-relaxed text-[var(--text-muted)]">
+          <p className="mt-6 max-w-lg text-base leading-relaxed text-[var(--text-muted)] sm:mt-7 sm:text-lg">
             The first marketplace where anyone can sell VPSes and buyers get
             direct server control via an integrated panel.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
-            <button className="btn-primary h-12 px-6 text-[15px]">
+          <div className="mt-7 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap sm:gap-3">
+            <button className="btn-primary h-12 w-full justify-center px-6 text-[15px] sm:w-auto">
               Get Started
               <ArrowRight className="h-4 w-4" />
             </button>
             <a
               href="#marketplace"
-              className="btn-secondary h-12 px-6 text-[15px]"
+              className="btn-secondary h-12 w-full justify-center px-6 text-[15px] sm:w-auto"
             >
               Browse VPS
             </a>
           </div>
 
-          <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-[var(--text-muted)]">
+          <ul className="mt-8 flex flex-wrap gap-x-5 gap-y-2.5 text-sm text-[var(--text-muted)]">
             {[
               "No long contracts",
               "Pay in IDR (QRIS, VA)",
               "Full root access",
             ].map((p) => (
               <li key={p} className="inline-flex items-center gap-2">
-                <span className="grid h-5 w-5 place-items-center rounded-full bg-[var(--accent-tint)]">
+                <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[var(--accent-tint)]">
                   <Check className="h-3 w-3 text-[var(--accent-strong)]" />
                 </span>
                 {p}
@@ -179,8 +176,11 @@ function Hero() {
           </ul>
         </div>
 
-        <TerminalCard />
+        <div className="min-w-0">
+          <TerminalCard />
+        </div>
       </div>
+
     </section>
   );
 }
