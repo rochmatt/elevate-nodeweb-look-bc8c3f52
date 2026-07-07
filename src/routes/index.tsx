@@ -202,6 +202,34 @@ function WelcomeModal() {
               </DialogDescription>
             </DialogHeader>
 
+            {/* Running info ticker */}
+            <div className="mt-4 overflow-hidden rounded-lg border border-[var(--border-subtle)] bg-[var(--accent-tint)] py-2.5 sm:mt-5">
+              <div className="ticker-track flex w-max items-center gap-6 text-xs font-medium text-[var(--accent-strong)] sm:text-sm">
+                <TickerItem icon={<Zap className="h-3.5 w-3.5" />} label="Promo spesial VPS & Bare Metal" />
+                <TickerItem icon={<ShieldCheck className="h-3.5 w-3.5" />} label="Support 24/7" />
+                <TickerItem icon={<Cloud className="h-3.5 w-3.5" />} label="Deploy dalam menit" />
+                <TickerItem icon={<CreditCard className="h-3.5 w-3.5" />} label="Pembayaran QRIS / Virtual Account" />
+                <TickerItem icon={<Activity className="h-3.5 w-3.5" />} label="Garansi uptime tinggi" />
+                <TickerItem icon={<Zap className="h-3.5 w-3.5" />} label="Promo spesial VPS & Bare Metal" />
+                <TickerItem icon={<ShieldCheck className="h-3.5 w-3.5" />} label="Support 24/7" />
+                <TickerItem icon={<Cloud className="h-3.5 w-3.5" />} label="Deploy dalam menit" />
+                <TickerItem icon={<CreditCard className="h-3.5 w-3.5" />} label="Pembayaran QRIS / Virtual Account" />
+                <TickerItem icon={<Activity className="h-3.5 w-3.5" />} label="Garansi uptime tinggi" />
+              </div>
+              <style>{`
+                @keyframes ticker {
+                  0% { transform: translateX(0); }
+                  100% { transform: translateX(-50%); }
+                }
+                .ticker-track {
+                  animation: ticker 22s linear infinite;
+                }
+                .ticker-track:hover {
+                  animation-play-state: paused;
+                }
+              `}</style>
+            </div>
+
             <div className="mt-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--card-muted)] p-3 text-left sm:mt-6 sm:p-4">
               <div className="flex items-start gap-3">
                 <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[var(--accent-tint)] text-[var(--accent-strong)]">
