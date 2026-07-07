@@ -511,6 +511,23 @@ function Hero() {
         {/* Mobile: image slider replaces headline copy */}
         <div className="min-w-0 lg:hidden">
           <MobileHeroSlider />
+
+          <div className="mt-5 grid grid-cols-2 gap-3">
+            <a
+              href="#marketplace"
+              className="btn-primary h-12 w-full justify-center gap-2 px-4 text-[15px]"
+            >
+              <Store className="h-4 w-4" />
+              Marketplace
+            </a>
+            <a
+              href="#tools"
+              className="btn-secondary h-12 w-full justify-center gap-2 px-4 text-[15px]"
+            >
+              <Wrench className="h-4 w-4" />
+              Tools
+            </a>
+          </div>
         </div>
 
         {/* Desktop: original headline copy */}
