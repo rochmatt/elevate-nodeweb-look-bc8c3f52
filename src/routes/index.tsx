@@ -820,6 +820,28 @@ function AddOns() {
 function AddOnCard({ addOn }: { addOn: AddOn }) {
   const { icon: Icon, tag, name, desc, chips, price, suffix, accent } = addOn;
   const c = accentMap[accent];
+  const { addItem } = useCart();
+  const navigate = useNavigate();
+  const [adding, setAdding] = useState(false);
+
+  const handleAdd = useCallback(() => {
+    setAdding(true);
+    const saved = addItem({
+      id: `addon:${name}`,
+      name,
+      price,
+      suffix,
+      kind: "addon",
+    });
+    toast.success(`${name} ditambahkan ke cart`, {
+      description: `${price} ${suffix ?? ""} · total ${saved.qty} di cart`,
+      action: {
+        label: "Lihat cart",
+        onClick: () => navigate({ to: "/wallet" }),
+      },
+    });
+    window.setTimeout(() => setAdding(false), 450);
+  }, [addItem, name, price, suffix, navigate]);
 
   return (
     <article className="card-interactive group relative flex flex-col overflow-hidden p-6 sm:p-7">
