@@ -872,6 +872,7 @@ function AddOnCard({ addOn }: { addOn: AddOn }) {
   );
 }
 
+/* ----------------------------- FEATURES ----------------------------- */
 function Features() {
   const items = [
     {
