@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   ArrowDownLeft,
   ArrowUpRight,
@@ -11,6 +11,7 @@ import {
   Download,
   Gift,
   Landmark,
+  Package as PackageIcon,
   Plus,
   QrCode,
   Receipt,
@@ -18,12 +19,16 @@ import {
   Shield,
   ShoppingCart,
   Sparkles,
+  Sparkle,
+  Trash2,
   TrendingUp,
   Wallet as WalletIcon,
   Wallet2,
   Zap,
 } from "lucide-react";
 import { Sidebar, Topbar } from "./dashboard";
+import { useCart, type CartItem } from "@/hooks/useCart";
+
 
 export const Route = createFileRoute("/wallet")({
   head: () => ({
@@ -52,7 +57,9 @@ function WalletPage() {
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
             <PageHeader />
             <BalanceHero />
+            <CartSection />
             <StatsRow />
+
             <div className="mt-6 grid gap-6 lg:grid-cols-5">
               <TopUpCard />
               <SpendingBreakdown />
@@ -776,3 +783,180 @@ function RewardsCard() {
     </section>
   );
 }
+
+/* ---------------- CART SECTION ---------------- */
+const formatIdr = (n: number) => "Rp " + n.toLocaleString("id-ID");
+
+// Parses strings like "Rp 2rb", "Rp 1,2jt", "Mulai Rp 50rb", "Rp 250/GB".
+// Returns null when we can't confidently derive a number.
+function parsePriceIdr(price: string): number | null {
+  const match = price.match(/([\d.,]+)\s*(rb|jt|k|m)?/i);
+  if (!match) return null;
+  const raw = match[1].replace(/\./g, "").replace(",", ".");
+  const base = Number.parseFloat(raw);
+  if (!Number.isFinite(base)) return null;
+  const unit = (match[2] ?? "").toLowerCase();
+  const mult = unit === "jt" || unit === "m" ? 1_000_000 : unit === "rb" || unit === "k" ? 1_000 : 1;
+  return Math.round(base * mult);
+}
+
+function CartSection() {
+  const { items, removeItem, clear } = useCart();
+
+  const rows = useMemo(
+    () =>
+      items.map((item) => {
+        const unit = parsePriceIdr(item.price);
+        const subtotal = unit != null ? unit * item.qty : null;
+        return { item, unit, subtotal };
+      }),
+    [items],
+  );
+
+  const knownTotal = rows.reduce((sum, r) => sum + (r.subtotal ?? 0), 0);
+  const hasUnknown = rows.some((r) => r.subtotal == null);
+
+  return (
+    <section className="card-surface mt-6 p-6" aria-labelledby="cart-heading">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-[color:var(--accent-tint)] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-[color:var(--accent-strong)]">
+            <ShoppingCart className="h-3 w-3" strokeWidth={2.5} /> Cart aktif
+          </div>
+          <h2 id="cart-heading" className="mt-3 text-xl font-bold tracking-tight">
+            Item di keranjang
+          </h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Paket & add-ons yang siap kamu checkout. Qty otomatis bertambah ketika kamu menambahkan item yang sama.
+          </p>
+        </div>
+        {items.length > 0 && (
+          <button
+            type="button"
+            onClick={clear}
+            className="btn-secondary text-xs"
+            aria-label="Kosongkan cart"
+          >
+            <Trash2 className="h-3.5 w-3.5" strokeWidth={2} /> Kosongkan
+          </button>
+        )}
+      </div>
+
+      {items.length === 0 ? (
+        <div className="mt-6 flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-[color:var(--card-muted)] px-6 py-10 text-center">
+          <div className="grid h-10 w-10 place-items-center rounded-full bg-[color:var(--accent-tint)] text-[color:var(--accent-strong)]">
+            <ShoppingCart className="h-5 w-5" strokeWidth={2} />
+          </div>
+          <p className="text-sm font-medium text-foreground">Cart masih kosong</p>
+          <p className="text-xs text-muted-foreground">
+            Tambahkan VPS, Bare Metal, atau add-ons dari marketplace untuk mulai checkout.
+          </p>
+        </div>
+      ) : (
+        <>
+          <ul className="mt-5 divide-y divide-border rounded-xl border border-border bg-card">
+            {rows.map(({ item, unit, subtotal }) => (
+              <CartRow
+                key={item.id}
+                item={item}
+                unit={unit}
+                subtotal={subtotal}
+                onRemove={() => removeItem(item.id)}
+              />
+            ))}
+          </ul>
+
+          <div className="mt-5 rounded-xl border border-dashed border-border bg-[color:var(--card-muted)] p-4">
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-muted-foreground">Jumlah item</span>
+              <span className="font-semibold text-foreground">
+                {rows.reduce((n, r) => n + r.item.qty, 0)} unit · {rows.length} produk
+              </span>
+            </div>
+            <div className="mt-3 flex items-center justify-between border-t border-border pt-3 text-sm">
+              <span className="font-semibold text-foreground">
+                Total {hasUnknown && <span className="text-xs font-normal text-muted-foreground">(estimasi)</span>}
+              </span>
+              <span className="font-serif text-2xl text-[color:var(--accent-strong)]">
+                {formatIdr(knownTotal)}
+              </span>
+            </div>
+            {hasUnknown && (
+              <p className="mt-2 text-[11px] text-muted-foreground">
+                Beberapa item memakai harga variabel (mis. /GB atau "Mulai dari") dan tidak dihitung ke total.
+              </p>
+            )}
+          </div>
+
+          <button className="btn-primary mt-4 w-full text-sm">
+            <Sparkle className="h-4 w-4" strokeWidth={2.5} /> Checkout sekarang
+          </button>
+        </>
+      )}
+    </section>
+  );
+}
+
+function CartRow({
+  item,
+  unit,
+  subtotal,
+  onRemove,
+}: {
+  item: CartItem;
+  unit: number | null;
+  subtotal: number | null;
+  onRemove: () => void;
+}) {
+  const Icon = item.kind === "package" ? PackageIcon : Sparkles;
+  return (
+    <li className="flex flex-wrap items-center gap-4 p-4 sm:flex-nowrap">
+      <div
+        className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl ${
+          item.kind === "package"
+            ? "bg-[color:var(--accent-tint)] text-[color:var(--accent-strong)]"
+            : "bg-sky-500/10 text-sky-600"
+        }`}
+      >
+        <Icon className="h-5 w-5" strokeWidth={2} />
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-2">
+          <span className="rounded-full bg-[color:var(--card-muted)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            {item.kind === "package" ? "Package" : "Add-on"}
+          </span>
+          <span className="text-[11px] text-muted-foreground">
+            {item.price}
+            {item.suffix ? ` ${item.suffix}` : ""}
+          </span>
+        </div>
+        <div className="mt-1 truncate text-sm font-semibold text-foreground">{item.name}</div>
+      </div>
+      <div className="flex items-center gap-2 text-xs">
+        <span className="rounded-lg bg-[color:var(--card-muted)] px-2.5 py-1 font-semibold text-foreground">
+          × {item.qty}
+        </span>
+      </div>
+      <div className="min-w-[110px] text-right">
+        <div className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+          Subtotal
+        </div>
+        <div className="mt-0.5 font-serif text-lg leading-none text-foreground">
+          {subtotal != null ? formatIdr(subtotal) : "—"}
+        </div>
+        {subtotal == null && unit == null && (
+          <div className="mt-0.5 text-[10px] text-muted-foreground">Harga variabel</div>
+        )}
+      </div>
+      <button
+        type="button"
+        onClick={onRemove}
+        aria-label={`Hapus ${item.name} dari cart`}
+        className="grid h-8 w-8 place-items-center rounded-lg border border-border bg-card text-muted-foreground transition-colors hover:border-rose-300 hover:bg-rose-50 hover:text-rose-600"
+      >
+        <Trash2 className="h-3.5 w-3.5" strokeWidth={2} />
+      </button>
+    </li>
+  );
+}
+
