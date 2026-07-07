@@ -39,8 +39,13 @@ import {
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
-      { title: "Dashboard — NodeKPT · Buy & Sell VPS Servers with Full Control" },
-      { name: "description", content: "Marketplace where anyone can sell VPSes and buyers get direct server control via an integrated panel. Pay in IDR (QRIS, VA). Full root access." },
+      { title: "Dashboard — NodeKPT" },
+      { name: "description", content: "Kelola server, pesanan, dan saldo NodeKPT dari satu panel. Pay in IDR (QRIS, VA). Full root access." },
+      { property: "og:title", content: "Dashboard — NodeKPT" },
+      { property: "og:description", content: "Kelola server, pesanan, dan saldo NodeKPT dari satu panel." },
+      { property: "og:url", content: "https://elevate-nodeweb-look.lovable.app/dashboard" },
+      { property: "og:type", content: "website" },
+      { name: "robots", content: "noindex" },
     ],
   }),
   component: Dashboard,
