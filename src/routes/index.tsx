@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
@@ -434,6 +434,90 @@ const packages: Pkg[] = [
 
 const tabs = ["All", "Germany", "Canada", "Australia", "Poland", "Singapore"];
 
+function LocationTabs({ activeTab, onChange }: { activeTab: string; onChange: (tab: string) => void }) {
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  const focusTab = useCallback((index: number) => {
+    const el = tabRefs.current[index];
+    if (el) {
+      el.focus();
+      el.scrollIntoView({ inline: "nearest", block: "nearest", behavior: "smooth" });
+    }
+  }, []);
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+    const currentIndex = tabs.indexOf(activeTab);
+    let nextIndex = currentIndex;
+
+    switch (e.key) {
+      case "ArrowRight":
+        nextIndex = currentIndex + 1 >= tabs.length ? 0 : currentIndex + 1;
+        e.preventDefault();
+        break;
+      case "ArrowLeft":
+        nextIndex = currentIndex - 1 < 0 ? tabs.length - 1 : currentIndex - 1;
+        e.preventDefault();
+        break;
+      case "Home":
+        nextIndex = 0;
+        e.preventDefault();
+        break;
+      case "End":
+        nextIndex = tabs.length - 1;
+        e.preventDefault();
+        break;
+      default:
+        return;
+    }
+
+    onChange(tabs[nextIndex]);
+    focusTab(nextIndex);
+  }, [activeTab, onChange, focusTab]);
+
+  return (
+    <div className="relative">
+      <div
+        role="tablist"
+        aria-label="Filter lokasi server"
+        aria-orientation="horizontal"
+        onKeyDown={handleKeyDown}
+        className="overflow-x-auto rounded-full border border-[var(--border-subtle)] bg-white p-1 shadow-[var(--card-shadow)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:p-1.5"
+      >
+        <div className="flex snap-x snap-mandatory items-center gap-1 px-1 pr-10 sm:gap-1.5 sm:pr-1">
+          {tabs.map((t, i) => {
+            const isActive = activeTab === t;
+            return (
+              <button
+                key={t}
+                ref={(el) => { tabRefs.current[i] = el; }}
+                type="button"
+                role="tab"
+                id={`tab-${t}`}
+                aria-selected={isActive}
+                aria-controls="marketplace-packages"
+                tabIndex={isActive ? 0 : -1}
+                onClick={() => onChange(t)}
+                className={`snap-start shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 sm:px-4 sm:py-2 sm:text-sm lg:px-5 lg:py-2.5 ${
+                  isActive
+                    ? "bg-[var(--accent)] text-white shadow-[0_4px_12px_-4px_var(--accent-ring)]"
+                    : "text-[var(--text-muted)] hover:bg-[var(--card-muted)] hover:text-[var(--accent-strong)]"
+                }`}
+              >
+                {t}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+      {/* Fade hint for mobile scroll */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute right-0 top-0 h-full w-12 rounded-r-full bg-gradient-to-l from-white via-white/80 to-transparent sm:hidden"
+      />
+    </div>
+  );
+}
+
 function MarketplacePreview() {
   const [activeTab, setActiveTab] = useState("All");
   return (
@@ -462,43 +546,15 @@ function MarketplacePreview() {
         </div>
 
         <div className="-mx-5 mt-7 px-5 sm:mx-0 sm:px-0">
-          <div className="relative">
-            <div
-              role="tablist"
-              aria-label="Filter lokasi server"
-              className="overflow-x-auto rounded-full border border-[var(--border-subtle)] bg-white p-1 shadow-[var(--card-shadow)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:p-1.5"
-            >
-              <div className="flex snap-x snap-mandatory items-center gap-1 px-1 pr-10 sm:gap-1.5 sm:pr-1">
-                {tabs.map((t) => {
-                  const isActive = activeTab === t;
-                  return (
-                    <button
-                      key={t}
-                      type="button"
-                      role="tab"
-                      aria-selected={isActive}
-                      onClick={() => setActiveTab(t)}
-                      className={`snap-start shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 sm:px-4 sm:py-2 sm:text-sm lg:px-5 lg:py-2.5 ${
-                        isActive
-                          ? "bg-[var(--accent)] text-white shadow-[0_4px_12px_-4px_var(--accent-ring)]"
-                          : "text-[var(--text-muted)] hover:bg-[var(--card-muted)] hover:text-[var(--accent-strong)]"
-                      }`}
-                    >
-                      {t}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-            {/* Fade hint for mobile scroll */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute right-0 top-0 h-full w-12 rounded-r-full bg-gradient-to-l from-white via-white/80 to-transparent sm:hidden"
-            />
-          </div>
+          <LocationTabs activeTab={activeTab} onChange={setActiveTab} />
         </div>
 
-        <div className="mt-8 grid gap-5 sm:mt-10 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
+        <div
+          role="tabpanel"
+          id="marketplace-packages"
+          aria-labelledby={`tab-${activeTab}`}
+          className="mt-8 grid gap-5 sm:mt-10 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4"
+        >
           {packages.map((p) => (
 
             <PackageCard key={p.name} pkg={p} />
