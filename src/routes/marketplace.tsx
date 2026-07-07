@@ -236,7 +236,8 @@ function Toolbar({
           <div className="relative flex-1">
             <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input
-              type="text"
+              type="search"
+              aria-label="Search VPS, location, or seller"
               placeholder="Search VPS, location, or seller…"
               className="h-10 w-full rounded-xl border border-border bg-card/60 pl-10 pr-4 text-sm outline-none transition-colors focus:border-[color:var(--accent)]/40"
             />
