@@ -20,6 +20,7 @@ import {
 import thumbBareMetal from "@/assets/thumb-baremetal.jpg";
 import thumbVps from "@/assets/thumb-vps.jpg";
 import { AuthActions } from "@/components/UserMenu";
+import { MobileBottomNav } from "@/components/MobileBottomNav";
 
 const SITE_URL = "https://elevate-nodeweb-look.lovable.app";
 const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
@@ -110,6 +111,7 @@ function Home() {
       <HowItWorks />
       <SellerCTA />
       <Footer />
+      <MobileBottomNav />
     </div>
   );
 }
