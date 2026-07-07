@@ -16,6 +16,12 @@ import {
   Cpu,
   HardDrive,
   MemoryStick,
+  Database,
+  Cloud,
+  Zap,
+  Waypoints,
+  ShieldAlert,
+  HardDriveDownload,
 } from "lucide-react";
 import thumbBareMetal from "@/assets/thumb-baremetal.jpg";
 import thumbVps from "@/assets/thumb-vps.jpg";
