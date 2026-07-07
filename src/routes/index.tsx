@@ -40,6 +40,13 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetClose,
+} from "@/components/ui/sheet";
 
 const SITE_URL = "https://elevate-nodeweb-look.lovable.app";
 const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
