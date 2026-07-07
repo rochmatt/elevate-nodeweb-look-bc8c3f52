@@ -689,7 +689,189 @@ function SpecMini({
   );
 }
 
-/* ----------------------------- FEATURES ----------------------------- */
+/* ----------------------------- ADD-ONS & MANAGED SERVICES ----------------------------- */
+type AddOn = {
+  icon: React.ComponentType<{ className?: string }>;
+  tag: "Storage" | "Network" | "Security" | "Managed";
+  name: string;
+  desc: string;
+  chips: string[];
+  price: string;
+  suffix: string;
+  accent: "teal" | "sky" | "violet" | "amber";
+};
+
+const addOns: AddOn[] = [
+  {
+    icon: Cloud,
+    tag: "Storage",
+    name: "Object Storage S3",
+    desc: "S3-compatible storage. Serve assets, backup, or media from Jakarta & Singapore.",
+    chips: ["S3 API", "Egress murah", "99.9% SLA"],
+    price: "Rp 250/GB",
+    suffix: "/bulan · billed per jam",
+    accent: "teal",
+  },
+  {
+    icon: HardDriveDownload,
+    tag: "Managed",
+    name: "Managed Backup",
+    desc: "Auto snapshot harian dengan retensi 7–30 hari. Restore satu klik dari panel.",
+    chips: ["Daily snapshot", "Off-site", "1-click restore"],
+    price: "Rp 15rb",
+    suffix: "/instance · /bulan",
+    accent: "sky",
+  },
+  {
+    icon: ShieldAlert,
+    tag: "Security",
+    name: "DDoS Shield Pro",
+    desc: "Proteksi L3/L4 hingga 500 Gbps + rules L7 kustom. Aktifkan langsung tanpa reconfig.",
+    chips: ["L3–L7", "500 Gbps", "Always-on"],
+    price: "Rp 99rb",
+    suffix: "/domain · /bulan",
+    accent: "violet",
+  },
+  {
+    icon: Zap,
+    tag: "Network",
+    name: "CDN Global Edge",
+    desc: "Cache di 30+ PoP. Origin shielding, image optimization, dan HTTP/3 out-of-the-box.",
+    chips: ["30+ PoP", "HTTP/3", "Image opt"],
+    price: "Rp 120/GB",
+    suffix: "traffic · pay as you go",
+    accent: "amber",
+  },
+  {
+    icon: Waypoints,
+    tag: "Network",
+    name: "Load Balancer",
+    desc: "L4/L7 balancer dengan health check, sticky session, dan TLS termination gratis.",
+    chips: ["L4 & L7", "Health check", "Free TLS"],
+    price: "Rp 45rb",
+    suffix: "/LB · /bulan",
+    accent: "teal",
+  },
+  {
+    icon: Database,
+    tag: "Managed",
+    name: "Managed Database",
+    desc: "PostgreSQL & MySQL fully managed. Auto backup, replikasi, dan monitoring built-in.",
+    chips: ["PostgreSQL", "MySQL", "Auto backup"],
+    price: "Mulai Rp 85rb",
+    suffix: "/bulan · 2 vCPU / 4 GB",
+    accent: "sky",
+  },
+];
+
+const accentMap: Record<AddOn["accent"], { bg: string; text: string; ring: string }> = {
+  teal:   { bg: "bg-[var(--accent-tint)]",       text: "text-[var(--accent-strong)]", ring: "ring-[var(--accent)]/15" },
+  sky:    { bg: "bg-sky-100",                    text: "text-sky-700",                ring: "ring-sky-500/15" },
+  violet: { bg: "bg-violet-100",                 text: "text-violet-700",             ring: "ring-violet-500/15" },
+  amber:  { bg: "bg-amber-100",                  text: "text-amber-700",              ring: "ring-amber-500/15" },
+};
+
+function AddOns() {
+  return (
+    <section
+      id="add-ons"
+      aria-labelledby="add-ons-heading"
+      className="relative border-t border-[var(--border-subtle)] bg-[color:var(--bg)]"
+    >
+      <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 md:py-28">
+        <div className="flex flex-wrap items-end justify-between gap-4 sm:gap-6">
+          <div className="min-w-0">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[var(--accent)]">
+              Add-ons & Managed Services
+            </div>
+            <h2
+              id="add-ons-heading"
+              className="mt-3 text-3xl font-black tracking-tight text-[var(--text)] sm:text-4xl md:text-5xl"
+            >
+              Perkuat VPS-mu dengan{" "}
+              <span className="text-[var(--accent)]">Layanan Tambahan</span>
+            </h2>
+            <p className="mt-3 max-w-xl text-sm text-[var(--text-muted)] sm:mt-4 sm:text-base">
+              Storage, network, dan security siap-pakai — bisa dipasang ke package
+              apa pun, dari seller mana pun. Bayar per pemakaian.
+            </p>
+          </div>
+
+          <Link
+            to="/marketplace"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--accent)] transition-all hover:gap-2.5"
+          >
+            Lihat semua add-ons <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        <div className="mt-10 grid gap-5 sm:mt-12 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+          {addOns.map((a) => (
+            <AddOnCard key={a.name} addOn={a} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AddOnCard({ addOn }: { addOn: AddOn }) {
+  const { icon: Icon, tag, name, desc, chips, price, suffix, accent } = addOn;
+  const c = accentMap[accent];
+
+  return (
+    <article className="card-interactive group relative flex flex-col overflow-hidden p-6 sm:p-7">
+      <div className="flex items-start justify-between gap-3">
+        <div
+          className={`grid h-12 w-12 place-items-center rounded-2xl ring-1 ${c.bg} ${c.text} ${c.ring} transition-transform group-hover:-rotate-6`}
+        >
+          <Icon className="h-5.5 w-5.5" />
+        </div>
+        <span className="rounded-full border border-[var(--border-subtle)] bg-white px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-faint)]">
+          {tag}
+        </span>
+      </div>
+
+      <h3 className="mt-5 text-[17px] font-bold leading-snug text-[var(--text)]">
+        {name}
+      </h3>
+      <p className="mt-1.5 text-sm leading-relaxed text-[var(--text-muted)]">
+        {desc}
+      </p>
+
+      <div className="mt-4 flex flex-wrap gap-1.5">
+        {chips.map((chip) => (
+          <span
+            key={chip}
+            className="rounded-full bg-[var(--card-muted)] px-2 py-0.5 text-[10px] font-semibold text-[var(--text-muted)]"
+          >
+            {chip}
+          </span>
+        ))}
+      </div>
+
+      <div className="mt-6 flex items-end justify-between gap-2 border-t border-[var(--border-subtle)] pt-4">
+        <div className="min-w-0">
+          <div className="text-lg font-black leading-none text-[var(--text)]">
+            {price}
+          </div>
+          <div className="mt-1 truncate text-[10px] text-[var(--text-faint)]">
+            {suffix}
+          </div>
+        </div>
+        <button
+          type="button"
+          className="btn-primary h-9 px-3.5 text-xs"
+          aria-label={`Tambahkan ${name}`}
+        >
+          Add
+          <ArrowRight className="h-3 w-3" />
+        </button>
+      </div>
+    </article>
+  );
+}
+
 function Features() {
   const items = [
     {
