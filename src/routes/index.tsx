@@ -360,33 +360,60 @@ function Nav() {
           >
             <ShoppingCart className="h-4.5 w-4.5" />
           </button>
-          <button
-            aria-label="Open menu"
-            onClick={() => setMobileOpen(true)}
-            className="grid h-10 w-10 place-items-center rounded-full text-[var(--text-muted)] hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)] lg:hidden"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
           <div className="hidden lg:block">
             <AuthActions />
           </div>
         </div>
       </div>
-
-      <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-        <SheetContent side="right" className="w-[80vw] max-w-xs border-l border-[var(--border-subtle)] bg-[color:var(--bg)] p-0">
-          <SheetHeader className="border-b border-[var(--border-subtle)] px-5 py-4 text-left">
-            <SheetTitle className="text-base font-bold text-[var(--text)]">
-              Menu
-            </SheetTitle>
-          </SheetHeader>
-          <MobileNavLinks activeHash={hash} onNavigate={() => setMobileOpen(false)} />
-          <div className="border-t border-[var(--border-subtle)] p-4 lg:hidden">
-            <AuthActions />
-          </div>
-        </SheetContent>
-      </Sheet>
     </header>
+  );
+}
+
+/* --------------------------- QUICK MENU --------------------------- */
+const QUICK_MENU: { label: string; href: string; icon: typeof Store }[] = [
+  { label: "Marketplace", href: "#marketplace", icon: Store },
+  { label: "Tools", href: "#tools", icon: Wrench },
+  { label: "Features", href: "#features", icon: Sparkles },
+  { label: "Become a Seller", href: "#become-a-seller", icon: Handshake },
+];
+
+function QuickMenu() {
+  const hash = useHash();
+  return (
+    <section aria-label="Quick menu" className="lg:hidden border-b border-[var(--border-subtle)] bg-[color:var(--bg)]">
+      <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6">
+        <div className="grid grid-cols-4 gap-2 sm:gap-3">
+          {QUICK_MENU.map(({ label, href, icon: Icon }) => {
+            const active = hash === href;
+            return (
+              <a
+                key={label}
+                href={href}
+                aria-current={active ? "page" : undefined}
+                className={`group flex flex-col items-center justify-center gap-1.5 rounded-2xl border px-2 py-3 text-center transition-all ${
+                  active
+                    ? "border-[var(--accent)] bg-[var(--accent-tint)] text-[var(--accent-strong)] shadow-[0_6px_18px_-10px_var(--accent-ring)]"
+                    : "border-[var(--border-subtle)] bg-white text-[var(--text-muted)] hover:border-[var(--accent)] hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)]"
+                }`}
+              >
+                <span
+                  className={`grid h-9 w-9 place-items-center rounded-xl transition-colors ${
+                    active
+                      ? "bg-[var(--accent)] text-white"
+                      : "bg-[var(--accent-tint)] text-[var(--accent-strong)] group-hover:bg-[var(--accent)] group-hover:text-white"
+                  }`}
+                >
+                  <Icon className="h-4.5 w-4.5" strokeWidth={2.2} />
+                </span>
+                <span className="text-[11px] font-semibold leading-tight sm:text-xs">
+                  {label}
+                </span>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 }
 
