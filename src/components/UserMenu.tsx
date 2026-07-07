@@ -63,7 +63,7 @@ export function UserMenu() {
       <DropdownMenuContent
         align="end"
         sideOffset={8}
-        className="w-64 overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-white p-0 shadow-[0_20px_60px_-15px_rgba(15,23,42,0.25)]"
+        className="theme-light w-64 overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-white p-0 shadow-[0_20px_60px_-15px_rgba(15,23,42,0.25)]"
       >
         <DropdownMenuLabel className="border-b border-[var(--border-subtle)] px-4 py-3.5 font-normal">
           <div className="flex items-center gap-3">
