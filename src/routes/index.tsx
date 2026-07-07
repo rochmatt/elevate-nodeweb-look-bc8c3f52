@@ -162,7 +162,8 @@ function Nav() {
           <div className="relative max-w-xl">
             <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--text-faint)]" />
             <input
-              type="text"
+              type="search"
+              aria-label="Search VPS, location, or seller"
               placeholder="Search VPS, location, or seller..."
               className="h-11 w-full rounded-full border border-[var(--border-subtle)] bg-white pl-10 pr-4 text-sm text-[var(--text)] outline-none transition-colors placeholder:text-[var(--text-faint)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-ring)]"
             />
