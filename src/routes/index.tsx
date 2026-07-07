@@ -120,13 +120,19 @@ export const Route = createFileRoute("/")({
 function Home() {
   return (
     <div className="theme-light min-h-screen overflow-x-hidden">
+      <PromoBar />
       <Nav />
       <Hero />
+      <Stats />
       <Locations />
+      <PromoDeals />
       <MarketplacePreview />
       <AddOns />
       <Features />
       <HowItWorks />
+      <Testimonials />
+      <FAQ />
+      <NewsletterCTA />
       <SellerCTA />
       <Footer />
       <MobileBottomNav />
