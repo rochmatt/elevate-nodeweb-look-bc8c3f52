@@ -490,20 +490,37 @@ function MarketplacePreview() {
 
 function PackageCard({ pkg }: { pkg: Pkg }) {
   const thumb = pkg.type === "VPS" ? thumbVps : thumbBareMetal;
+  const [imgError, setImgError] = useState(false);
+  const altText = `${pkg.name} — ${pkg.type} dengan ${pkg.cores}, ${pkg.ram}, ${pkg.storage} di NodeKPT`;
+
   return (
     <article className="card-interactive group flex flex-col overflow-hidden">
       {/* Thumbnail */}
       <div className="relative w-full aspect-[16/9] sm:aspect-[16/10] overflow-hidden bg-[#0b1220]">
-        <img
-          src={thumb}
-          alt={`${pkg.type} — ${pkg.cpu}`}
-          loading="lazy"
-          decoding="async"
-          width={1024}
-          height={640}
-          sizes="(min-width: 1280px) 320px, (min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="absolute inset-0 block h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
-        />
+        {!imgError ? (
+          <img
+            src={thumb}
+            alt={altText}
+            loading="lazy"
+            decoding="async"
+            width={1024}
+            height={640}
+            sizes="(min-width: 1280px) 320px, (min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="absolute inset-0 block h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <div
+            role="img"
+            aria-label={altText}
+            className="absolute inset-0 flex flex-col items-center justify-center bg-[#0b1220] text-white/70"
+          >
+            <Server className="h-10 w-10 text-white/30" aria-hidden="true" />
+            <span className="mt-2 text-[10px] font-semibold uppercase tracking-widest text-white/50">
+              {pkg.type}
+            </span>
+          </div>
+        )}
         <div
           aria-hidden
           className="absolute inset-0 bg-gradient-to-t from-[#05070d] via-[#05070d]/70 to-transparent"
