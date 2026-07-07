@@ -380,9 +380,16 @@ const QUICK_MENU: { label: string; href: string; icon: typeof Store }[] = [
 function QuickMenu() {
   const hash = useHash();
   return (
-    <section aria-label="Quick menu" className="lg:hidden border-b border-[var(--border-subtle)] bg-[color:var(--bg)]">
-      <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6">
-        <div className="grid grid-cols-4 gap-2 sm:gap-3">
+    <section
+      aria-label="Quick menu"
+      className="relative z-30 border-b border-[var(--border-subtle)] bg-[var(--bg)]"
+    >
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute left-1/2 top-0 h-40 w-[80%] -translate-x-1/2 bg-gradient-to-b from-[var(--accent-tint)] to-transparent opacity-70 blur-2xl" />
+      </div>
+
+      <div className="relative mx-auto max-w-7xl px-4 py-3.5 sm:px-6 sm:py-4 lg:py-5">
+        <div className="grid grid-cols-4 gap-2 sm:gap-3 lg:grid-cols-4 lg:gap-4">
           {QUICK_MENU.map(({ label, href, icon: Icon }) => {
             const active = hash === href;
             return (
@@ -390,24 +397,28 @@ function QuickMenu() {
                 key={label}
                 href={href}
                 aria-current={active ? "page" : undefined}
-                className={`group flex flex-col items-center justify-center gap-1.5 rounded-2xl border px-2 py-3 text-center transition-all ${
+                className={`group relative flex flex-col items-center justify-center gap-2 overflow-hidden rounded-2xl border px-2 py-3.5 text-center transition-all duration-300 ease-out sm:rounded-3xl sm:py-4 lg:gap-2.5 lg:py-5 ${
                   active
-                    ? "border-[var(--accent)] bg-[var(--accent-tint)] text-[var(--accent-strong)] shadow-[0_6px_18px_-10px_var(--accent-ring)]"
-                    : "border-[var(--border-subtle)] bg-white text-[var(--text-muted)] hover:border-[var(--accent)] hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)]"
+                    ? "border-[var(--accent)]/50 bg-white shadow-[0_8px_28px_-14px_var(--accent-ring)]"
+                    : "border-[var(--border-subtle)] bg-white/90 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.06)] hover:border-[var(--accent)]/35 hover:bg-white hover:shadow-[0_14px_36px_-18px_var(--accent-ring)]"
                 }`}
               >
                 <span
-                  className={`grid h-9 w-9 place-items-center rounded-xl transition-colors ${
+                  className={`grid h-10 w-10 place-items-center rounded-[13px] transition-all duration-300 sm:h-11 sm:w-11 sm:rounded-2xl lg:h-12 lg:w-12 ${
                     active
-                      ? "bg-[var(--accent)] text-white"
-                      : "bg-[var(--accent-tint)] text-[var(--accent-strong)] group-hover:bg-[var(--accent)] group-hover:text-white"
+                      ? "bg-gradient-to-br from-[var(--accent-soft)] to-[var(--accent)] text-white shadow-[0_8px_22px_-10px_var(--accent-ring)]"
+                      : "bg-[var(--accent-tint)] text-[var(--accent-strong)] group-hover:bg-gradient-to-br group-hover:from-[var(--accent-soft)] group-hover:to-[var(--accent)] group-hover:text-white group-hover:shadow-[0_8px_22px_-10px_var(--accent-ring)]"
                   }`}
                 >
-                  <Icon className="h-4.5 w-4.5" strokeWidth={2.2} />
+                  <Icon className="h-5 w-5 sm:h-[22px] sm:w-[22px] lg:h-6 lg:w-6" strokeWidth={1.9} />
                 </span>
-                <span className="text-[11px] font-semibold leading-tight sm:text-xs">
+                <span className="text-[11px] font-semibold leading-tight tracking-tight text-[var(--text)] sm:text-xs lg:text-[13px]">
                   {label}
                 </span>
+
+                {active && (
+                  <span className="absolute bottom-2 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-[var(--accent)] shadow-[0_0_6px_var(--accent)] sm:bottom-2.5 lg:bottom-3" />
+                )}
               </a>
             );
           })}
@@ -416,6 +427,7 @@ function QuickMenu() {
     </section>
   );
 }
+
 
 function DesktopNavLinks({ activeHash }: { activeHash: string }) {
   return (
