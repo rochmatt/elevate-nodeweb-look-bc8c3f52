@@ -277,6 +277,8 @@ function Configurator() {
             </div>
             <div className="relative">
               <input
+                type="search"
+                aria-label="Search bare metal servers"
                 value={search.q}
                 onChange={(e) => set("q", e.target.value)}
                 placeholder="Try “Ryzen 128 GB” or “SIN-1”…"
