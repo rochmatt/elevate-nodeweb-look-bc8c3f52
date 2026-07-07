@@ -34,13 +34,22 @@ import { Sidebar, Topbar } from "./dashboard";
 export const Route = createFileRoute("/marketplace")({
   head: () => ({
     meta: [
-      { title: "VPS Marketplace — NodeKPT · Find the best VPS from trusted sellers" },
+      { title: "VPS Marketplace — NodeKPT" },
       {
         name: "description",
         content:
-          "Browse VPS, Bare Metal, and Proxy services from verified sellers. Filter by location, price, vCPU and RAM. Pay in IDR (QRIS, VA). Full root access.",
+          "Browse VPS, Bare Metal, and Proxy services from verified sellers. Filter by location, price, vCPU and RAM. Pay in IDR (QRIS, VA).",
       },
+      { property: "og:title", content: "VPS Marketplace — NodeKPT" },
+      {
+        property: "og:description",
+        content:
+          "Browse VPS, Bare Metal, and Proxy services from verified sellers. Filter by location, price, vCPU and RAM.",
+      },
+      { property: "og:url", content: "https://elevate-nodeweb-look.lovable.app/marketplace" },
+      { property: "og:type", content: "website" },
     ],
+    links: [{ rel: "canonical", href: "https://elevate-nodeweb-look.lovable.app/marketplace" }],
   }),
   component: Marketplace,
 });
@@ -227,7 +236,8 @@ function Toolbar({
           <div className="relative flex-1">
             <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input
-              type="text"
+              type="search"
+              aria-label="Search VPS, location, or seller"
               placeholder="Search VPS, location, or seller…"
               className="h-10 w-full rounded-xl border border-border bg-card/60 pl-10 pr-4 text-sm outline-none transition-colors focus:border-[color:var(--accent)]/40"
             />
@@ -813,7 +823,7 @@ function ProductCard({
         </div>
 
         {/* Title */}
-        <h4 className="mt-3 truncate text-[15px] font-bold tracking-tight text-foreground">{p.name}</h4>
+        <h2 className="mt-3 truncate text-[15px] font-bold tracking-tight text-foreground">{p.name}</h2>
 
         {/* Specs */}
         <div className="mt-2 grid grid-cols-2 gap-1.5 rounded-xl border border-border/60 bg-foreground/[0.02] p-2.5">
