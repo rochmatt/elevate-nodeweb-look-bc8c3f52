@@ -492,14 +492,16 @@ function PackageCard({ pkg }: { pkg: Pkg }) {
   return (
     <article className="card-interactive group flex flex-col overflow-hidden">
       {/* Thumbnail */}
-      <div className="relative aspect-[16/10] overflow-hidden bg-[#0b1220]">
+      <div className="relative w-full aspect-[16/9] sm:aspect-[16/10] overflow-hidden bg-[#0b1220]">
         <img
           src={thumb}
           alt={`${pkg.type} — ${pkg.cpu}`}
           loading="lazy"
+          decoding="async"
           width={1024}
           height={640}
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          sizes="(min-width: 1280px) 320px, (min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
+          className="absolute inset-0 block h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
         />
         <div
           aria-hidden
