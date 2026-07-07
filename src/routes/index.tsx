@@ -113,6 +113,7 @@ function Home() {
       <Hero />
       <Locations />
       <MarketplacePreview />
+      <AddOns />
       <Features />
       <HowItWorks />
       <SellerCTA />
