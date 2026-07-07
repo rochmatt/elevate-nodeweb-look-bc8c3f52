@@ -58,22 +58,22 @@ function Home() {
 function Nav() {
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border-subtle)] bg-[color:var(--bg)]/85 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center gap-4 px-6 py-3.5">
-        <a href="/" className="flex items-center gap-2.5">
+      <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-3 sm:gap-4 sm:px-6 sm:py-3.5">
+        <a href="/" className="flex shrink-0 items-center gap-2 sm:gap-2.5">
           <div className="grid h-9 w-9 place-items-center rounded-lg bg-[var(--accent)] text-white shadow-[0_6px_18px_-6px_var(--accent-ring)]">
             <Layers className="h-4.5 w-4.5" strokeWidth={2.4} />
           </div>
           <div className="leading-tight">
-            <div className="text-[17px] font-bold tracking-tight text-[var(--text)]">
+            <div className="text-[15px] font-bold tracking-tight text-[var(--text)] sm:text-[17px]">
               Node<span className="text-[var(--accent)]">KPT</span>
             </div>
-            <div className="text-[10px] font-medium uppercase tracking-[0.16em] text-[var(--text-faint)]">
+            <div className="hidden text-[10px] font-medium uppercase tracking-[0.16em] text-[var(--text-faint)] sm:block">
               Find the right VPS
             </div>
           </div>
         </a>
 
-        <div className="ml-4 hidden flex-1 md:block">
+        <div className="ml-2 hidden min-w-0 flex-1 md:block">
           <div className="relative max-w-xl">
             <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--text-faint)]" />
             <input
@@ -96,7 +96,13 @@ function Nav() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-1.5">
+        <div className="ml-auto flex shrink-0 items-center gap-1 md:ml-0 md:gap-1.5">
+          <button
+            aria-label="Search"
+            className="grid h-10 w-10 place-items-center rounded-full text-[var(--text-muted)] hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)] md:hidden"
+          >
+            <Search className="h-4.5 w-4.5" />
+          </button>
           <button
             aria-label="Cart"
             className="grid h-10 w-10 place-items-center rounded-full text-[var(--text-muted)] hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)]"
@@ -104,8 +110,9 @@ function Nav() {
             <ShoppingCart className="h-4.5 w-4.5" />
           </button>
           <button className="btn-ghost hidden sm:inline-flex">Log in</button>
-          <button className="btn-primary">
-            Sign up Free
+          <button className="btn-primary h-9 px-3 text-xs sm:h-10 sm:px-4 sm:text-sm">
+            <span className="hidden xs:inline sm:inline">Sign up</span>
+            <span className="xs:hidden sm:hidden">Sign up</span>
             <ArrowRight className="h-3.5 w-3.5" />
           </button>
         </div>
@@ -114,6 +121,7 @@ function Nav() {
   );
 }
 
+
 /* ----------------------------- HERO ----------------------------- */
 function Hero() {
   return (
@@ -121,48 +129,45 @@ function Hero() {
       <GridBackdrop />
       <div className="radial-glow pointer-events-none absolute left-1/2 top-1/3 h-[560px] w-[900px] -translate-x-1/2 -translate-y-1/2" />
 
-      <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-6 pb-24 pt-16 lg:grid-cols-[1.15fr_1fr] lg:pb-32 lg:pt-24">
-        <div>
-          <h1 className="text-[clamp(2.5rem,6vw,4.5rem)] font-black leading-[1.02] tracking-tight text-[var(--text)]">
+      <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 pb-20 pt-10 sm:px-6 sm:pt-14 lg:grid-cols-[1.15fr_1fr] lg:gap-14 lg:pb-32 lg:pt-24">
+        <div className="min-w-0">
+          <h1 className="text-[clamp(2rem,8vw,4.5rem)] font-black leading-[1.05] tracking-tight text-[var(--text)]">
             Buy &amp; Sell{" "}
-            <span className="text-[var(--accent)]">Cloud,</span>
-            <br />
-            <span className="text-[var(--accent)]">Bare Metal &amp;</span>
-            <br />
-            <span className="text-[var(--accent)]">Proxy</span>
-            <br />
+            <span className="text-[var(--accent)]">Cloud,</span>{" "}
+            <span className="text-[var(--accent)]">Bare Metal &amp;</span>{" "}
+            <span className="text-[var(--accent)]">Proxy</span>{" "}
             with{" "}
             <span className="bg-gradient-to-r from-[var(--accent-soft)] via-[var(--accent)] to-sky-500 bg-clip-text text-transparent">
               Full Control
             </span>
           </h1>
 
-          <p className="mt-7 max-w-lg text-lg leading-relaxed text-[var(--text-muted)]">
+          <p className="mt-6 max-w-lg text-base leading-relaxed text-[var(--text-muted)] sm:mt-7 sm:text-lg">
             The first marketplace where anyone can sell VPSes and buyers get
             direct server control via an integrated panel.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
-            <button className="btn-primary h-12 px-6 text-[15px]">
+          <div className="mt-7 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap sm:gap-3">
+            <button className="btn-primary h-12 w-full justify-center px-6 text-[15px] sm:w-auto">
               Get Started
               <ArrowRight className="h-4 w-4" />
             </button>
             <a
               href="#marketplace"
-              className="btn-secondary h-12 px-6 text-[15px]"
+              className="btn-secondary h-12 w-full justify-center px-6 text-[15px] sm:w-auto"
             >
               Browse VPS
             </a>
           </div>
 
-          <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-[var(--text-muted)]">
+          <ul className="mt-8 flex flex-wrap gap-x-5 gap-y-2.5 text-sm text-[var(--text-muted)]">
             {[
               "No long contracts",
               "Pay in IDR (QRIS, VA)",
               "Full root access",
             ].map((p) => (
               <li key={p} className="inline-flex items-center gap-2">
-                <span className="grid h-5 w-5 place-items-center rounded-full bg-[var(--accent-tint)]">
+                <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[var(--accent-tint)]">
                   <Check className="h-3 w-3 text-[var(--accent-strong)]" />
                 </span>
                 {p}
@@ -171,8 +176,11 @@ function Hero() {
           </ul>
         </div>
 
-        <TerminalCard />
+        <div className="min-w-0">
+          <TerminalCard />
+        </div>
       </div>
+
     </section>
   );
 }
@@ -210,7 +218,7 @@ function TerminalCard() {
           </div>
         </div>
 
-        <div className="space-y-1.5 p-6 font-mono text-[13px] leading-relaxed text-slate-300">
+        <div className="space-y-1.5 overflow-x-auto p-4 font-mono text-[12px] leading-relaxed text-slate-300 sm:p-6 sm:text-[13px]">
           <p>
             <span className="text-[var(--accent-soft)]">$</span> curl -s
             install.nodekpt.com | bash
@@ -236,17 +244,18 @@ function TerminalCard() {
         </div>
       </div>
 
-      <div className="absolute -bottom-6 -left-4 rounded-2xl border border-[var(--border-subtle)] bg-white px-5 py-3.5 shadow-[0_18px_40px_-18px_rgba(15,23,42,0.25)]">
+      <div className="absolute -bottom-5 -left-2 rounded-2xl border border-[var(--border-subtle)] bg-white px-4 py-3 shadow-[0_18px_40px_-18px_rgba(15,23,42,0.25)] sm:-bottom-6 sm:-left-4 sm:px-5 sm:py-3.5">
         <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--text-faint)]">
           Latency
         </div>
-        <div className="text-3xl font-black leading-none tracking-tight text-[var(--text)]">
-          12<span className="ml-1 text-lg font-bold text-[var(--text-muted)]">ms</span>
+        <div className="text-2xl font-black leading-none tracking-tight text-[var(--text)] sm:text-3xl">
+          12<span className="ml-1 text-base font-bold text-[var(--text-muted)] sm:text-lg">ms</span>
         </div>
         <div className="mt-1 text-[10px] text-[var(--text-faint)]">
           Asia · rata-rata
         </div>
       </div>
+
     </div>
   );
 }
@@ -256,15 +265,15 @@ function Locations() {
   const cities = ["Jakarta", "Singapore", "Tokyo", "Frankfurt", "New York", "London"];
   return (
     <section className="border-y border-[var(--border-subtle)] bg-white/60">
-      <div className="mx-auto max-w-7xl px-6 py-10">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
         <div className="text-center text-[11px] font-semibold uppercase tracking-[0.32em] text-[var(--text-faint)]">
           Available in premier locations
         </div>
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-3 md:gap-x-14">
+        <div className="-mx-4 mt-5 flex snap-x snap-mandatory items-center gap-x-8 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:mt-6 sm:flex-wrap sm:justify-center sm:gap-x-10 sm:gap-y-3 sm:overflow-visible sm:px-0 md:gap-x-14">
           {cities.map((c) => (
             <div
               key={c}
-              className="text-lg font-semibold text-[var(--text-muted)] transition-colors hover:text-[var(--accent-strong)] md:text-xl"
+              className="shrink-0 snap-start text-base font-semibold text-[var(--text-muted)] transition-colors hover:text-[var(--accent-strong)] sm:shrink sm:text-lg md:text-xl"
             >
               {c}
             </div>
@@ -274,6 +283,7 @@ function Locations() {
     </section>
   );
 }
+
 
 /* ----------------------------- MARKETPLACE PREVIEW ----------------------------- */
 type Pkg = {
@@ -342,18 +352,17 @@ const tabs = ["All", "Germany", "Canada", "Australia", "Poland", "Singapore"];
 function MarketplacePreview() {
   return (
     <section id="marketplace" className="relative">
-      <div className="mx-auto max-w-7xl px-6 py-24 md:py-28">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <div>
+      <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 md:py-28">
+        <div className="flex flex-wrap items-end justify-between gap-4 sm:gap-6">
+          <div className="min-w-0">
             <div className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[var(--accent)]">
               Marketplace
             </div>
-            <h2 className="mt-3 text-4xl font-black tracking-tight text-[var(--text)] md:text-5xl">
-              Choose the Best VPS
-              <br />
-              for <span className="text-[var(--accent)]">Your Needs</span>
+            <h2 className="mt-3 text-3xl font-black tracking-tight text-[var(--text)] sm:text-4xl md:text-5xl">
+              Choose the Best VPS for{" "}
+              <span className="text-[var(--accent)]">Your Needs</span>
             </h2>
-            <p className="mt-4 max-w-xl text-[var(--text-muted)]">
+            <p className="mt-3 max-w-xl text-sm text-[var(--text-muted)] sm:mt-4 sm:text-base">
               Compare prices and specs from trusted sellers.
             </p>
           </div>
@@ -362,27 +371,30 @@ function MarketplacePreview() {
             to="/marketplace"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--accent)] transition-all hover:gap-2.5"
           >
-            Browse all products <ArrowRight className="h-4 w-4" />
+            Browse all <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
-        <div className="mt-8 flex flex-wrap gap-1.5 rounded-full border border-[var(--border-subtle)] bg-white p-1 shadow-[var(--card-shadow)] w-fit">
-          {tabs.map((t, i) => (
-            <button
-              key={t}
-              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-                i === 0
-                  ? "bg-[var(--accent)] text-white shadow-[0_4px_10px_-4px_var(--accent-ring)]"
-                  : "text-[var(--text-muted)] hover:text-[var(--accent-strong)]"
-              }`}
-            >
-              {t}
-            </button>
-          ))}
+        <div className="-mx-5 mt-7 overflow-x-auto px-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:px-0">
+          <div className="inline-flex gap-1.5 rounded-full border border-[var(--border-subtle)] bg-white p-1 shadow-[var(--card-shadow)]">
+            {tabs.map((t, i) => (
+              <button
+                key={t}
+                className={`shrink-0 rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors sm:px-4 ${
+                  i === 0
+                    ? "bg-[var(--accent)] text-white shadow-[0_4px_10px_-4px_var(--accent-ring)]"
+                    : "text-[var(--text-muted)] hover:text-[var(--accent-strong)]"
+                }`}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
         </div>
 
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid gap-5 sm:mt-10 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
           {packages.map((p) => (
+
             <PackageCard key={p.name} pkg={p} />
           ))}
         </div>
@@ -537,20 +549,21 @@ function Features() {
 
   return (
     <section id="features" className="relative border-t border-[var(--border-subtle)] bg-white/60">
-      <div className="mx-auto max-w-7xl px-6 py-24 md:py-28">
+      <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 md:py-28">
         <div className="mx-auto max-w-2xl text-center">
           <div className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[var(--accent)]">
             Features
           </div>
-          <h2 className="mt-3 text-4xl font-black tracking-tight text-[var(--text)] md:text-5xl">
+          <h2 className="mt-3 text-3xl font-black tracking-tight text-[var(--text)] sm:text-4xl md:text-5xl">
             Everything You <span className="text-[var(--accent)]">Need</span>
           </h2>
-          <p className="mt-4 text-[var(--text-muted)]">
+          <p className="mt-3 text-sm text-[var(--text-muted)] sm:mt-4 sm:text-base">
             A complete platform with powerful tools for buyers and sellers.
           </p>
         </div>
 
-        <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-5 sm:mt-14 sm:grid-cols-2 lg:grid-cols-3">
+
           {items.map(({ icon: Icon, title, desc }) => (
             <div
               key={title}
@@ -588,21 +601,22 @@ function HowItWorks() {
 
   return (
     <section className="relative">
-      <div className="mx-auto max-w-7xl px-6 py-24 md:py-28">
+      <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 md:py-28">
         <div className="mx-auto max-w-2xl text-center">
           <div className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[var(--accent)]">
             How it works
           </div>
-          <h2 className="mt-3 text-4xl font-black tracking-tight text-[var(--text)] md:text-5xl">
+          <h2 className="mt-3 text-3xl font-black tracking-tight text-[var(--text)] sm:text-4xl md:text-5xl">
             Simple for <span className="text-[var(--accent)]">Everyone</span>
           </h2>
         </div>
 
-        <div className="mt-14 grid gap-8 lg:grid-cols-2">
+        <div className="mt-10 grid gap-6 sm:mt-14 sm:gap-8 lg:grid-cols-2">
           <StepColumn title="For Buyers" steps={buyer} />
           <StepColumn title="For Sellers" steps={seller} />
         </div>
       </div>
+
     </section>
   );
 }
@@ -615,7 +629,7 @@ function StepColumn({
   steps: { t: string; d: string }[];
 }) {
   return (
-    <div className="card-surface p-8">
+    <div className="card-surface p-6 sm:p-8">
       <div className="mb-6 text-xs font-bold uppercase tracking-[0.22em] text-[var(--accent)]">
         {title}
       </div>
@@ -654,24 +668,24 @@ function SellerCTA() {
         }}
       />
 
-      <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-6 py-24 md:py-28 lg:grid-cols-[1.1fr_1fr]">
-        <div>
+      <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 py-20 sm:px-6 md:py-28 lg:grid-cols-[1.1fr_1fr] lg:gap-14">
+        <div className="min-w-0">
           <div className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[var(--accent-soft)]">
             For Sellers
           </div>
-          <h2 className="mt-3 text-4xl font-black leading-tight tracking-tight md:text-5xl">
+          <h2 className="mt-3 text-3xl font-black leading-tight tracking-tight sm:text-4xl md:text-5xl">
             Got an Idle Server?{" "}
             <span className="bg-gradient-to-r from-[var(--accent-soft)] to-sky-400 bg-clip-text text-transparent">
               Sell VPS on NodeKPT!
             </span>
           </h2>
-          <p className="mt-5 max-w-lg text-white/70">
+          <p className="mt-4 max-w-lg text-sm text-white/70 sm:mt-5 sm:text-base">
             Monetize your infrastructure. Connect a Proxmox / VMware node, build
             VPS plans, and start receiving orders. The platform handles payment
             and the buyer's control panel.
           </p>
 
-          <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+          <ul className="mt-7 grid gap-3 sm:mt-8 sm:grid-cols-2">
             {[
               "Auto-install via SSH",
               "Set your own packages",
@@ -681,7 +695,7 @@ function SellerCTA() {
               "Live in ~30 minutes",
             ].map((p) => (
               <li key={p} className="flex items-center gap-2.5 text-sm text-white/85">
-                <span className="grid h-5 w-5 place-items-center rounded-full bg-[var(--accent)]/25 text-[var(--accent-soft)]">
+                <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[var(--accent)]/25 text-[var(--accent-soft)]">
                   <Check className="h-3 w-3" />
                 </span>
                 {p}
@@ -689,16 +703,17 @@ function SellerCTA() {
             ))}
           </ul>
 
-          <div className="mt-9 flex flex-wrap gap-3">
-            <button className="inline-flex h-12 items-center gap-2 rounded-xl bg-[var(--accent)] px-6 text-sm font-semibold text-white shadow-[0_10px_30px_-10px_var(--accent-ring)] transition-transform hover:-translate-y-0.5">
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:mt-9 sm:flex sm:flex-wrap">
+            <button className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[var(--accent)] px-6 text-sm font-semibold text-white shadow-[0_10px_30px_-10px_var(--accent-ring)] transition-transform hover:-translate-y-0.5 sm:w-auto">
               Register as Seller
               <ArrowRight className="h-4 w-4" />
             </button>
-            <button className="inline-flex h-12 items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-6 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/10">
+            <button className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 px-6 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/10 sm:w-auto">
               Learn More
             </button>
           </div>
         </div>
+
 
         <div className="relative">
           <div className="pointer-events-none absolute -inset-4 rounded-3xl bg-[var(--accent)]/15 blur-3xl" />
@@ -707,7 +722,7 @@ function SellerCTA() {
               <Terminal className="h-3.5 w-3.5 text-[var(--accent-soft)]" />
               seller@nodekpt ~
             </div>
-            <div className="space-y-2 p-6 font-mono text-[13px] leading-relaxed text-slate-300">
+            <div className="space-y-2 overflow-x-auto p-4 font-mono text-[12px] leading-relaxed text-slate-300 sm:p-6 sm:text-[13px]">
               <p>
                 <span className="text-[var(--accent-soft)]">$</span> nodekpt node
                 add --type proxmox
@@ -759,9 +774,10 @@ function Footer() {
   ];
   return (
     <footer className="border-t border-[var(--border-subtle)] bg-white">
-      <div className="mx-auto max-w-7xl px-6 py-14">
-        <div className="grid gap-10 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
-          <div>
+      <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-14">
+        <div className="grid gap-8 grid-cols-2 sm:gap-10 md:grid-cols-4 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
+          <div className="col-span-2 md:col-span-4 lg:col-span-1">
+
             <div className="flex items-center gap-2.5">
               <div className="grid h-9 w-9 place-items-center rounded-lg bg-[var(--accent)] text-white">
                 <Layers className="h-4.5 w-4.5" strokeWidth={2.4} />
