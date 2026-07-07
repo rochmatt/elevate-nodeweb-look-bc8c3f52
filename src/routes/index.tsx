@@ -265,15 +265,15 @@ function Locations() {
   const cities = ["Jakarta", "Singapore", "Tokyo", "Frankfurt", "New York", "London"];
   return (
     <section className="border-y border-[var(--border-subtle)] bg-white/60">
-      <div className="mx-auto max-w-7xl px-6 py-10">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
         <div className="text-center text-[11px] font-semibold uppercase tracking-[0.32em] text-[var(--text-faint)]">
           Available in premier locations
         </div>
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-3 md:gap-x-14">
+        <div className="-mx-4 mt-5 flex snap-x snap-mandatory items-center gap-x-8 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:mt-6 sm:flex-wrap sm:justify-center sm:gap-x-10 sm:gap-y-3 sm:overflow-visible sm:px-0 md:gap-x-14">
           {cities.map((c) => (
             <div
               key={c}
-              className="text-lg font-semibold text-[var(--text-muted)] transition-colors hover:text-[var(--accent-strong)] md:text-xl"
+              className="shrink-0 snap-start text-base font-semibold text-[var(--text-muted)] transition-colors hover:text-[var(--accent-strong)] sm:shrink sm:text-lg md:text-xl"
             >
               {c}
             </div>
@@ -283,6 +283,7 @@ function Locations() {
     </section>
   );
 }
+
 
 /* ----------------------------- MARKETPLACE PREVIEW ----------------------------- */
 type Pkg = {
