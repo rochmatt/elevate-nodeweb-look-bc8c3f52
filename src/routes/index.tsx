@@ -352,18 +352,17 @@ const tabs = ["All", "Germany", "Canada", "Australia", "Poland", "Singapore"];
 function MarketplacePreview() {
   return (
     <section id="marketplace" className="relative">
-      <div className="mx-auto max-w-7xl px-6 py-24 md:py-28">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <div>
+      <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 md:py-28">
+        <div className="flex flex-wrap items-end justify-between gap-4 sm:gap-6">
+          <div className="min-w-0">
             <div className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[var(--accent)]">
               Marketplace
             </div>
-            <h2 className="mt-3 text-4xl font-black tracking-tight text-[var(--text)] md:text-5xl">
-              Choose the Best VPS
-              <br />
-              for <span className="text-[var(--accent)]">Your Needs</span>
+            <h2 className="mt-3 text-3xl font-black tracking-tight text-[var(--text)] sm:text-4xl md:text-5xl">
+              Choose the Best VPS for{" "}
+              <span className="text-[var(--accent)]">Your Needs</span>
             </h2>
-            <p className="mt-4 max-w-xl text-[var(--text-muted)]">
+            <p className="mt-3 max-w-xl text-sm text-[var(--text-muted)] sm:mt-4 sm:text-base">
               Compare prices and specs from trusted sellers.
             </p>
           </div>
@@ -372,27 +371,30 @@ function MarketplacePreview() {
             to="/marketplace"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--accent)] transition-all hover:gap-2.5"
           >
-            Browse all products <ArrowRight className="h-4 w-4" />
+            Browse all <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
-        <div className="mt-8 flex flex-wrap gap-1.5 rounded-full border border-[var(--border-subtle)] bg-white p-1 shadow-[var(--card-shadow)] w-fit">
-          {tabs.map((t, i) => (
-            <button
-              key={t}
-              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-                i === 0
-                  ? "bg-[var(--accent)] text-white shadow-[0_4px_10px_-4px_var(--accent-ring)]"
-                  : "text-[var(--text-muted)] hover:text-[var(--accent-strong)]"
-              }`}
-            >
-              {t}
-            </button>
-          ))}
+        <div className="-mx-5 mt-7 overflow-x-auto px-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:px-0">
+          <div className="inline-flex gap-1.5 rounded-full border border-[var(--border-subtle)] bg-white p-1 shadow-[var(--card-shadow)]">
+            {tabs.map((t, i) => (
+              <button
+                key={t}
+                className={`shrink-0 rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors sm:px-4 ${
+                  i === 0
+                    ? "bg-[var(--accent)] text-white shadow-[0_4px_10px_-4px_var(--accent-ring)]"
+                    : "text-[var(--text-muted)] hover:text-[var(--accent-strong)]"
+                }`}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
         </div>
 
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid gap-5 sm:mt-10 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
           {packages.map((p) => (
+
             <PackageCard key={p.name} pkg={p} />
           ))}
         </div>
