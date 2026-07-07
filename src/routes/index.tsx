@@ -451,7 +451,7 @@ function DesktopNavLinks({ activeHash }: { activeHash: string }) {
             href={href}
             aria-current={active ? "page" : undefined}
             style={{ animationDelay: `${index * 60}ms` }}
-            className={`relative rounded-full px-3.5 py-2 text-sm font-medium transition-all duration-250 ease-out hover:-translate-y-px ${
+            className={`relative rounded-full px-3.5 py-2 text-sm font-medium transition-all duration-300 ease-out hover:-translate-y-px ${
               active
                 ? "bg-[var(--accent-tint)] text-[var(--accent-strong)]"
                 : "text-[var(--text-muted)] hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)]"
