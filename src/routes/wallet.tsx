@@ -27,6 +27,7 @@ import {
   Zap,
 } from "lucide-react";
 import { Sidebar, Topbar } from "./dashboard";
+import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { useCart, type CartItem } from "@/hooks/useCart";
 
 
