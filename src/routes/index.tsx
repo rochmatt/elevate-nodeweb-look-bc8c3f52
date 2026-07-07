@@ -174,25 +174,27 @@ function WelcomeModal() {
       if (!next) handleClose();
       setOpen(next);
     }}>
-      <DialogContent className="theme-light max-w-md rounded-2xl border border-[var(--border-subtle)] bg-white p-0 shadow-[0_24px_70px_-24px_rgba(15,23,42,0.25)] sm:rounded-2xl">
+      <DialogContent
+        className="theme-light fixed bottom-0 left-1/2 top-auto max-h-[70dvh] w-[92vw] max-w-md translate-x-[-50%] translate-y-0 overflow-y-auto rounded-t-2xl border border-[var(--border-subtle)] bg-white p-0 shadow-[0_24px_70px_-24px_rgba(15,23,42,0.25)] sm:bottom-auto sm:top-1/2 sm:max-h-[85dvh] sm:-translate-y-1/2 sm:rounded-2xl"
+      >
         <div className="relative overflow-hidden">
-          <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[var(--accent-tint)] blur-2xl" />
-          <div className="absolute -left-10 -bottom-10 h-28 w-28 rounded-full bg-[var(--accent-tint)] blur-2xl" />
+          <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-[var(--accent-tint)] blur-2xl sm:h-32 sm:w-32" />
+          <div className="absolute -left-10 -bottom-10 h-24 w-24 rounded-full bg-[var(--accent-tint)] blur-2xl sm:h-28 sm:w-28" />
           <button
             onClick={handleClose}
             aria-label="Tutup popup selamat datang"
-            className="absolute right-3 top-3 z-10 grid h-8 w-8 place-items-center rounded-full text-[var(--text-muted)] transition-colors hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)]"
+            className="absolute right-3 top-3 z-10 grid h-10 w-10 place-items-center rounded-full text-[var(--text-muted)] transition-colors hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)]"
           >
-            <X className="h-4 w-4" />
+            <X className="h-5 w-5" />
           </button>
 
-          <div className="relative px-6 pb-6 pt-10 text-center sm:px-8 sm:pb-8 sm:pt-12">
-            <div className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-gradient-to-br from-[var(--accent-soft)] to-[var(--accent)] text-white shadow-[0_12px_32px_-12px_var(--accent-ring)]">
-              <Sparkles className="h-7 w-7" />
+          <div className="relative px-5 pb-5 pt-8 text-center sm:px-8 sm:pb-8 sm:pt-12">
+            <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-[var(--accent-soft)] to-[var(--accent)] text-white shadow-[0_12px_32px_-12px_var(--accent-ring)] sm:h-16 sm:w-16">
+              <Sparkles className="h-5 w-5 sm:h-7 sm:w-7" />
             </div>
 
-            <DialogHeader className="mt-5 space-y-3">
-              <DialogTitle className="text-xl font-bold tracking-tight text-[var(--text)] sm:text-2xl">
+            <DialogHeader className="mt-4 space-y-2 sm:mt-5 sm:space-y-3">
+              <DialogTitle className="text-lg font-bold tracking-tight text-[var(--text)] sm:text-2xl">
                 Selamat Datang di NodeKPT!
               </DialogTitle>
               <DialogDescription className="text-sm leading-relaxed text-[var(--text-muted)] sm:text-base">
@@ -200,7 +202,7 @@ function WelcomeModal() {
               </DialogDescription>
             </DialogHeader>
 
-            <div className="mt-6 rounded-xl border border-[var(--border-subtle)] bg-[var(--card-muted)] p-4 text-left">
+            <div className="mt-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--card-muted)] p-3 text-left sm:mt-6 sm:p-4">
               <div className="flex items-start gap-3">
                 <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[var(--accent-tint)] text-[var(--accent-strong)]">
                   <MessageCircle className="h-4 w-4" />
@@ -214,18 +216,18 @@ function WelcomeModal() {
               </div>
             </div>
 
-            <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-center">
+            <div className="mt-5 flex flex-col gap-3 sm:mt-6 sm:flex-row sm:justify-center">
               <a
                 href="#marketplace"
                 onClick={handleClose}
-                className="btn-primary h-11 w-full justify-center px-5 text-sm sm:w-auto"
+                className="btn-primary h-12 w-full justify-center px-5 text-base sm:h-11 sm:w-auto sm:text-sm"
               >
                 Jelajahi Layanan
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-5 w-5 sm:h-4 sm:w-4" />
               </a>
               <button
                 onClick={handleClose}
-                className="btn-secondary h-11 w-full justify-center px-5 text-sm sm:w-auto"
+                className="btn-secondary h-12 w-full justify-center px-5 text-base sm:h-11 sm:w-auto sm:text-sm"
               >
                 Tutup
               </button>
