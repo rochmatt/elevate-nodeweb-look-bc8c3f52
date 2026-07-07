@@ -24,6 +24,15 @@ import {
   Waypoints,
   ShieldAlert,
   HardDriveDownload,
+  Tag,
+  Percent,
+  Star,
+  Users,
+  TrendingUp,
+  Gift,
+  Sparkles,
+  ChevronDown,
+  Timer,
 } from "lucide-react";
 import thumbBareMetal from "@/assets/thumb-baremetal.jpg";
 import thumbVps from "@/assets/thumb-vps.jpg";
