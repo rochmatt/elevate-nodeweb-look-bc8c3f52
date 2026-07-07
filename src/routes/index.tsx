@@ -24,11 +24,21 @@ import {
   Waypoints,
   ShieldAlert,
   HardDriveDownload,
+  Sparkles,
+  X,
+  MessageCircle,
 } from "lucide-react";
 import thumbBareMetal from "@/assets/thumb-baremetal.jpg";
 import thumbVps from "@/assets/thumb-vps.jpg";
 import { AuthActions } from "@/components/UserMenu";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 const SITE_URL = "https://elevate-nodeweb-look.lovable.app";
 const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
