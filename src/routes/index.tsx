@@ -1,5 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
+import { useCart } from "@/hooks/useCart";
 import {
   ArrowRight,
   Check,
@@ -818,6 +820,28 @@ function AddOns() {
 function AddOnCard({ addOn }: { addOn: AddOn }) {
   const { icon: Icon, tag, name, desc, chips, price, suffix, accent } = addOn;
   const c = accentMap[accent];
+  const { addItem } = useCart();
+  const navigate = useNavigate();
+  const [adding, setAdding] = useState(false);
+
+  const handleAdd = useCallback(() => {
+    setAdding(true);
+    const saved = addItem({
+      id: `addon:${name}`,
+      name,
+      price,
+      suffix,
+      kind: "addon",
+    });
+    toast.success(`${name} ditambahkan ke cart`, {
+      description: `${price} ${suffix ?? ""} · total ${saved.qty} di cart`,
+      action: {
+        label: "Lihat cart",
+        onClick: () => navigate({ to: "/wallet" }),
+      },
+    });
+    window.setTimeout(() => setAdding(false), 450);
+  }, [addItem, name, price, suffix, navigate]);
 
   return (
     <article className="card-interactive group relative flex flex-col overflow-hidden p-6 sm:p-7">
@@ -861,10 +885,12 @@ function AddOnCard({ addOn }: { addOn: AddOn }) {
         </div>
         <button
           type="button"
-          className="btn-primary h-9 px-3.5 text-xs"
-          aria-label={`Tambahkan ${name}`}
+          onClick={handleAdd}
+          disabled={adding}
+          className="btn-primary h-9 px-3.5 text-xs disabled:opacity-70"
+          aria-label={`Tambahkan ${name} ke cart`}
         >
-          Add
+          {adding ? "Added" : "Add"}
           <ArrowRight className="h-3 w-3" />
         </button>
       </div>
