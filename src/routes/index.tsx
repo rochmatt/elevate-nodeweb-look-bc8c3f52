@@ -722,7 +722,7 @@ function SellerCTA() {
               <Terminal className="h-3.5 w-3.5 text-[var(--accent-soft)]" />
               seller@nodekpt ~
             </div>
-            <div className="space-y-2 p-6 font-mono text-[13px] leading-relaxed text-slate-300">
+            <div className="space-y-2 overflow-x-auto p-4 font-mono text-[12px] leading-relaxed text-slate-300 sm:p-6 sm:text-[13px]">
               <p>
                 <span className="text-[var(--accent-soft)]">$</span> nodekpt node
                 add --type proxmox
