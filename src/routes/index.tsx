@@ -435,6 +435,7 @@ const packages: Pkg[] = [
 const tabs = ["All", "Germany", "Canada", "Australia", "Poland", "Singapore"];
 
 function MarketplacePreview() {
+  const [activeTab, setActiveTab] = useState("All");
   return (
     <section id="marketplace" className="relative">
       <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 md:py-28">
