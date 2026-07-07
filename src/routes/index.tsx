@@ -668,24 +668,24 @@ function SellerCTA() {
         }}
       />
 
-      <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-6 py-24 md:py-28 lg:grid-cols-[1.1fr_1fr]">
-        <div>
+      <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 py-20 sm:px-6 md:py-28 lg:grid-cols-[1.1fr_1fr] lg:gap-14">
+        <div className="min-w-0">
           <div className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[var(--accent-soft)]">
             For Sellers
           </div>
-          <h2 className="mt-3 text-4xl font-black leading-tight tracking-tight md:text-5xl">
+          <h2 className="mt-3 text-3xl font-black leading-tight tracking-tight sm:text-4xl md:text-5xl">
             Got an Idle Server?{" "}
             <span className="bg-gradient-to-r from-[var(--accent-soft)] to-sky-400 bg-clip-text text-transparent">
               Sell VPS on NodeKPT!
             </span>
           </h2>
-          <p className="mt-5 max-w-lg text-white/70">
+          <p className="mt-4 max-w-lg text-sm text-white/70 sm:mt-5 sm:text-base">
             Monetize your infrastructure. Connect a Proxmox / VMware node, build
             VPS plans, and start receiving orders. The platform handles payment
             and the buyer's control panel.
           </p>
 
-          <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+          <ul className="mt-7 grid gap-3 sm:mt-8 sm:grid-cols-2">
             {[
               "Auto-install via SSH",
               "Set your own packages",
@@ -695,7 +695,7 @@ function SellerCTA() {
               "Live in ~30 minutes",
             ].map((p) => (
               <li key={p} className="flex items-center gap-2.5 text-sm text-white/85">
-                <span className="grid h-5 w-5 place-items-center rounded-full bg-[var(--accent)]/25 text-[var(--accent-soft)]">
+                <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[var(--accent)]/25 text-[var(--accent-soft)]">
                   <Check className="h-3 w-3" />
                 </span>
                 {p}
@@ -703,16 +703,17 @@ function SellerCTA() {
             ))}
           </ul>
 
-          <div className="mt-9 flex flex-wrap gap-3">
-            <button className="inline-flex h-12 items-center gap-2 rounded-xl bg-[var(--accent)] px-6 text-sm font-semibold text-white shadow-[0_10px_30px_-10px_var(--accent-ring)] transition-transform hover:-translate-y-0.5">
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:mt-9 sm:flex sm:flex-wrap">
+            <button className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[var(--accent)] px-6 text-sm font-semibold text-white shadow-[0_10px_30px_-10px_var(--accent-ring)] transition-transform hover:-translate-y-0.5 sm:w-auto">
               Register as Seller
               <ArrowRight className="h-4 w-4" />
             </button>
-            <button className="inline-flex h-12 items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-6 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/10">
+            <button className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 px-6 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/10 sm:w-auto">
               Learn More
             </button>
           </div>
         </div>
+
 
         <div className="relative">
           <div className="pointer-events-none absolute -inset-4 rounded-3xl bg-[var(--accent)]/15 blur-3xl" />
