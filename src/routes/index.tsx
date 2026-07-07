@@ -560,6 +560,28 @@ function PackageCard({ pkg }: { pkg: Pkg }) {
   const thumb = pkg.type === "VPS" ? thumbVps : thumbBareMetal;
   const [imgError, setImgError] = useState(false);
   const altText = `${pkg.name} — ${pkg.type} dengan ${pkg.cores}, ${pkg.ram}, ${pkg.storage} di NodeKPT`;
+  const { addItem } = useCart();
+  const navigate = useNavigate();
+  const [adding, setAdding] = useState(false);
+
+  const handleDeploy = useCallback(() => {
+    setAdding(true);
+    const saved = addItem({
+      id: `package:${pkg.name}`,
+      name: pkg.name,
+      price: pkg.price,
+      suffix: pkg.suffix,
+      kind: "package",
+    });
+    toast.success(`${pkg.name} ditambahkan ke cart`, {
+      description: `${pkg.price} ${pkg.suffix ?? ""} · total ${saved.qty} di cart`,
+      action: {
+        label: "Lihat cart",
+        onClick: () => navigate({ to: "/wallet" }),
+      },
+    });
+    window.setTimeout(() => setAdding(false), 450);
+  }, [addItem, pkg.name, pkg.price, pkg.suffix, navigate]);
 
   return (
     <article className="card-interactive group flex flex-col overflow-hidden">
@@ -660,8 +682,14 @@ function PackageCard({ pkg }: { pkg: Pkg }) {
               </div>
             )}
           </div>
-          <button className="btn-primary h-9 px-3.5 text-xs">
-            Deploy
+          <button
+            type="button"
+            onClick={handleDeploy}
+            disabled={adding}
+            className="btn-primary h-9 px-3.5 text-xs disabled:opacity-70"
+            aria-label={`Tambahkan ${pkg.name} ke cart`}
+          >
+            {adding ? "Added" : "Deploy"}
             <ArrowRight className="h-3 w-3" />
           </button>
         </div>
