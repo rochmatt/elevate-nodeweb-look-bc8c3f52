@@ -67,32 +67,6 @@ export const Route = createFileRoute("/")({
           "@context": "https://schema.org",
           "@graph": [
             {
-              "@type": "Organization",
-              "@id": `${SITE_URL}/#organization`,
-              name: "NodeKPT",
-              url: SITE_URL,
-              logo: `${SITE_URL}/favicon.svg`,
-              description: PAGE_DESC,
-              sameAs: ["https://nodekpt.com"],
-            },
-            {
-              "@type": "WebSite",
-              "@id": `${SITE_URL}/#website`,
-              url: SITE_URL,
-              name: "NodeKPT",
-              description: PAGE_DESC,
-              publisher: { "@id": `${SITE_URL}/#organization` },
-              inLanguage: "id-ID",
-              potentialAction: {
-                "@type": "SearchAction",
-                target: {
-                  "@type": "EntryPoint",
-                  urlTemplate: `${SITE_URL}/marketplace?q={search_term_string}`,
-                },
-                "query-input": "required name=search_term_string",
-              },
-            },
-            {
               "@type": "WebPage",
               "@id": `${SITE_URL}/#webpage`,
               url: `${SITE_URL}/`,
