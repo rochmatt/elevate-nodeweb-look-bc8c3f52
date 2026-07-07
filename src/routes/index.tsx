@@ -218,7 +218,7 @@ function TerminalCard() {
           </div>
         </div>
 
-        <div className="space-y-1.5 p-6 font-mono text-[13px] leading-relaxed text-slate-300">
+        <div className="space-y-1.5 overflow-x-auto p-4 font-mono text-[12px] leading-relaxed text-slate-300 sm:p-6 sm:text-[13px]">
           <p>
             <span className="text-[var(--accent-soft)]">$</span> curl -s
             install.nodekpt.com | bash
