@@ -135,6 +135,7 @@ function Home() {
       <Nav />
       <InfoTicker />
       <QuickMenu />
+      <TextMenu />
       <Hero />
 
       <Locations />
