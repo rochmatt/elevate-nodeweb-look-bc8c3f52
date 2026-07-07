@@ -129,11 +129,10 @@ export function UserMenu() {
 export function AuthActions() {
   const { isAuthenticated, ready } = useAuth();
 
-  if (!ready) {
-    return <div className="h-10 w-24 animate-pulse rounded-full bg-[var(--accent-tint)]" />;
-  }
-
-  if (isAuthenticated) return <UserMenu />;
+  // Show signed-in UI only after hydration confirms a real user.
+  // Default (SSR + first paint) renders the signed-out actions so the
+  // header never shows an empty loading pill.
+  if (ready && isAuthenticated) return <UserMenu />;
 
   return (
     <div className="flex items-center gap-1.5">
