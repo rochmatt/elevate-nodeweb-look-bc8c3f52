@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect, type ReactNode } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { useCart } from "@/hooks/useCart";
@@ -139,6 +139,15 @@ function Home() {
 /* ----------------------------- WELCOME MODAL ----------------------------- */
 const WELCOME_MODAL_KEY = "nodekpt-welcome-shown";
 
+function TickerItem({ icon, label }: { icon: ReactNode; label: string }) {
+  return (
+    <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+      {icon}
+      {label}
+    </span>
+  );
+}
+
 function WelcomeModal() {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -201,6 +210,34 @@ function WelcomeModal() {
                 Kami hadir untuk memberikan solusi performa terbaik bagi kebutuhan digital Anda. Jelajahi layanan unggulan kami dan temukan infrastruktur yang andal di sini.
               </DialogDescription>
             </DialogHeader>
+
+            {/* Running info ticker */}
+            <div className="mt-4 overflow-hidden rounded-lg border border-[var(--border-subtle)] bg-[var(--accent-tint)] py-2.5 sm:mt-5">
+              <div className="ticker-track flex w-max items-center gap-6 text-xs font-medium text-[var(--accent-strong)] sm:text-sm">
+                <TickerItem icon={<Zap className="h-3.5 w-3.5" />} label="Promo spesial VPS & Bare Metal" />
+                <TickerItem icon={<ShieldCheck className="h-3.5 w-3.5" />} label="Support 24/7" />
+                <TickerItem icon={<Cloud className="h-3.5 w-3.5" />} label="Deploy dalam menit" />
+                <TickerItem icon={<CreditCard className="h-3.5 w-3.5" />} label="Pembayaran QRIS / Virtual Account" />
+                <TickerItem icon={<Activity className="h-3.5 w-3.5" />} label="Garansi uptime tinggi" />
+                <TickerItem icon={<Zap className="h-3.5 w-3.5" />} label="Promo spesial VPS & Bare Metal" />
+                <TickerItem icon={<ShieldCheck className="h-3.5 w-3.5" />} label="Support 24/7" />
+                <TickerItem icon={<Cloud className="h-3.5 w-3.5" />} label="Deploy dalam menit" />
+                <TickerItem icon={<CreditCard className="h-3.5 w-3.5" />} label="Pembayaran QRIS / Virtual Account" />
+                <TickerItem icon={<Activity className="h-3.5 w-3.5" />} label="Garansi uptime tinggi" />
+              </div>
+              <style>{`
+                @keyframes ticker {
+                  0% { transform: translateX(0); }
+                  100% { transform: translateX(-50%); }
+                }
+                .ticker-track {
+                  animation: ticker 22s linear infinite;
+                }
+                .ticker-track:hover {
+                  animation-play-state: paused;
+                }
+              `}</style>
+            </div>
 
             <div className="mt-4 rounded-xl border border-[var(--border-subtle)] bg-[var(--card-muted)] p-3 text-left sm:mt-6 sm:p-4">
               <div className="flex items-start gap-3">
