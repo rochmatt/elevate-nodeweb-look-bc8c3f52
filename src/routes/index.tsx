@@ -549,20 +549,21 @@ function Features() {
 
   return (
     <section id="features" className="relative border-t border-[var(--border-subtle)] bg-white/60">
-      <div className="mx-auto max-w-7xl px-6 py-24 md:py-28">
+      <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 md:py-28">
         <div className="mx-auto max-w-2xl text-center">
           <div className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[var(--accent)]">
             Features
           </div>
-          <h2 className="mt-3 text-4xl font-black tracking-tight text-[var(--text)] md:text-5xl">
+          <h2 className="mt-3 text-3xl font-black tracking-tight text-[var(--text)] sm:text-4xl md:text-5xl">
             Everything You <span className="text-[var(--accent)]">Need</span>
           </h2>
-          <p className="mt-4 text-[var(--text-muted)]">
+          <p className="mt-3 text-sm text-[var(--text-muted)] sm:mt-4 sm:text-base">
             A complete platform with powerful tools for buyers and sellers.
           </p>
         </div>
 
-        <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-5 sm:mt-14 sm:grid-cols-2 lg:grid-cols-3">
+
           {items.map(({ icon: Icon, title, desc }) => (
             <div
               key={title}
