@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /invoices
+Disallow: /orders
+Disallow: /profile
+Disallow: /wallet
+Disallow: /manage-packages
+
+Sitemap: https://elevate-nodeweb-look.lovable.app/sitemap.xml
