@@ -22,9 +22,9 @@ import thumbVps from "@/assets/thumb-vps.jpg";
 
 const SITE_URL = "https://elevate-nodeweb-look.lovable.app";
 const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
-const PAGE_TITLE = "NodeKPT — Marketplace VPS, Bare Metal & Proxy dengan Kontrol Penuh";
+const PAGE_TITLE = "NodeKPT — Marketplace VPS, Bare Metal & Proxy";
 const PAGE_DESC =
-  "NodeKPT adalah marketplace pertama tempat siapa pun bisa menjual VPS dan pembeli mendapat kontrol server langsung lewat panel terintegrasi. Deploy dalam hitungan menit, bayar dengan Rupiah.";
+  "Marketplace VPS, Bare Metal, dan Proxy dari seller terpercaya. Deploy dalam menit, bayar Rupiah (QRIS/VA), kontrol penuh via panel terintegrasi.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
