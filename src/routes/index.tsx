@@ -885,10 +885,12 @@ function AddOnCard({ addOn }: { addOn: AddOn }) {
         </div>
         <button
           type="button"
-          className="btn-primary h-9 px-3.5 text-xs"
-          aria-label={`Tambahkan ${name}`}
+          onClick={handleAdd}
+          disabled={adding}
+          className="btn-primary h-9 px-3.5 text-xs disabled:opacity-70"
+          aria-label={`Tambahkan ${name} ke cart`}
         >
-          Add
+          {adding ? "Added" : "Add"}
           <ArrowRight className="h-3 w-3" />
         </button>
       </div>
