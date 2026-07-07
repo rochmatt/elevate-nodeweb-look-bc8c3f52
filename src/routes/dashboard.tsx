@@ -78,6 +78,7 @@ function Dashboard() {
           </div>
         </main>
       </div>
+      <MobileBottomNav />
     </div>
   );
 }
