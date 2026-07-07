@@ -17,23 +17,105 @@ import {
   MemoryStick,
 } from "lucide-react";
 
+const SITE_URL = "https://elevate-nodeweb-look.lovable.app";
+const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
+const PAGE_TITLE = "NodeKPT — Marketplace VPS, Bare Metal & Proxy dengan Kontrol Penuh";
+const PAGE_DESC =
+  "NodeKPT adalah marketplace pertama tempat siapa pun bisa menjual VPS dan pembeli mendapat kontrol server langsung lewat panel terintegrasi. Deploy dalam hitungan menit, bayar dengan Rupiah.";
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "NodeKPT — Buy & Sell Cloud, Bare Metal & Proxy" },
+      { title: PAGE_TITLE },
+      { name: "description", content: PAGE_DESC },
       {
-        name: "description",
+        name: "keywords",
         content:
-          "The first marketplace where anyone can sell VPSes and buyers get direct server control via an integrated panel. Deploy in minutes, pay in IDR.",
+          "VPS marketplace, sewa VPS, jual VPS, bare metal Indonesia, cloud server, proxy server, hosting Indonesia, deploy VPS, NodeKPT",
       },
-      { property: "og:title", content: "NodeKPT — VPS Marketplace" },
-      {
-        property: "og:description",
-        content:
-          "Buy & sell Cloud, Bare Metal, and Proxy with full control. Trusted sellers, integrated control panel, local payments.",
-      },
+      { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1" },
+      { name: "author", content: "NodeKPT" },
+      { name: "theme-color", content: "#0d9488" },
+
+      // Open Graph
+      { property: "og:site_name", content: "NodeKPT" },
+      { property: "og:title", content: PAGE_TITLE },
+      { property: "og:description", content: PAGE_DESC },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: `${SITE_URL}/` },
+      { property: "og:locale", content: "id_ID" },
+      { property: "og:image", content: OG_IMAGE },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: "NodeKPT — Marketplace VPS, Bare Metal & Proxy" },
+
+      // Twitter
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: PAGE_TITLE },
+      { name: "twitter:description", content: PAGE_DESC },
+      { name: "twitter:image", content: OG_IMAGE },
+      { name: "twitter:image:alt", content: "NodeKPT — Marketplace VPS, Bare Metal & Proxy" },
+    ],
+    links: [{ rel: "canonical", href: `${SITE_URL}/` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              "@id": `${SITE_URL}/#organization`,
+              name: "NodeKPT",
+              url: SITE_URL,
+              logo: `${SITE_URL}/favicon.svg`,
+              description: PAGE_DESC,
+              sameAs: ["https://nodekpt.com"],
+            },
+            {
+              "@type": "WebSite",
+              "@id": `${SITE_URL}/#website`,
+              url: SITE_URL,
+              name: "NodeKPT",
+              description: PAGE_DESC,
+              publisher: { "@id": `${SITE_URL}/#organization` },
+              inLanguage: "id-ID",
+              potentialAction: {
+                "@type": "SearchAction",
+                target: {
+                  "@type": "EntryPoint",
+                  urlTemplate: `${SITE_URL}/marketplace?q={search_term_string}`,
+                },
+                "query-input": "required name=search_term_string",
+              },
+            },
+            {
+              "@type": "WebPage",
+              "@id": `${SITE_URL}/#webpage`,
+              url: `${SITE_URL}/`,
+              name: PAGE_TITLE,
+              description: PAGE_DESC,
+              isPartOf: { "@id": `${SITE_URL}/#website` },
+              about: { "@id": `${SITE_URL}/#organization` },
+              primaryImageOfPage: OG_IMAGE,
+              inLanguage: "id-ID",
+            },
+            {
+              "@type": "Service",
+              name: "NodeKPT Marketplace",
+              provider: { "@id": `${SITE_URL}/#organization` },
+              serviceType: "VPS, Bare Metal & Proxy Marketplace",
+              areaServed: "ID",
+              offers: {
+                "@type": "AggregateOffer",
+                priceCurrency: "IDR",
+                lowPrice: "15000",
+                offerCount: "120",
+              },
+            },
+          ],
+        }),
+      },
     ],
   }),
   component: Home,
