@@ -1,0 +1,11 @@
+# NodeKPT
+
+> Marketplace pertama di Indonesia untuk VPS, Bare Metal, dan Proxy dari seller terpercaya — deploy dalam menit, bayar Rupiah (QRIS/VA), kontrol penuh via panel terintegrasi.
+
+NodeKPT menghubungkan pembeli dan penjual server. Buyer mendapat root access dan panel manajemen; seller bisa merilis paket VPS/Bare Metal/Proxy dengan harga dan stok sendiri.
+
+## Pages
+
+- [Home](/): Ringkasan platform, kategori server, dan cara kerja marketplace.
+- [Marketplace](/marketplace): Katalog VPS, Bare Metal, dan Proxy dari seller terverifikasi — filter lokasi, harga, vCPU, dan RAM.
+- [Bare Metal](/bare-metal): Server dedicated dengan billing per jam atau bulanan.
