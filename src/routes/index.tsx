@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
@@ -441,9 +441,18 @@ function LocationTabs({ activeTab, onChange }: { activeTab: string; onChange: (t
     const el = tabRefs.current[index];
     if (el) {
       el.focus();
-      el.scrollIntoView({ inline: "nearest", block: "nearest", behavior: "smooth" });
+      el.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
     }
   }, []);
+
+  // Scroll active tab into view whenever it changes (click, keyboard, or programmatic)
+  useEffect(() => {
+    const index = tabs.indexOf(activeTab);
+    const el = tabRefs.current[index];
+    if (el) {
+      el.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
+    }
+  }, [activeTab]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     const currentIndex = tabs.indexOf(activeTab);
@@ -481,9 +490,9 @@ function LocationTabs({ activeTab, onChange }: { activeTab: string; onChange: (t
         aria-label="Filter lokasi server"
         aria-orientation="horizontal"
         onKeyDown={handleKeyDown}
-        className="overflow-x-auto rounded-full border border-[var(--border-subtle)] bg-white p-1 shadow-[var(--card-shadow)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:p-1.5"
+        className="overflow-x-auto rounded-full border border-[var(--border-subtle)] bg-white p-1 shadow-[var(--card-shadow)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden touch-pan-x snap-x snap-mandatory scroll-smooth sm:p-1.5"
       >
-        <div className="flex snap-x snap-mandatory items-center gap-1 px-1 pr-10 sm:gap-1.5 sm:pr-1">
+        <div className="flex items-center gap-1 px-1 pr-12 sm:gap-1.5 sm:pr-1">
           {tabs.map((t, i) => {
             const isActive = activeTab === t;
             return (
@@ -512,7 +521,7 @@ function LocationTabs({ activeTab, onChange }: { activeTab: string; onChange: (t
       {/* Fade hint for mobile scroll */}
       <div
         aria-hidden
-        className="pointer-events-none absolute right-0 top-0 h-full w-12 rounded-r-full bg-gradient-to-l from-white via-white/80 to-transparent sm:hidden"
+        className="pointer-events-none absolute right-0 top-0 h-full w-8 rounded-r-full bg-gradient-to-l from-white via-white/80 to-transparent sm:hidden"
       />
     </div>
   );
