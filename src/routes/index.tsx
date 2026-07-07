@@ -776,7 +776,8 @@ function Footer() {
     <footer className="border-t border-[var(--border-subtle)] bg-white">
       <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-14">
         <div className="grid gap-8 grid-cols-2 sm:gap-10 md:grid-cols-4 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
-          <div>
+          <div className="col-span-2 md:col-span-4 lg:col-span-1">
+
             <div className="flex items-center gap-2.5">
               <div className="grid h-9 w-9 place-items-center rounded-lg bg-[var(--accent)] text-white">
                 <Layers className="h-4.5 w-4.5" strokeWidth={2.4} />
