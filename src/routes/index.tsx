@@ -549,7 +549,12 @@ function MarketplacePreview() {
           <LocationTabs activeTab={activeTab} onChange={setActiveTab} />
         </div>
 
-        <div className="mt-8 grid gap-5 sm:mt-10 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
+        <div
+          role="tabpanel"
+          id="marketplace-packages"
+          aria-labelledby={`tab-${activeTab}`}
+          className="mt-8 grid gap-5 sm:mt-10 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4"
+        >
           {packages.map((p) => (
 
             <PackageCard key={p.name} pkg={p} />
