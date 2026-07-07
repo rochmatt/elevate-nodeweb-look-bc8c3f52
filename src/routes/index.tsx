@@ -131,7 +131,109 @@ function Home() {
       <SellerCTA />
       <Footer />
       <MobileBottomNav />
+      <WelcomeModal />
     </div>
+  );
+}
+
+/* ----------------------------- WELCOME MODAL ----------------------------- */
+const WELCOME_MODAL_KEY = "nodekpt-welcome-shown";
+
+function WelcomeModal() {
+  const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    try {
+      const alreadyShown = localStorage.getItem(WELCOME_MODAL_KEY);
+      if (alreadyShown !== "true") {
+        const timer = setTimeout(() => setOpen(true), 600);
+        return () => clearTimeout(timer);
+      }
+    } catch {
+      // localStorage unavailable (e.g. private mode); show once per session
+      const timer = setTimeout(() => setOpen(true), 600);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  const handleClose = () => {
+    setOpen(false);
+    try {
+      localStorage.setItem(WELCOME_MODAL_KEY, "true");
+    } catch {
+      // ignore
+    }
+  };
+
+  if (!mounted) return null;
+
+  return (
+    <Dialog open={open} onOpenChange={(next) => {
+      if (!next) handleClose();
+      setOpen(next);
+    }}>
+      <DialogContent className="theme-light max-w-md rounded-2xl border border-[var(--border-subtle)] bg-white p-0 shadow-[0_24px_70px_-24px_rgba(15,23,42,0.25)] sm:rounded-2xl">
+        <div className="relative overflow-hidden">
+          <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[var(--accent-tint)] blur-2xl" />
+          <div className="absolute -left-10 -bottom-10 h-28 w-28 rounded-full bg-[var(--accent-tint)] blur-2xl" />
+          <button
+            onClick={handleClose}
+            aria-label="Tutup popup selamat datang"
+            className="absolute right-3 top-3 z-10 grid h-8 w-8 place-items-center rounded-full text-[var(--text-muted)] transition-colors hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)]"
+          >
+            <X className="h-4 w-4" />
+          </button>
+
+          <div className="relative px-6 pb-6 pt-10 text-center sm:px-8 sm:pb-8 sm:pt-12">
+            <div className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-gradient-to-br from-[var(--accent-soft)] to-[var(--accent)] text-white shadow-[0_12px_32px_-12px_var(--accent-ring)]">
+              <Sparkles className="h-7 w-7" />
+            </div>
+
+            <DialogHeader className="mt-5 space-y-3">
+              <DialogTitle className="text-xl font-bold tracking-tight text-[var(--text)] sm:text-2xl">
+                Selamat Datang di NodeKPT!
+              </DialogTitle>
+              <DialogDescription className="text-sm leading-relaxed text-[var(--text-muted)] sm:text-base">
+                Kami hadir untuk memberikan solusi performa terbaik bagi kebutuhan digital Anda. Jelajahi layanan unggulan kami dan temukan infrastruktur yang andal di sini.
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="mt-6 rounded-xl border border-[var(--border-subtle)] bg-[var(--card-muted)] p-4 text-left">
+              <div className="flex items-start gap-3">
+                <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[var(--accent-tint)] text-[var(--accent-strong)]">
+                  <MessageCircle className="h-4 w-4" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-[var(--text)]">Butuh bantuan?</p>
+                  <p className="text-xs leading-relaxed text-[var(--text-muted)] sm:text-sm">
+                    Tim support kami siap membantu Anda kapan saja. Jangan ragu untuk menghubungi kami.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-center">
+              <a
+                href="#marketplace"
+                onClick={handleClose}
+                className="btn-primary h-11 w-full justify-center px-5 text-sm sm:w-auto"
+              >
+                Jelajahi Layanan
+                <ArrowRight className="h-4 w-4" />
+              </a>
+              <button
+                onClick={handleClose}
+                className="btn-secondary h-11 w-full justify-center px-5 text-sm sm:w-auto"
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 
