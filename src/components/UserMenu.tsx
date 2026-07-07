@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
   LayoutDashboard,
@@ -11,26 +10,19 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { initialsFor, useAuth } from "@/hooks/useAuth";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function UserMenu() {
   const { user, signOut } = useAuth();
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!open) return;
-    const onDoc = (e: MouseEvent) => {
-      if (!ref.current?.contains(e.target as Node)) setOpen(false);
-    };
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
-    document.addEventListener("mousedown", onDoc);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("mousedown", onDoc);
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [open]);
 
   if (!user) return null;
 
@@ -43,86 +35,86 @@ export function UserMenu() {
     { to: "/manage-packages", label: "Manage packages", icon: Settings },
   ] as const;
 
+  const displayName = user.name || "Account";
+  const initial = initialsFor(displayName) || "U";
+
   return (
-    <div ref={ref} className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-haspopup="menu"
-        aria-expanded={open}
-        className="group inline-flex items-center gap-2 rounded-full border border-[var(--border-subtle)] bg-white/80 py-1 pl-1 pr-2.5 shadow-sm transition-all hover:border-[var(--accent)]/40 hover:shadow-md sm:pr-3"
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        aria-label={`Account menu for ${displayName}`}
+        className="group inline-flex items-center gap-2 rounded-full border border-[var(--border-subtle)] bg-white/80 py-1 pl-1 pr-2.5 shadow-sm outline-none transition-all hover:border-[var(--accent)]/40 hover:shadow-md focus-visible:ring-2 focus-visible:ring-[var(--accent-ring)] data-[state=open]:border-[var(--accent)]/40 data-[state=open]:shadow-md sm:pr-3"
       >
         <span
           className="grid h-8 w-8 place-items-center rounded-full text-[12px] font-semibold text-white"
           style={{ backgroundColor: user.avatarColor }}
-          aria-hidden
+          aria-hidden="true"
         >
-          {initialsFor(user.name) || "U"}
+          {initial}
         </span>
         <span className="hidden max-w-[7rem] truncate text-sm font-semibold text-[var(--text)] sm:inline">
-          {user.name}
+          {displayName}
         </span>
         <ChevronDown
-          className={`h-3.5 w-3.5 text-[var(--text-faint)] transition-transform ${open ? "rotate-180" : ""}`}
+          aria-hidden="true"
+          className="h-3.5 w-3.5 text-[var(--text-faint)] transition-transform group-data-[state=open]:rotate-180"
         />
-      </button>
+      </DropdownMenuTrigger>
 
-      {open && (
-        <div
-          role="menu"
-          className="absolute right-0 z-50 mt-2 w-64 origin-top-right overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-white shadow-[0_20px_60px_-15px_rgba(15,23,42,0.25)]"
-        >
-          <div className="flex items-center gap-3 border-b border-[var(--border-subtle)] px-4 py-3.5">
+      <DropdownMenuContent
+        align="end"
+        sideOffset={8}
+        className="w-64 overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-white p-0 shadow-[0_20px_60px_-15px_rgba(15,23,42,0.25)]"
+      >
+        <DropdownMenuLabel className="border-b border-[var(--border-subtle)] px-4 py-3.5 font-normal">
+          <div className="flex items-center gap-3">
             <span
               className="grid h-10 w-10 place-items-center rounded-full text-sm font-semibold text-white"
               style={{ backgroundColor: user.avatarColor }}
-              aria-hidden
+              aria-hidden="true"
             >
-              {initialsFor(user.name) || "U"}
+              {initial}
             </span>
             <div className="min-w-0">
               <div className="truncate text-sm font-semibold text-[var(--text)]">
-                {user.name}
+                {displayName}
               </div>
               <div className="truncate text-xs text-[var(--text-faint)]">
                 {user.email}
               </div>
             </div>
           </div>
+        </DropdownMenuLabel>
 
-          <ul className="py-1.5">
-            {items.map(({ to, label, icon: Icon }) => (
-              <li key={to}>
-                <Link
-                  to={to}
-                  role="menuitem"
-                  onClick={() => setOpen(false)}
-                  className="flex items-center gap-3 px-4 py-2 text-sm text-[var(--text-muted)] transition-colors hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)]"
-                >
-                  <Icon className="h-4 w-4" />
-                  {label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+        <DropdownMenuGroup className="py-1.5">
+          {items.map(({ to, label, icon: Icon }) => (
+            <DropdownMenuItem key={to} asChild>
+              <Link
+                to={to}
+                className="flex cursor-pointer items-center gap-3 rounded-none px-4 py-2 text-sm text-[var(--text-muted)] focus:bg-[var(--accent-tint)] focus:text-[var(--accent-strong)]"
+              >
+                <Icon aria-hidden="true" className="h-4 w-4" />
+                {label}
+              </Link>
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuGroup>
 
-          <div className="border-t border-[var(--border-subtle)] p-1.5">
-            <button
-              role="menuitem"
-              onClick={() => {
-                signOut();
-                setOpen(false);
-                navigate({ to: "/" });
-              }}
-              className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50"
-            >
-              <LogOut className="h-4 w-4" />
-              Sign out
-            </button>
-          </div>
+        <DropdownMenuSeparator className="my-0 bg-[var(--border-subtle)]" />
+
+        <div className="p-1.5">
+          <DropdownMenuItem
+            onSelect={() => {
+              signOut();
+              navigate({ to: "/" });
+            }}
+            className="flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-red-600 focus:bg-red-50 focus:text-red-700"
+          >
+            <LogOut aria-hidden="true" className="h-4 w-4" />
+            Sign out
+          </DropdownMenuItem>
         </div>
-      )}
-    </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
@@ -130,21 +122,21 @@ export function AuthActions() {
   const { isAuthenticated, ready } = useAuth();
 
   // Show signed-in UI only after hydration confirms a real user.
-  // Default (SSR + first paint) renders the signed-out actions so the
-  // header never shows an empty loading pill.
+  // Default (SSR + first paint) renders signed-out actions so the header
+  // never shows an empty loading pill.
   if (ready && isAuthenticated) return <UserMenu />;
 
   return (
     <div className="flex items-center gap-1.5">
       <Link
         to="/login"
-        className="hidden h-10 items-center rounded-full px-4 text-sm font-semibold text-[var(--text-muted)] transition-colors hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)] sm:inline-flex"
+        className="hidden h-10 items-center rounded-full px-4 text-sm font-semibold text-[var(--text-muted)] transition-colors hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-ring)] sm:inline-flex"
       >
         Log in
       </Link>
       <Link
         to="/signup"
-        className="inline-flex h-10 items-center gap-1.5 rounded-full bg-[var(--accent)] px-4 text-sm font-semibold text-white shadow-[0_8px_20px_-8px_var(--accent-ring)] transition-all hover:brightness-110"
+        className="inline-flex h-10 items-center gap-1.5 rounded-full bg-[var(--accent)] px-4 text-sm font-semibold text-white shadow-[0_8px_20px_-8px_var(--accent-ring)] transition-all hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--accent-ring)]"
       >
         Sign up
       </Link>
