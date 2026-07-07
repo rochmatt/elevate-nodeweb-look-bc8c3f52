@@ -122,7 +122,9 @@ function Home() {
   return (
     <div className="theme-light min-h-screen overflow-x-hidden">
       <Nav />
+      <InfoTicker />
       <Hero />
+
       <Locations />
       <MarketplacePreview />
       <AddOns />
