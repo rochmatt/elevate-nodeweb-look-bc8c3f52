@@ -379,6 +379,13 @@ const QUICK_MENU: { label: string; href: string; icon: typeof Store }[] = [
 
 function QuickMenu() {
   const hash = useHash();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
   return (
     <section
       aria-label="Quick menu"
@@ -390,34 +397,37 @@ function QuickMenu() {
 
       <div className="relative mx-auto max-w-7xl px-4 py-3.5 sm:px-6 sm:py-4 lg:py-5">
         <div className="grid grid-cols-4 gap-2 sm:gap-3 lg:grid-cols-4 lg:gap-4">
-          {QUICK_MENU.map(({ label, href, icon: Icon }) => {
+          {QUICK_MENU.map(({ label, href, icon: Icon }, index) => {
             const active = hash === href;
             return (
               <a
                 key={label}
                 href={href}
                 aria-current={active ? "page" : undefined}
-                className={`group relative flex flex-col items-center justify-center gap-2 overflow-hidden rounded-2xl border px-2 py-3.5 text-center transition-all duration-300 ease-out sm:rounded-3xl sm:py-4 lg:gap-2.5 lg:py-5 ${
+                style={mounted ? { animationDelay: `${index * 70}ms` } : undefined}
+                className={`group relative flex flex-col items-center justify-center gap-2 overflow-hidden rounded-2xl border px-2 py-3.5 text-center transition-all duration-300 ease-out active:scale-[0.97] sm:rounded-3xl sm:py-4 lg:gap-2.5 lg:py-5 ${
+                  mounted ? "menu-enter" : "opacity-0"
+                } ${
                   active
                     ? "border-[var(--accent)]/50 bg-white shadow-[0_8px_28px_-14px_var(--accent-ring)]"
-                    : "border-[var(--border-subtle)] bg-white/90 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.06)] hover:border-[var(--accent)]/35 hover:bg-white hover:shadow-[0_14px_36px_-18px_var(--accent-ring)]"
+                    : "border-[var(--border-subtle)] bg-white/90 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.06)] hover:border-[var(--accent)]/35 hover:bg-white hover:shadow-[0_14px_36px_-18px_var(--accent-ring)] hover:-translate-y-0.5"
                 }`}
               >
                 <span
-                  className={`grid h-10 w-10 place-items-center rounded-[13px] transition-all duration-300 sm:h-11 sm:w-11 sm:rounded-2xl lg:h-12 lg:w-12 ${
+                  className={`grid h-10 w-10 place-items-center rounded-[13px] transition-all duration-300 ease-out sm:h-11 sm:w-11 sm:rounded-2xl lg:h-12 lg:w-12 ${
                     active
                       ? "bg-gradient-to-br from-[var(--accent-soft)] to-[var(--accent)] text-white shadow-[0_8px_22px_-10px_var(--accent-ring)]"
                       : "bg-[var(--accent-tint)] text-[var(--accent-strong)] group-hover:bg-gradient-to-br group-hover:from-[var(--accent-soft)] group-hover:to-[var(--accent)] group-hover:text-white group-hover:shadow-[0_8px_22px_-10px_var(--accent-ring)]"
-                  }`}
+                  } ${active ? "menu-icon-pop" : ""}`}
                 >
                   <Icon className="h-5 w-5 sm:h-[22px] sm:w-[22px] lg:h-6 lg:w-6" strokeWidth={1.9} />
                 </span>
-                <span className="text-[11px] font-semibold leading-tight tracking-tight text-[var(--text)] sm:text-xs lg:text-[13px]">
+                <span className="text-[11px] font-semibold leading-tight tracking-tight text-[var(--text)] transition-colors duration-300 sm:text-xs lg:text-[13px]">
                   {label}
                 </span>
 
                 {active && (
-                  <span className="absolute bottom-2 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-[var(--accent)] shadow-[0_0_6px_var(--accent)] sm:bottom-2.5 lg:bottom-3" />
+                  <span className="menu-dot-enter absolute bottom-2 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-[var(--accent)] shadow-[0_0_6px_var(--accent)] sm:bottom-2.5 lg:bottom-3" />
                 )}
               </a>
             );
@@ -432,7 +442,7 @@ function QuickMenu() {
 function DesktopNavLinks({ activeHash }: { activeHash: string }) {
   return (
     <nav className="ml-auto hidden items-center gap-1 lg:flex">
-      {NAV_LINKS.map((l) => {
+      {NAV_LINKS.map((l, index) => {
         const href = `#${l.toLowerCase().replace(/\s/g, "-")}`;
         const active = activeHash === href;
         return (
@@ -440,13 +450,17 @@ function DesktopNavLinks({ activeHash }: { activeHash: string }) {
             key={l}
             href={href}
             aria-current={active ? "page" : undefined}
-            className={`rounded-full px-3.5 py-2 text-sm font-medium transition-colors ${
+            style={{ animationDelay: `${index * 60}ms` }}
+            className={`relative rounded-full px-3.5 py-2 text-sm font-medium transition-all duration-300 ease-out hover:-translate-y-px ${
               active
                 ? "bg-[var(--accent-tint)] text-[var(--accent-strong)]"
                 : "text-[var(--text-muted)] hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)]"
             }`}
           >
             {l}
+            {active && (
+              <span className="absolute bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-[var(--accent)] shadow-[0_0_6px_var(--accent)] menu-dot-enter" />
+            )}
           </a>
         );
       })}
