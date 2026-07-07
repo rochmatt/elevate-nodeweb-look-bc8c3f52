@@ -460,20 +460,35 @@ function MarketplacePreview() {
           </Link>
         </div>
 
-        <div className="-mx-5 mt-7 overflow-x-auto px-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:px-0">
-          <div className="inline-flex gap-1.5 rounded-full border border-[var(--border-subtle)] bg-white p-1 shadow-[var(--card-shadow)]">
-            {tabs.map((t, i) => (
-              <button
-                key={t}
-                className={`shrink-0 rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors sm:px-4 ${
-                  i === 0
-                    ? "bg-[var(--accent)] text-white shadow-[0_4px_10px_-4px_var(--accent-ring)]"
-                    : "text-[var(--text-muted)] hover:text-[var(--accent-strong)]"
-                }`}
-              >
-                {t}
-              </button>
-            ))}
+        <div className="-mx-5 mt-7 px-5 sm:mx-0 sm:px-0">
+          <div className="relative">
+            <div className="overflow-x-auto rounded-full border border-[var(--border-subtle)] bg-white p-1.5 shadow-[var(--card-shadow)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="flex items-center gap-1 px-1">
+                {tabs.map((t) => {
+                  const isActive = activeTab === t;
+                  return (
+                    <button
+                      key={t}
+                      type="button"
+                      onClick={() => setActiveTab(t)}
+                      aria-pressed={isActive}
+                      className={`shrink-0 rounded-full px-5 py-2 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 ${
+                        isActive
+                          ? "bg-[var(--accent)] text-white shadow-[0_4px_12px_-4px_var(--accent-ring)]"
+                          : "text-[var(--text-muted)] hover:bg-[var(--card-muted)] hover:text-[var(--accent-strong)]"
+                      }`}
+                    >
+                      {t}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+            {/* Fade hint for mobile scroll */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute right-1.5 top-1/2 h-8 w-8 -translate-y-1/2 rounded-r-full bg-gradient-to-l from-white to-transparent sm:hidden"
+            />
           </div>
         </div>
 
