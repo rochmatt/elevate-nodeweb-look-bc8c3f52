@@ -301,12 +301,16 @@ function useHash() {
   );
 
   useEffect(() => {
-    const update = () => setHash(window.location.hash);
+    const update = () => {
+      console.log("[useHash] update to", window.location.hash);
+      setHash(window.location.hash);
+    };
     update();
     window.addEventListener("hashchange", update);
     return () => window.removeEventListener("hashchange", update);
   }, []);
 
+  console.log("[useHash] render hash=", hash);
   return hash;
 }
 
