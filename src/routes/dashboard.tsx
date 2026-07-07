@@ -115,6 +115,42 @@ export function Sidebar({ activeLabel = "Dashboard" }: { activeLabel?: string })
 
   return (
     <aside className="sticky top-0 hidden h-screen w-72 shrink-0 border-r border-border bg-card lg:flex lg:flex-col">
+      <SidebarBody activeLabel={activeLabel} />
+    </aside>
+  );
+}
+
+export function SidebarBody({ activeLabel = "Dashboard" }: { activeLabel?: string }) {
+  const overview = [
+    { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
+    { icon: Store, label: "Marketplace", href: "/marketplace" },
+    { icon: Globe, label: "Proxy Services", href: "#" },
+    { icon: Server, label: "Compute (VPS)", href: "#" },
+    { icon: HardDrive, label: "Bare Metal Servers", href: "/bare-metal" },
+    { icon: Download, label: "Winstaller", href: "#" },
+  ];
+  const inventory = [
+    { icon: Database, label: "Object Storage" },
+    { icon: HardDrive, label: "Block Storage" },
+    { icon: Network, label: "Network Management (IP, DNS)" },
+    { icon: KeyRound, label: "API Access" },
+    { icon: Package, label: "Orders", href: "/orders" },
+    { icon: Store, label: "Manage Packages", href: "/manage-packages" },
+    { icon: FileText, label: "Billing & Invoices", href: "/invoices" },
+    { icon: Wallet, label: "Wallet & Balance", href: "/wallet" },
+    { icon: Heart, label: "Wishlist" },
+    { icon: Gift, label: "Referrals" },
+    { icon: Scale, label: "Disputes" },
+  ];
+  const account = [
+    { icon: BookOpen, label: "Guide" },
+    { icon: LifeBuoy, label: "Support" },
+    { icon: Mail, label: "Contact" },
+    { icon: User, label: "Profile", href: "/profile" },
+  ];
+
+  return (
+    <div className="flex h-full flex-col">
       <Link to="/" className="flex items-center gap-3 border-b border-border px-6 py-5">
         <div className="grid h-10 w-10 place-items-center rounded-xl border border-[color:var(--accent)]/25 bg-[color:var(--accent-tint)]">
           <span className="text-base font-bold leading-none text-[color:var(--accent-strong)]">N</span>
@@ -126,7 +162,6 @@ export function Sidebar({ activeLabel = "Dashboard" }: { activeLabel?: string })
       </Link>
 
       <div className="flex-1 overflow-y-auto px-3 py-5">
-        {/* Compact Become a Seller banner */}
         <button className="group mb-6 flex w-full items-center gap-3 rounded-xl border border-[color:var(--accent)]/20 bg-[color:var(--accent-tint)] px-3.5 py-3 text-left transition-colors hover:border-[color:var(--accent)]/40">
           <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[color:var(--accent)] text-white">
             <Handshake className="h-4 w-4" strokeWidth={1.75} />
@@ -147,7 +182,7 @@ export function Sidebar({ activeLabel = "Dashboard" }: { activeLabel?: string })
         <LogOut className="h-4 w-4 text-muted-foreground" strokeWidth={1.75} />
         Logout
       </button>
-    </aside>
+    </div>
   );
 }
 
