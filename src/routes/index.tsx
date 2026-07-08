@@ -5,7 +5,6 @@ import { useCart } from "@/hooks/useCart";
 import {
   ArrowRight,
   Check,
-  Search,
   ShoppingCart,
   Globe,
   ShieldCheck,
@@ -324,96 +323,39 @@ function useHash() {
 }
 
 function Nav() {
-  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const hash = useHash();
 
   return (
-    <>
-      <header className="relative z-40 border-b border-[var(--border-subtle)] bg-[color:var(--bg)]/85 backdrop-blur-xl lg:sticky lg:top-0 lg:z-50">
-        <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-3 sm:gap-4 sm:px-6 sm:py-3.5">
-          <a href="/" className="flex shrink-0 items-center gap-2 sm:gap-2.5">
-            <div className="grid h-9 w-9 place-items-center rounded-lg bg-[var(--accent)] text-white shadow-[0_6px_18px_-6px_var(--accent-ring)]">
-              <Layers className="h-4.5 w-4.5" strokeWidth={2.4} />
+    <header className="relative z-40 border-b border-[var(--border-subtle)] bg-[color:var(--bg)]/85 backdrop-blur-xl lg:sticky lg:top-0 lg:z-50">
+      <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-3 sm:gap-4 sm:px-6 sm:py-3.5">
+        <a href="/" className="flex shrink-0 items-center gap-2 sm:gap-2.5">
+          <div className="grid h-9 w-9 place-items-center rounded-lg bg-[var(--accent)] text-white shadow-[0_6px_18px_-6px_var(--accent-ring)]">
+            <Layers className="h-4.5 w-4.5" strokeWidth={2.4} />
+          </div>
+          <div className="leading-tight">
+            <div className="text-[15px] font-bold tracking-tight text-[var(--text)] sm:text-[17px]">
+              Node<span className="text-[var(--accent)]">KPT</span>
             </div>
-            <div className="leading-tight">
-              <div className="text-[15px] font-bold tracking-tight text-[var(--text)] sm:text-[17px]">
-                Node<span className="text-[var(--accent)]">KPT</span>
-              </div>
-              <div className="hidden text-[10px] font-medium uppercase tracking-[0.16em] text-[var(--text-faint)] sm:block">
-                Find the right VPS
-              </div>
-            </div>
-          </a>
-
-          <div className="ml-2 hidden min-w-0 flex-1 md:block">
-            <div className="relative max-w-xl">
-              <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--text-faint)]" />
-              <input
-                type="search"
-                aria-label="Search VPS, location, or seller"
-                placeholder="Search VPS, location, or seller..."
-                className="h-11 w-full rounded-full border border-[var(--border-subtle)] bg-white pl-10 pr-4 text-sm text-[var(--text)] outline-none transition-colors placeholder:text-[var(--text-faint)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-ring)]"
-              />
+            <div className="hidden text-[10px] font-medium uppercase tracking-[0.16em] text-[var(--text-faint)] sm:block">
+              Find the right VPS
             </div>
           </div>
+        </a>
 
-          <div className="ml-auto flex shrink-0 items-center gap-1 md:ml-0 md:gap-1.5">
-            <button
-              type="button"
-              aria-label={mobileSearchOpen ? "Close search" : "Open search"}
-              aria-expanded={mobileSearchOpen}
-              aria-controls="mobile-search"
-              onClick={() => setMobileSearchOpen((v) => !v)}
-              className={`grid h-10 w-10 place-items-center rounded-full transition-colors md:hidden ${
-                mobileSearchOpen
-                  ? "bg-[var(--accent-tint)] text-[var(--accent-strong)]"
-                  : "text-[var(--text-muted)] hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)]"
-              }`}
-            >
-              {mobileSearchOpen ? (
-                <X className="h-4.5 w-4.5" />
-              ) : (
-                <Search className="h-4.5 w-4.5" />
-              )}
-            </button>
-            <div className="hidden lg:flex items-center gap-0.5">
-              <NotificationsMenu />
-              <MessagesMenu />
-            </div>
-            <CartMenu />
-            <div className="hidden lg:block">
-              <AuthActions />
-            </div>
+        <DesktopNavLinks activeHash={hash} />
+
+        <div className="ml-auto flex shrink-0 items-center gap-1 md:gap-1.5">
+          <div className="hidden lg:flex items-center gap-0.5">
+            <NotificationsMenu />
+            <MessagesMenu />
+          </div>
+          <CartMenu />
+          <div className="hidden lg:block">
+            <AuthActions />
           </div>
         </div>
-
-        <div
-          id="mobile-search"
-          className={`md:hidden overflow-hidden border-t border-[var(--border-subtle)] transition-[max-height,opacity] duration-300 ease-out ${
-            mobileSearchOpen ? "max-h-24 opacity-100" : "max-h-0 opacity-0"
-          }`}
-        >
-          <div className="mx-auto max-w-7xl px-4 py-3">
-            <div className="relative">
-              <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--text-faint)]" />
-              <input
-                type="search"
-                autoFocus={mobileSearchOpen}
-                aria-label="Search VPS, location, or seller"
-                placeholder="Search VPS, location, or seller..."
-                className="h-11 w-full rounded-full border border-[var(--border-subtle)] bg-white pl-10 pr-4 text-sm text-[var(--text)] outline-none transition-colors placeholder:text-[var(--text-faint)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent-ring)]"
-              />
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <nav className="hidden lg:block bg-[color:var(--bg)]/60">
-        <div className="mx-auto max-w-7xl px-6">
-          <DesktopNavLinks activeHash={hash} />
-        </div>
-      </nav>
-    </>
+      </div>
+    </header>
   );
 }
 
@@ -574,7 +516,7 @@ function QuickMenu() {
 
 function DesktopNavLinks({ activeHash }: { activeHash: string }) {
   return (
-    <nav aria-label="Primary" className="hidden items-center gap-1 py-2 lg:flex">
+    <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
       {NAV_LINKS.map((l, index) => {
         const href = `#${l.toLowerCase().replace(/\s/g, "-")}`;
         const active = activeHash === href;
