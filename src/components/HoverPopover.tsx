@@ -56,11 +56,9 @@ export function HoverPopover({
         asChild
         onMouseEnter={scheduleOpen}
         onMouseLeave={scheduleClose}
-        onClick={(e) => {
-          // On touch devices toggle via tap. On desktop, click still works.
-          e.preventDefault();
+        onClick={() => {
           clearTimer();
-          setOpen((v) => !v);
+          setOpen(true);
         }}
       >
         {trigger}
