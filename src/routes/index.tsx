@@ -274,18 +274,20 @@ function WelcomeModal() {
 /* ----------------------------- INFO TICKER ----------------------------- */
 function InfoTicker() {
   return (
-    <div className="relative z-40 overflow-hidden border-b border-[var(--border-subtle)] bg-[var(--accent-tint)] py-2.5">
-      <div className="top-ticker-track flex w-max items-center gap-6 px-4 text-xs font-medium text-[var(--accent-strong)] sm:text-sm">
-        <TickerItem icon={<Zap className="h-3.5 w-3.5" />} label="Promo spesial VPS & Bare Metal" />
-        <TickerItem icon={<ShieldCheck className="h-3.5 w-3.5" />} label="Support 24/7" />
-        <TickerItem icon={<Cloud className="h-3.5 w-3.5" />} label="Deploy dalam menit" />
-        <TickerItem icon={<CreditCard className="h-3.5 w-3.5" />} label="Pembayaran QRIS / Virtual Account" />
-        <TickerItem icon={<Activity className="h-3.5 w-3.5" />} label="Garansi uptime tinggi" />
-        <TickerItem icon={<Zap className="h-3.5 w-3.5" />} label="Promo spesial VPS & Bare Metal" />
-        <TickerItem icon={<ShieldCheck className="h-3.5 w-3.5" />} label="Support 24/7" />
-        <TickerItem icon={<Cloud className="h-3.5 w-3.5" />} label="Deploy dalam menit" />
-        <TickerItem icon={<CreditCard className="h-3.5 w-3.5" />} label="Pembayaran QRIS / Virtual Account" />
-        <TickerItem icon={<Activity className="h-3.5 w-3.5" />} label="Garansi uptime tinggi" />
+    <div className="relative z-40 px-3 pt-3 sm:px-6">
+      <div className="mx-auto max-w-7xl overflow-hidden rounded-xl border border-[var(--border-subtle)] bg-[var(--accent-tint)] py-2 shadow-sm">
+        <div className="top-ticker-track flex w-max items-center gap-5 px-3 text-xs font-medium text-[var(--accent-strong)] sm:gap-6 sm:px-4">
+          <TickerItem icon={<Zap className="h-3.5 w-3.5" />} label="Promo spesial VPS & Bare Metal" />
+          <TickerItem icon={<ShieldCheck className="h-3.5 w-3.5" />} label="Support 24/7" />
+          <TickerItem icon={<Cloud className="h-3.5 w-3.5" />} label="Deploy dalam menit" />
+          <TickerItem icon={<CreditCard className="h-3.5 w-3.5" />} label="Pembayaran QRIS / Virtual Account" />
+          <TickerItem icon={<Activity className="h-3.5 w-3.5" />} label="Garansi uptime tinggi" />
+          <TickerItem icon={<Zap className="h-3.5 w-3.5" />} label="Promo spesial VPS & Bare Metal" />
+          <TickerItem icon={<ShieldCheck className="h-3.5 w-3.5" />} label="Support 24/7" />
+          <TickerItem icon={<Cloud className="h-3.5 w-3.5" />} label="Deploy dalam menit" />
+          <TickerItem icon={<CreditCard className="h-3.5 w-3.5" />} label="Pembayaran QRIS / Virtual Account" />
+          <TickerItem icon={<Activity className="h-3.5 w-3.5" />} label="Garansi uptime tinggi" />
+        </div>
       </div>
       <style>{`
         @keyframes top-ticker {
