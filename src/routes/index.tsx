@@ -328,8 +328,8 @@ function Nav() {
   const hash = useHash();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--border-subtle)] bg-[color:var(--bg)]/85 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-3 sm:gap-4 sm:px-6 sm:py-3.5">
+    <header className="relative z-40 border-b border-[var(--border-subtle)] bg-[color:var(--bg)]/85 backdrop-blur-xl lg:border-b-0 lg:bg-transparent lg:backdrop-blur-none">
+      <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-3 sm:gap-4 sm:px-6 sm:py-3.5 lg:sticky lg:top-0 lg:z-50 lg:border-b lg:border-[var(--border-subtle)] lg:bg-[color:var(--bg)]/85 lg:backdrop-blur-xl">
         <a href="/" className="flex shrink-0 items-center gap-2 sm:gap-2.5">
           <div className="grid h-9 w-9 place-items-center rounded-lg bg-[var(--accent)] text-white shadow-[0_6px_18px_-6px_var(--accent-ring)]">
             <Layers className="h-4.5 w-4.5" strokeWidth={2.4} />
@@ -355,8 +355,6 @@ function Nav() {
             />
           </div>
         </div>
-
-        
 
         <div className="ml-auto flex shrink-0 items-center gap-1 md:ml-0 md:gap-1.5">
           <button
@@ -388,7 +386,7 @@ function Nav() {
         </div>
       </div>
 
-      <div className="hidden lg:block border-t border-[var(--border-subtle)]/70 bg-[color:var(--bg)]/60">
+      <div className="relative hidden lg:block border-t border-[var(--border-subtle)]/70 bg-[color:var(--bg)]/60">
         <div className="mx-auto max-w-7xl px-6">
           <DesktopNavLinks activeHash={hash} />
         </div>
