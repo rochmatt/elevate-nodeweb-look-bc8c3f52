@@ -1,5 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { fallback, zodValidator } from "@tanstack/zod-adapter";
 import { useMemo, useState } from "react";
+import { z } from "zod";
 import {
   ArrowUpDown,
   BadgeCheck,
@@ -15,7 +17,7 @@ import {
   Heart,
   LayoutGrid,
   List,
-  
+
   MemoryStick,
   Plus,
   Search,
@@ -31,7 +33,13 @@ import {
 } from "lucide-react";
 import { Sidebar, Topbar } from "./dashboard";
 
+type CategoryKey = "all" | "cloud" | "bare" | "residential" | "datacenter";
+const categorySchema = z.object({
+  category: fallback(z.enum(["all", "cloud", "bare", "residential", "datacenter"]), "all").default("all"),
+});
+
 export const Route = createFileRoute("/marketplace")({
+  validateSearch: zodValidator(categorySchema),
   head: () => ({
     meta: [
       { title: "VPS Marketplace — NodeKPT" },
@@ -57,8 +65,14 @@ export const Route = createFileRoute("/marketplace")({
 /* ============================================================ */
 /*  PAGE SHELL                                                   */
 /* ============================================================ */
+type SearchParams = z.infer<typeof categorySchema>;
+
 function Marketplace() {
-  const [category, setCategory] = useState<CategoryKey>("cloud");
+  const search = Route.useSearch();
+  const navigate = useNavigate({ from: "/marketplace" });
+  const category = search.category;
+  const setCategory = (next: CategoryKey) =>
+    navigate({ search: (prev: SearchParams) => ({ ...prev, category: next }), replace: true });
   const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
   const [view, setView] = useState<"grid" | "list">("grid");
   const [compare, setCompare] = useState<string[]>([]);
@@ -168,7 +182,6 @@ function PageHeader({ compareCount }: { compareCount: number }) {
 /* ============================================================ */
 /*  TOOLBAR (category tabs + search + billing + view)            */
 /* ============================================================ */
-type CategoryKey = "all" | "cloud" | "bare" | "residential" | "datacenter";
 const categories: { key: CategoryKey; label: string; count: number }[] = [
   { key: "all", label: "All Products", count: 248 },
   { key: "cloud", label: "Cloud VPS", count: 142 },

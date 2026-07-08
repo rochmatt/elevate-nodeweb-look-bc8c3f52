@@ -32,6 +32,9 @@ import {
   Store,
   Wrench,
   Handshake,
+  Network,
+  Download,
+  Monitor,
 } from "lucide-react";
 import thumbBareMetal from "@/assets/thumb-baremetal.jpg";
 import thumbVps from "@/assets/thumb-vps.jpg";
@@ -407,12 +410,35 @@ function Nav() {
 }
 
 /* --------------------------- QUICK MENU --------------------------- */
-const QUICK_MENU: { label: string; href: string; icon: typeof Store }[] = [
-  { label: "Marketplace", href: "#marketplace", icon: Store },
-  { label: "Tools", href: "#tools", icon: Wrench },
+type QuickLink = { label: string; href: string; icon: typeof Store };
+type QuickGroup = { label: string; icon: typeof Store; items: QuickLink[] };
+type QuickMenuItem = QuickGroup | QuickLink;
+
+const QUICK_MENU: QuickMenuItem[] = [
+  {
+    label: "Marketplace",
+    icon: Store,
+    items: [
+      { label: "VPS", href: "/marketplace?category=cloud", icon: Cloud },
+      { label: "Bare Metal", href: "/marketplace?category=bare", icon: Server },
+      { label: "Proxy", href: "/marketplace?category=residential", icon: Network },
+    ],
+  },
+  {
+    label: "Tools",
+    icon: Wrench,
+    items: [
+      { label: "Winstaller", href: "/tools/winstaller", icon: Download },
+      { label: "Install Hypervisor", href: "/tools/install-hypervisor", icon: Monitor },
+    ],
+  },
   { label: "Features", href: "#features", icon: Sparkles },
   { label: "Become a Seller", href: "#become-a-seller", icon: Handshake },
 ];
+
+function isQuickGroup(item: QuickMenuItem): item is QuickGroup {
+  return "items" in item && Array.isArray((item as QuickGroup).items);
+}
 
 function QuickMenu() {
   const hash = useHash();
@@ -453,44 +479,77 @@ function QuickMenu() {
             </button>
           </SheetTrigger>
 
-          <SheetContent side="bottom" className="theme-light rounded-t-3xl border-t border-[var(--border-subtle)] bg-[var(--bg)] px-0 pb-8 pt-2">
+          <SheetContent
+            side="bottom"
+            className="theme-light flex h-auto max-h-[85vh] flex-col rounded-t-3xl border-t border-[var(--border-subtle)] bg-[var(--bg)] px-0 pb-8 pt-2"
+          >
             <SheetHeader className="px-4 pb-2 text-left">
               <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-[var(--border-subtle)]" />
               <SheetTitle className="text-lg font-bold text-[var(--text)]">Quick Menu</SheetTitle>
             </SheetHeader>
 
-            <nav className="grid grid-cols-2 gap-3 px-4 pt-2 sm:grid-cols-4">
-              {QUICK_MENU.map(({ label, href, icon: Icon }, index) => {
-                const active = hash === href;
+            <nav className="flex-1 space-y-4 overflow-y-auto px-4 pt-2">
+              {QUICK_MENU.map((item, index) => {
+                if (isQuickGroup(item)) {
+                  return (
+                    <div key={item.label} className="space-y-2">
+                      <div className="flex items-center gap-2 px-1">
+                        <item.icon className="h-4 w-4 text-[var(--accent-strong)]" strokeWidth={2} />
+                        <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">
+                          {item.label}
+                        </span>
+                      </div>
+                      <div className={`grid gap-2 ${item.items.length >= 3 ? "grid-cols-3" : "grid-cols-2"}`}>
+                        {item.items.map((child, childIndex) => (
+                          <SheetClose asChild key={child.label}>
+                            <a
+                              href={child.href}
+                              style={mounted ? { animationDelay: `${(index * 3 + childIndex) * 60}ms` } : undefined}
+                              className={`group flex min-h-[104px] flex-col items-center justify-center gap-2 rounded-2xl border border-[var(--border-subtle)] bg-white/90 px-2 py-4 text-center shadow-[0_2px_10px_-4px_rgba(15,23,42,0.06)] transition-all duration-300 ease-out hover:border-[var(--accent)]/35 hover:bg-white hover:shadow-[0_14px_36px_-18px_var(--accent-ring)] hover:-translate-y-0.5 active:scale-[0.97] ${
+                                mounted ? "menu-enter" : "opacity-0"
+                              }`}
+                            >
+                              <span className="grid h-10 w-10 place-items-center rounded-xl bg-[var(--accent-tint)] text-[var(--accent-strong)] transition-all duration-300 ease-out group-hover:bg-gradient-to-br group-hover:from-[var(--accent-soft)] group-hover:to-[var(--accent)] group-hover:text-white group-hover:shadow-[0_8px_22px_-10px_var(--accent-ring)]">
+                                <child.icon className="h-5 w-5" strokeWidth={1.8} />
+                              </span>
+                              <span className="line-clamp-2 text-[11px] font-semibold leading-tight text-[var(--text)] sm:text-xs">
+                                {child.label}
+                              </span>
+                            </a>
+                          </SheetClose>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                }
+
+                const active = hash === item.href;
                 return (
-                  <SheetClose asChild key={label}>
+                  <SheetClose asChild key={item.label}>
                     <a
-                      href={href}
+                      href={item.href}
                       aria-current={active ? "page" : undefined}
                       style={mounted ? { animationDelay: `${index * 70}ms` } : undefined}
-                      className={`group relative flex flex-col items-center justify-center gap-3 overflow-hidden rounded-2xl border px-3 py-5 text-center transition-all duration-300 ease-out active:scale-[0.97] ${
+                      className={`group flex items-center gap-4 rounded-2xl border px-4 py-3 transition-all duration-300 ease-out active:scale-[0.99] ${
                         mounted ? "menu-enter" : "opacity-0"
                       } ${
                         active
                           ? "border-[var(--accent)]/50 bg-white shadow-[0_8px_28px_-14px_var(--accent-ring)]"
-                          : "border-[var(--border-subtle)] bg-white/90 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.06)] hover:border-[var(--accent)]/35 hover:bg-white hover:shadow-[0_14px_36px_-18px_var(--accent-ring)] hover:-translate-y-0.5"
+                          : "border-[var(--border-subtle)] bg-white/90 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.06)] hover:border-[var(--accent)]/35 hover:bg-white hover:shadow-[0_14px_36px_-18px_var(--accent-ring)]"
                       }`}
                     >
                       <span
-                        className={`grid h-12 w-12 place-items-center rounded-2xl transition-all duration-300 ease-out ${
+                        className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl transition-all duration-300 ease-out ${
                           active
                             ? "bg-gradient-to-br from-[var(--accent-soft)] to-[var(--accent)] text-white shadow-[0_8px_22px_-10px_var(--accent-ring)]"
-                            : "bg-[var(--accent-tint)] text-[var(--accent-strong)] group-hover:bg-gradient-to-br group-hover:from-[var(--accent-soft)] group-hover:to-[var(--accent)] group-hover:text-white group-hover:shadow-[0_8px_22px_-10px_var(--accent-ring)]"
-                        } ${active ? "menu-icon-pop" : ""}`}
+                            : "bg-[var(--accent-tint)] text-[var(--accent-strong)] group-hover:bg-gradient-to-br group-hover:from-[var(--accent-soft)] group-hover:to-[var(--accent)] group-hover:text-white"
+                        }`}
                       >
-                        <Icon className="h-6 w-6" strokeWidth={1.8} />
+                        <item.icon className="h-5 w-5" strokeWidth={1.8} />
                       </span>
-                      <span className="text-xs font-semibold leading-tight tracking-tight text-[var(--text)] transition-colors duration-300 sm:text-sm">
-                        {label}
-                      </span>
-
+                      <span className="text-sm font-semibold text-[var(--text)]">{item.label}</span>
                       {active && (
-                        <span className="menu-dot-enter absolute bottom-2 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-[var(--accent)] shadow-[0_0_6px_var(--accent)]" />
+                        <span className="menu-dot-enter ml-auto h-2 w-2 rounded-full bg-[var(--accent)] shadow-[0_0_6px_var(--accent)]" />
                       )}
                     </a>
                   </SheetClose>
