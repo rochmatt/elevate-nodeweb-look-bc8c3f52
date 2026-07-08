@@ -408,7 +408,7 @@ function Nav() {
         </div>
       </header>
 
-      <nav className="hidden lg:block border-t border-[var(--border-subtle)]/70 bg-[color:var(--bg)]/60">
+      <nav className="hidden lg:block bg-[color:var(--bg)]/60">
         <div className="mx-auto max-w-7xl px-6">
           <DesktopNavLinks activeHash={hash} />
         </div>
