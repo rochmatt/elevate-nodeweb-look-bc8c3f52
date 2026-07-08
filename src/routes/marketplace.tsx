@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { fallback, zodValidator } from "@tanstack/zod-adapter";
 import { useMemo, useState } from "react";
+import { z } from "zod";
 import {
   ArrowUpDown,
   BadgeCheck,
@@ -15,7 +17,7 @@ import {
   Heart,
   LayoutGrid,
   List,
-  
+
   MemoryStick,
   Plus,
   Search,
@@ -31,7 +33,13 @@ import {
 } from "lucide-react";
 import { Sidebar, Topbar } from "./dashboard";
 
+type CategoryKey = "all" | "cloud" | "bare" | "residential" | "datacenter";
+const categorySchema = z.object({
+  category: fallback(z.enum(["all", "cloud", "bare", "residential", "datacenter"]), "all").default("all"),
+});
+
 export const Route = createFileRoute("/marketplace")({
+  validateSearch: zodValidator(categorySchema),
   head: () => ({
     meta: [
       { title: "VPS Marketplace — NodeKPT" },
