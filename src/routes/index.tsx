@@ -140,7 +140,7 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   return (
-    <div className="theme-light min-h-screen">
+    <div className="theme-light">
       <Nav />
       <InfoTicker />
       <QuickMenu />
