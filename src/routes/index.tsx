@@ -356,7 +356,7 @@ function Nav() {
           </div>
         </div>
 
-        <DesktopNavLinks activeHash={hash} />
+        
 
         <div className="ml-auto flex shrink-0 items-center gap-1 md:ml-0 md:gap-1.5">
           <button
@@ -385,6 +385,12 @@ function Nav() {
           <div className="hidden lg:block">
             <AuthActions />
           </div>
+        </div>
+      </div>
+
+      <div className="hidden lg:block border-t border-[var(--border-subtle)]/70 bg-[color:var(--bg)]/60">
+        <div className="mx-auto max-w-7xl px-6">
+          <DesktopNavLinks activeHash={hash} />
         </div>
       </div>
 
@@ -568,7 +574,7 @@ function QuickMenu() {
 
 function DesktopNavLinks({ activeHash }: { activeHash: string }) {
   return (
-    <nav className="ml-auto hidden items-center gap-1 lg:flex">
+    <nav aria-label="Primary" className="hidden items-center gap-1 py-2 lg:flex">
       {NAV_LINKS.map((l, index) => {
         const href = `#${l.toLowerCase().replace(/\s/g, "-")}`;
         const active = activeHash === href;
