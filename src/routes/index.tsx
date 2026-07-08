@@ -1091,7 +1091,7 @@ function MarketplacePreview() {
             </div>
             <h2 className="mt-2.5 text-[1.65rem] font-black leading-[1.15] tracking-tight text-[var(--text)] sm:mt-3 sm:text-4xl md:text-5xl">
               Choose the Best VPS for{" "}
-              <span className="text-[var(--accent)]">Your Needs</span>
+              <span className="whitespace-nowrap text-[var(--accent)]">Your Needs</span>
             </h2>
             <p className="mt-2.5 max-w-xl text-sm leading-relaxed text-[var(--text-muted)] sm:mt-3 sm:text-base">
               Compare prices and specs from trusted sellers.
