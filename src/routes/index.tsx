@@ -885,7 +885,7 @@ function Locations() {
           Available in premier locations
         </div>
         <div className="relative -mx-4 mt-5 sm:mx-0 sm:mt-6">
-          <div className="flex snap-x snap-mandatory items-center gap-x-6 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:justify-center sm:gap-x-8 sm:gap-y-2.5 sm:overflow-visible sm:px-0 md:gap-x-12">
+          <div className="flex snap-x snap-mandatory items-center gap-x-6 overflow-x-auto px-4 pr-10 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:justify-center sm:gap-x-8 sm:gap-y-2.5 sm:overflow-visible sm:px-0 md:gap-x-12">
             {cities.map((c) => (
               <div
                 key={c}
