@@ -176,7 +176,6 @@ function PageHeader({ compareCount }: { compareCount: number }) {
 /* ============================================================ */
 /*  TOOLBAR (category tabs + search + billing + view)            */
 /* ============================================================ */
-type CategoryKey = "all" | "cloud" | "bare" | "residential" | "datacenter";
 const categories: { key: CategoryKey; label: string; count: number }[] = [
   { key: "all", label: "All Products", count: 248 },
   { key: "cloud", label: "Cloud VPS", count: 142 },
