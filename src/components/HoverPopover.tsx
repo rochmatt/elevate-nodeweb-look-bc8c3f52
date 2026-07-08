@@ -56,11 +56,9 @@ export function HoverPopover({
         asChild
         onMouseEnter={scheduleOpen}
         onMouseLeave={scheduleClose}
-        onClick={(e) => {
-          // On touch devices toggle via tap. On desktop, click still works.
-          e.preventDefault();
+        onClick={() => {
           clearTimer();
-          setOpen((v) => !v);
+          setOpen(true);
         }}
       >
         {trigger}
@@ -68,6 +66,7 @@ export function HoverPopover({
       <PopoverContent
         align={align}
         sideOffset={sideOffset}
+        collisionPadding={12}
         onMouseEnter={() => {
           clearTimer();
           setOpen(true);
@@ -75,7 +74,7 @@ export function HoverPopover({
         onMouseLeave={scheduleClose}
         onOpenAutoFocus={(e) => e.preventDefault()}
         className={cn(
-          "theme-light w-72 overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-white p-0 shadow-[0_20px_60px_-15px_rgba(15,23,42,0.25)]",
+          "theme-light z-50 w-[min(20rem,calc(100vw-1.5rem))] overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-white p-0 shadow-[0_20px_60px_-15px_rgba(15,23,42,0.25)]",
           contentClassName,
         )}
       >
