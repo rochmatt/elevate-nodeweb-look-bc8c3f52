@@ -880,7 +880,9 @@ function Locations() {
   const cities = ["Jakarta", "Singapore", "Tokyo", "Frankfurt", "New York", "London"];
   return (
     <section className="border-y border-[var(--border-subtle)] bg-white/60">
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-6 lg:py-4">
+
+
         <div className="text-center text-[11px] font-semibold uppercase tracking-[0.32em] text-[var(--text-faint)]">
           Available in premier locations
         </div>
@@ -1083,7 +1085,9 @@ function MarketplacePreview() {
   const [activeTab, setActiveTab] = useState("All");
   return (
     <section id="marketplace" className="relative">
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 md:py-24">
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-12 md:py-14">
+
+
         <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
           <div className="min-w-0">
             <div className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[var(--accent)]">
