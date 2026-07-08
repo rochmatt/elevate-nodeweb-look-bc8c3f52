@@ -499,7 +499,7 @@ function QuickMenu() {
                           {item.label}
                         </span>
                       </div>
-                      <div className="grid grid-cols-3 gap-2">
+                      <div className={`grid gap-2 ${item.items.length >= 3 ? "grid-cols-3" : "grid-cols-2"}`}>
                         {item.items.map((child, childIndex) => (
                           <SheetClose asChild key={child.label}>
                             <a
