@@ -66,7 +66,11 @@ export const Route = createFileRoute("/marketplace")({
 /*  PAGE SHELL                                                   */
 /* ============================================================ */
 function Marketplace() {
-  const [category, setCategory] = useState<CategoryKey>("cloud");
+  const search = Route.useSearch();
+  const navigate = useNavigate({ from: "/marketplace" });
+  const category = search.category;
+  const setCategory = (next: CategoryKey) =>
+    navigate({ search: (prev) => ({ ...prev, category: next }), replace: true });
   const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
   const [view, setView] = useState<"grid" | "list">("grid");
   const [compare, setCompare] = useState<string[]>([]);
