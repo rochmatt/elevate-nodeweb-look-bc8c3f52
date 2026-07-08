@@ -65,12 +65,14 @@ export const Route = createFileRoute("/marketplace")({
 /* ============================================================ */
 /*  PAGE SHELL                                                   */
 /* ============================================================ */
+type SearchParams = z.infer<typeof categorySchema>;
+
 function Marketplace() {
   const search = Route.useSearch();
   const navigate = useNavigate({ from: "/marketplace" });
   const category = search.category;
   const setCategory = (next: CategoryKey) =>
-    navigate({ search: (prev) => ({ ...prev, category: next }), replace: true });
+    navigate({ search: (prev: SearchParams) => ({ ...prev, category: next }), replace: true });
   const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
   const [view, setView] = useState<"grid" | "list">("grid");
   const [compare, setCompare] = useState<string[]>([]);
