@@ -344,15 +344,13 @@ function Nav() {
 
         <DesktopNavLinks activeHash={hash} />
 
-        <div className="ml-auto flex shrink-0 items-center gap-1 md:gap-1.5">
+        <div className="ml-auto flex shrink-0 items-center gap-1 lg:ml-0 md:gap-1.5">
           <div className="hidden lg:flex items-center gap-0.5">
             <NotificationsMenu />
             <MessagesMenu />
           </div>
           <CartMenu />
-          <div className="hidden lg:block">
-            <AuthActions />
-          </div>
+          <AuthActions />
         </div>
       </div>
     </header>
