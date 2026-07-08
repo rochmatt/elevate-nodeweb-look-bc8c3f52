@@ -410,12 +410,35 @@ function Nav() {
 }
 
 /* --------------------------- QUICK MENU --------------------------- */
-const QUICK_MENU: { label: string; href: string; icon: typeof Store }[] = [
-  { label: "Marketplace", href: "#marketplace", icon: Store },
-  { label: "Tools", href: "#tools", icon: Wrench },
+type QuickLink = { label: string; href: string; icon: typeof Store };
+type QuickGroup = { label: string; icon: typeof Store; items: QuickLink[] };
+type QuickMenuItem = QuickGroup | QuickLink;
+
+const QUICK_MENU: QuickMenuItem[] = [
+  {
+    label: "Marketplace",
+    icon: Store,
+    items: [
+      { label: "VPS", href: "/marketplace?category=cloud", icon: Cloud },
+      { label: "Bare Metal", href: "/marketplace?category=bare", icon: Server },
+      { label: "Proxy", href: "/marketplace?category=residential", icon: Network },
+    ],
+  },
+  {
+    label: "Tools",
+    icon: Wrench,
+    items: [
+      { label: "Winstaller", href: "/tools/winstaller", icon: Download },
+      { label: "Install Hypervisor", href: "/tools/install-hypervisor", icon: Monitor },
+    ],
+  },
   { label: "Features", href: "#features", icon: Sparkles },
   { label: "Become a Seller", href: "#become-a-seller", icon: Handshake },
 ];
+
+function isQuickGroup(item: QuickMenuItem): item is QuickGroup {
+  return "items" in item && Array.isArray((item as QuickGroup).items);
+}
 
 function QuickMenu() {
   const hash = useHash();
