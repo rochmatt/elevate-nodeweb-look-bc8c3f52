@@ -5,7 +5,6 @@ import { useCart } from "@/hooks/useCart";
 import {
   ArrowRight,
   Check,
-  Search,
   ShoppingCart,
   Globe,
   ShieldCheck,
