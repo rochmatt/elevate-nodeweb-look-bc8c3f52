@@ -424,7 +424,7 @@ function QuickMenu() {
   return (
     <section
       aria-label="Quick menu"
-      className="relative z-30 border-b border-[var(--border-subtle)] bg-[var(--bg)]"
+      className="relative z-30 border-b border-[var(--border-subtle)] bg-[var(--bg)] lg:hidden"
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute left-1/2 top-0 h-40 w-[80%] -translate-x-1/2 bg-gradient-to-b from-[var(--accent-tint)] to-transparent opacity-70 blur-2xl" />
