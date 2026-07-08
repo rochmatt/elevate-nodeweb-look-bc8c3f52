@@ -574,7 +574,7 @@ function QuickMenu() {
 
 function DesktopNavLinks({ activeHash }: { activeHash: string }) {
   return (
-    <nav className="ml-auto hidden items-center gap-1 lg:flex">
+    <nav aria-label="Primary" className="hidden items-center gap-1 py-2 lg:flex">
       {NAV_LINKS.map((l, index) => {
         const href = `#${l.toLowerCase().replace(/\s/g, "-")}`;
         const active = activeHash === href;
