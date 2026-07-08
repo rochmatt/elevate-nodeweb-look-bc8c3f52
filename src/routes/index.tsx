@@ -28,6 +28,7 @@ import {
   X,
   MessageCircle,
   Menu,
+  ChevronUp,
   Store,
   Wrench,
   Handshake,
