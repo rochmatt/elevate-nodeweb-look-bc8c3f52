@@ -1084,7 +1084,8 @@ function MarketplacePreview() {
   const [activeTab, setActiveTab] = useState("All");
   return (
     <section id="marketplace" className="relative">
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 md:py-24">
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-16 md:py-18">
+
         <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
           <div className="min-w-0">
             <div className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[var(--accent)]">
