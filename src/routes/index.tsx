@@ -32,6 +32,9 @@ import {
   Store,
   Wrench,
   Handshake,
+  Network,
+  Download,
+  Monitor,
 } from "lucide-react";
 import thumbBareMetal from "@/assets/thumb-baremetal.jpg";
 import thumbVps from "@/assets/thumb-vps.jpg";
