@@ -453,7 +453,7 @@ function QuickMenu() {
             </button>
           </SheetTrigger>
 
-          <SheetContent side="bottom" className="rounded-t-3xl border-t border-[var(--border-subtle)] bg-[var(--bg)] px-0 pb-8 pt-2">
+          <SheetContent side="bottom" className="theme-light rounded-t-3xl border-t border-[var(--border-subtle)] bg-[var(--bg)] px-0 pb-8 pt-2">
             <SheetHeader className="px-4 pb-2 text-left">
               <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-[var(--border-subtle)]" />
               <SheetTitle className="text-lg font-bold text-[var(--text)]">Quick Menu</SheetTitle>
