@@ -1083,30 +1083,30 @@ function MarketplacePreview() {
   const [activeTab, setActiveTab] = useState("All");
   return (
     <section id="marketplace" className="relative">
-      <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 md:py-28">
-        <div className="flex flex-wrap items-end justify-between gap-4 sm:gap-6">
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 md:py-24">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
           <div className="min-w-0">
             <div className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[var(--accent)]">
               Marketplace
             </div>
-            <h2 className="mt-3 text-3xl font-black tracking-tight text-[var(--text)] sm:text-4xl md:text-5xl">
+            <h2 className="mt-2.5 text-[1.65rem] font-black leading-[1.15] tracking-tight text-[var(--text)] sm:mt-3 sm:text-4xl md:text-5xl">
               Choose the Best VPS for{" "}
               <span className="text-[var(--accent)]">Your Needs</span>
             </h2>
-            <p className="mt-3 max-w-xl text-sm text-[var(--text-muted)] sm:mt-4 sm:text-base">
+            <p className="mt-2.5 max-w-xl text-sm leading-relaxed text-[var(--text-muted)] sm:mt-3 sm:text-base">
               Compare prices and specs from trusted sellers.
             </p>
           </div>
 
           <Link
             to="/marketplace"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--accent)] transition-all hover:gap-2.5"
+            className="inline-flex shrink-0 items-center gap-1.5 self-start text-sm font-semibold text-[var(--accent)] transition-all hover:gap-2.5 sm:self-auto"
           >
             Browse all <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
-        <div className="-mx-5 mt-7 px-5 sm:mx-0 sm:px-0">
+        <div className="-mx-4 mt-6 px-4 sm:mx-0 sm:mt-8 sm:px-0">
           <LocationTabs activeTab={activeTab} onChange={setActiveTab} />
         </div>
 
@@ -1114,10 +1114,9 @@ function MarketplacePreview() {
           role="tabpanel"
           id="marketplace-packages"
           aria-labelledby={`tab-${activeTab}`}
-          className="mt-8 grid gap-5 sm:mt-10 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4"
+          className="mt-7 grid gap-4 sm:mt-9 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4"
         >
           {packages.map((p) => (
-
             <PackageCard key={p.name} pkg={p} />
           ))}
         </div>
