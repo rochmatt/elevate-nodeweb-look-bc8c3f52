@@ -430,7 +430,7 @@ function QuickMenu() {
         <div className="absolute left-1/2 top-0 h-40 w-[80%] -translate-x-1/2 bg-gradient-to-b from-[var(--accent-tint)] to-transparent opacity-70 blur-2xl" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 py-3.5 sm:px-6 sm:py-4 lg:py-5">
+      <div className="relative mx-auto max-w-7xl px-4 py-2.5 sm:px-6 sm:py-4 lg:py-5">
         <div className="grid grid-cols-4 gap-2 sm:gap-3 lg:grid-cols-4 lg:gap-4">
           {QUICK_MENU.map(({ label, href, icon: Icon }, index) => {
             const active = hash === href;
@@ -539,7 +539,7 @@ function Hero() {
       <GridBackdrop />
       <div className="radial-glow pointer-events-none absolute left-1/2 top-1/3 h-[560px] w-[900px] -translate-x-1/2 -translate-y-1/2" />
 
-      <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 pb-4 pt-10 sm:px-6 sm:pt-14 lg:grid-cols-[1.15fr_1fr] lg:gap-14 lg:pb-32 lg:pt-24">
+      <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 pb-4 pt-4 sm:px-6 sm:pt-14 lg:grid-cols-[1.15fr_1fr] lg:gap-14 lg:pb-32 lg:pt-24">
         {/* Mobile: image slider replaces headline copy */}
         <div className="min-w-0 lg:hidden">
           <MobileHeroSlider />
