@@ -790,7 +790,7 @@ function Locations() {
   const cities = ["Jakarta", "Singapore", "Tokyo", "Frankfurt", "New York", "London"];
   return (
     <section className="border-y border-[var(--border-subtle)] bg-white/60">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+      <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-10">
         <div className="text-center text-[11px] font-semibold uppercase tracking-[0.32em] text-[var(--text-faint)]">
           Available in premier locations
         </div>
