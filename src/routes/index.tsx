@@ -880,19 +880,26 @@ function Locations() {
   const cities = ["Jakarta", "Singapore", "Tokyo", "Frankfurt", "New York", "London"];
   return (
     <section className="border-y border-[var(--border-subtle)] bg-white/60">
-      <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-10">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10">
         <div className="text-center text-[11px] font-semibold uppercase tracking-[0.32em] text-[var(--text-faint)]">
           Available in premier locations
         </div>
-        <div className="-mx-4 mt-5 flex snap-x snap-mandatory items-center gap-x-8 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:mt-6 sm:flex-wrap sm:justify-center sm:gap-x-10 sm:gap-y-3 sm:overflow-visible sm:px-0 md:gap-x-14">
-          {cities.map((c) => (
-            <div
-              key={c}
-              className="shrink-0 snap-start text-base font-semibold text-[var(--text-muted)] transition-colors hover:text-[var(--accent-strong)] sm:shrink sm:text-lg md:text-xl"
-            >
-              {c}
-            </div>
-          ))}
+        <div className="relative -mx-4 mt-5 sm:mx-0 sm:mt-6">
+          <div className="flex snap-x snap-mandatory items-center gap-x-6 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:justify-center sm:gap-x-8 sm:gap-y-2.5 sm:overflow-visible sm:px-0 md:gap-x-12">
+            {cities.map((c) => (
+              <div
+                key={c}
+                className="shrink-0 snap-start text-[15px] font-semibold tracking-tight text-[var(--text-muted)] transition-colors hover:text-[var(--accent-strong)] sm:shrink sm:text-lg md:text-xl"
+              >
+                {c}
+              </div>
+            ))}
+          </div>
+          {/* Mobile scroll fade */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute right-0 top-0 h-full w-8 bg-gradient-to-l from-white/90 via-white/40 to-transparent sm:hidden"
+          />
         </div>
       </div>
     </section>
