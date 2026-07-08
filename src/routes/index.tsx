@@ -388,6 +388,12 @@ function Nav() {
         </div>
       </div>
 
+      <div className="hidden lg:block border-t border-[var(--border-subtle)]/70 bg-[color:var(--bg)]/60">
+        <div className="mx-auto max-w-7xl px-6">
+          <DesktopNavLinks activeHash={hash} />
+        </div>
+      </div>
+
       <div
         id="mobile-search"
         className={`md:hidden overflow-hidden border-t border-[var(--border-subtle)] transition-[max-height,opacity] duration-300 ease-out ${
