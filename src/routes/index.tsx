@@ -42,6 +42,7 @@ import heroSlide1 from "@/assets/hero-slide-1.jpg";
 import heroSlide2 from "@/assets/hero-slide-2.jpg";
 import heroSlide3 from "@/assets/hero-slide-3.jpg";
 import { AuthActions } from "@/components/UserMenu";
+import { CartMenu, MessagesMenu, NotificationsMenu } from "@/components/HeaderMenus";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
 import {
   Dialog,
@@ -376,12 +377,11 @@ function Nav() {
               <Search className="h-4.5 w-4.5" />
             )}
           </button>
-          <button
-            aria-label="Cart"
-            className="grid h-10 w-10 place-items-center rounded-full text-[var(--text-muted)] hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)]"
-          >
-            <ShoppingCart className="h-4.5 w-4.5" />
-          </button>
+          <div className="hidden lg:flex items-center gap-0.5">
+            <NotificationsMenu />
+            <MessagesMenu />
+          </div>
+          <CartMenu />
           <div className="hidden lg:block">
             <AuthActions />
           </div>
