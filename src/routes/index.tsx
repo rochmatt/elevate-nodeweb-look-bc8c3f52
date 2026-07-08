@@ -505,14 +505,14 @@ function QuickMenu() {
                             <a
                               href={child.href}
                               style={mounted ? { animationDelay: `${(index * 3 + childIndex) * 60}ms` } : undefined}
-                              className={`group flex flex-col items-center justify-center gap-2 rounded-2xl border border-[var(--border-subtle)] bg-white/90 px-2 py-4 text-center shadow-[0_2px_10px_-4px_rgba(15,23,42,0.06)] transition-all duration-300 ease-out hover:border-[var(--accent)]/35 hover:bg-white hover:shadow-[0_14px_36px_-18px_var(--accent-ring)] hover:-translate-y-0.5 active:scale-[0.97] ${
+                              className={`group flex min-h-[104px] flex-col items-center justify-center gap-2 rounded-2xl border border-[var(--border-subtle)] bg-white/90 px-2 py-4 text-center shadow-[0_2px_10px_-4px_rgba(15,23,42,0.06)] transition-all duration-300 ease-out hover:border-[var(--accent)]/35 hover:bg-white hover:shadow-[0_14px_36px_-18px_var(--accent-ring)] hover:-translate-y-0.5 active:scale-[0.97] ${
                                 mounted ? "menu-enter" : "opacity-0"
                               }`}
                             >
                               <span className="grid h-10 w-10 place-items-center rounded-xl bg-[var(--accent-tint)] text-[var(--accent-strong)] transition-all duration-300 ease-out group-hover:bg-gradient-to-br group-hover:from-[var(--accent-soft)] group-hover:to-[var(--accent)] group-hover:text-white group-hover:shadow-[0_8px_22px_-10px_var(--accent-ring)]">
                                 <child.icon className="h-5 w-5" strokeWidth={1.8} />
                               </span>
-                              <span className="text-[11px] font-semibold leading-tight text-[var(--text)] sm:text-xs">
+                              <span className="line-clamp-2 text-[11px] font-semibold leading-tight text-[var(--text)] sm:text-xs">
                                 {child.label}
                               </span>
                             </a>
