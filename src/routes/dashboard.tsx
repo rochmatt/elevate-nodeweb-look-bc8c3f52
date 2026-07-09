@@ -279,8 +279,12 @@ export function Topbar({ activeLabel }: { activeLabel?: string } = {}) {
         </Link>
 
         <div className="ml-auto flex items-center gap-0.5 sm:gap-1">
-          <IconButton icon={ShoppingCart} badge="3" />
-          <IconButton icon={MessageSquare} />
+          <div className="hidden lg:flex">
+            <IconButton icon={ShoppingCart} badge="3" />
+          </div>
+          <div className="hidden lg:flex">
+            <IconButton icon={MessageSquare} />
+          </div>
           <button className="hidden h-9 items-center gap-1.5 rounded-lg px-2 text-sm font-medium text-foreground/70 transition-colors hover:bg-foreground/5 hover:text-foreground sm:flex">
             <Globe className="h-4 w-4" strokeWidth={1.75} />
             EN
