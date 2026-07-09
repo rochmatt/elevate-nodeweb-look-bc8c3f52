@@ -553,13 +553,14 @@ function DesktopNavLinks({ activeHash }: { activeHash: string }) {
 }
 
 function MobileNavLinks({ activeHash, onNavigate }: { activeHash: string; onNavigate: () => void }) {
+  const { t } = useLanguage();
   return (
     <nav aria-label="Mobile" className="flex flex-col p-2">
       {NAV_LINKS.map((l) => {
-        const href = `#${l.toLowerCase().replace(/\s/g, "-")}`;
+        const href = `#${l.hash}`;
         const active = activeHash === href;
         return (
-          <SheetClose asChild key={l}>
+          <SheetClose asChild key={l.key}>
             <a
               href={href}
               onClick={onNavigate}
@@ -570,7 +571,7 @@ function MobileNavLinks({ activeHash, onNavigate }: { activeHash: string; onNavi
                   : "text-[var(--text-muted)] hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)]"
               }`}
             >
-              {l}
+              {t(l.key)}
               {active && <span className="h-2 w-2 rounded-full bg-[var(--accent)]" aria-hidden="true" />}
             </a>
           </SheetClose>
