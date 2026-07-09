@@ -348,6 +348,10 @@ function Nav() {
           <div className="hidden lg:flex items-center gap-0.5">
             <NotificationsMenu />
             <MessagesMenu />
+            <LanguageMenu />
+          </div>
+          <div className="flex lg:hidden">
+            <LanguageMenuMobile />
           </div>
           <CartMenu />
           <AuthActions />
