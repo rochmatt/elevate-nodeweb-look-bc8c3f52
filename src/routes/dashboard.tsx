@@ -38,6 +38,9 @@ import {
   Handshake,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { CartMenu, LanguageMenu, LanguageMenuMobile, MessagesMenu, NotificationsMenu } from "@/components/HeaderMenus";
+import { AuthActions } from "@/components/UserMenu";
+
 import { MobileBottomNav } from "@/components/MobileBottomNav";
 
 export const Route = createFileRoute("/dashboard")({
@@ -279,36 +282,23 @@ export function Topbar({ activeLabel }: { activeLabel?: string } = {}) {
         </Link>
 
         <div className="ml-auto flex items-center gap-0.5 sm:gap-1">
-          <div className="hidden lg:flex">
-            <IconButton icon={ShoppingCart} badge="3" />
+          <div className="hidden lg:flex items-center gap-0.5">
+            <NotificationsMenu />
+            <MessagesMenu />
+            <LanguageMenu />
+            <CartMenu />
           </div>
-          <div className="hidden lg:flex">
-            <IconButton icon={MessageSquare} />
+          <div className="flex items-center gap-0.5 lg:hidden">
+            <NotificationsMenu />
+            <LanguageMenuMobile />
           </div>
-          <button className="hidden h-9 items-center gap-1.5 rounded-lg px-2 text-sm font-medium text-foreground/70 transition-colors hover:bg-foreground/5 hover:text-foreground sm:flex">
-            <Globe className="h-4 w-4" strokeWidth={1.75} />
-            EN
-            <ChevronDown className="h-3.5 w-3.5 text-foreground/50" strokeWidth={1.75} />
-          </button>
-          <IconButton icon={Bell} badge="99+" />
-
-          <span className="mx-1 hidden h-5 w-px bg-border/70 sm:block" aria-hidden="true" />
-
-          <div className="ml-1 flex shrink-0 cursor-pointer items-center gap-2 rounded-lg py-1.5 pl-1.5 pr-2 transition-colors hover:bg-foreground/5 sm:ml-0 sm:gap-3 sm:pr-3">
-            <div className="grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br from-gold-soft to-gold-deep font-serif text-base text-primary-foreground">
-              D
-            </div>
-            <div className="hidden text-right leading-tight md:block">
-              <div className="text-sm font-semibold text-foreground">Demo Buyer</div>
-              <div className="text-[10px] text-foreground/60">buyer@nodekpt.com</div>
-            </div>
-            <ChevronDown className="hidden h-3.5 w-3.5 text-foreground/50 sm:block" strokeWidth={1.75} />
-          </div>
+          <AuthActions />
         </div>
       </div>
     </header>
   );
 }
+
 
 function IconButton({
   icon: Icon,
