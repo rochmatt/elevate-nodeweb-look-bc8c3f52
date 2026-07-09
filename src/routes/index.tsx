@@ -41,7 +41,7 @@ import heroSlide1 from "@/assets/hero-slide-1.jpg";
 import heroSlide2 from "@/assets/hero-slide-2.jpg";
 import heroSlide3 from "@/assets/hero-slide-3.jpg";
 import { AuthActions } from "@/components/UserMenu";
-import { CartMenu, MessagesMenu, NotificationsMenu } from "@/components/HeaderMenus";
+import { CartMenu, LanguageMenu, LanguageMenuMobile, MessagesMenu, NotificationsMenu } from "@/components/HeaderMenus";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
 import {
   Dialog,
