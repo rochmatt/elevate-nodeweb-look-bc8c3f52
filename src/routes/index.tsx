@@ -355,11 +355,12 @@ function Nav() {
             <NotificationsMenu />
             <MessagesMenu />
             <LanguageMenu />
+            <CartMenu />
           </div>
-          <div className="flex lg:hidden">
+          <div className="flex items-center gap-0.5 lg:hidden">
+            <NotificationsMenu />
             <LanguageMenuMobile />
           </div>
-          <CartMenu />
           <AuthActions />
         </div>
       </div>
