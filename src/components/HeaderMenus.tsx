@@ -1,7 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { Bell, MessageSquare, ShoppingCart, Trash2 } from "lucide-react";
+import { Bell, Check, Globe, MessageSquare, ShoppingCart, Trash2 } from "lucide-react";
+import { useState } from "react";
 import { HoverPopover } from "@/components/HoverPopover";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useCart } from "@/hooks/useCart";
+import { useLanguage } from "@/hooks/useLanguage";
 
 function IconButton({
   label,
