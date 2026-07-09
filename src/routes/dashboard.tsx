@@ -529,7 +529,14 @@ function RecentOrders() {
     price: string;
     status: string;
     date: string;
-  }[] = [];
+  }[] = [
+    { pkg: "Entry VPS – SG1", seller: "CloudNusa", price: "Rp 55.000", status: "Active", date: "9 Jul 2026" },
+    { pkg: "Business Bare Metal", seller: "Admin NodeKPT", price: "Rp 2.150.000", status: "Provisioning", date: "8 Jul 2026" },
+    { pkg: "Residential Proxy 10GB", seller: "ProxyID", price: "Rp 220.000", status: "Active", date: "7 Jul 2026" },
+    { pkg: "Performance VPS – JKT", seller: "IndoHost", price: "Rp 185.000", status: "Pending", date: "6 Jul 2026" },
+    { pkg: "Bare Metal Dedicated Server", seller: "Admin NodeKPT", price: "Rp 1.970.000", status: "Cancelled", date: "5 Jul 2026" },
+  ];
+
 
   const hasOrders = orders.length > 0;
 
