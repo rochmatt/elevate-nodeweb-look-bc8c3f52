@@ -448,7 +448,7 @@ function QuickMenu() {
           >
             <SheetHeader className="px-4 pb-2 text-left">
               <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-[var(--border-subtle)]" />
-              <SheetTitle className="text-lg font-bold text-[var(--text)]">Quick Menu</SheetTitle>
+              <SheetTitle className="text-lg font-bold text-[var(--text)]">{t("marketplace")} &amp; {t("tools")}</SheetTitle>
             </SheetHeader>
 
             <nav className="flex-1 space-y-4 overflow-y-auto px-4 pt-2">
