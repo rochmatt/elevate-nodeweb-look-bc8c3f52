@@ -308,7 +308,12 @@ function InfoTicker() {
 
 /* ----------------------------- NAV ----------------------------- */
 
-const NAV_LINKS = ["Marketplace", "Tools", "Features", "Become a Seller"];
+const NAV_LINKS = [
+  { key: "marketplace", hash: "marketplace" },
+  { key: "tools", hash: "tools" },
+  { key: "features", hash: "features" },
+  { key: "becomeSeller", hash: "become-a-seller" },
+] as const;
 
 function useHash() {
   const [hash, setHash] = useState("");
