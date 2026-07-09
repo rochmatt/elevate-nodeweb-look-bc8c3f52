@@ -38,6 +38,9 @@ import {
   Handshake,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { CartMenu, LanguageMenu, LanguageMenuMobile, MessagesMenu, NotificationsMenu } from "@/components/HeaderMenus";
+import { AuthActions } from "@/components/UserMenu";
+
 import { MobileBottomNav } from "@/components/MobileBottomNav";
 
 export const Route = createFileRoute("/dashboard")({
