@@ -372,27 +372,30 @@ type QuickLink = { label: string; href: string; icon: typeof Store };
 type QuickGroup = { label: string; icon: typeof Store; items: QuickLink[] };
 type QuickMenuItem = QuickGroup | QuickLink;
 
-const QUICK_MENU: QuickMenuItem[] = [
-  {
-    label: "Marketplace",
-    icon: Store,
-    items: [
-      { label: "VPS", href: "/marketplace?category=cloud", icon: Cloud },
-      { label: "Bare Metal", href: "/marketplace?category=bare", icon: Server },
-      { label: "Proxy", href: "/marketplace?category=residential", icon: Network },
-    ],
-  },
-  {
-    label: "Tools",
-    icon: Wrench,
-    items: [
-      { label: "Winstaller", href: "/tools/winstaller", icon: Download },
-      { label: "Install Hypervisor", href: "/tools/install-hypervisor", icon: Monitor },
-    ],
-  },
-  { label: "Features", href: "#features", icon: Sparkles },
-  { label: "Become a Seller", href: "#become-a-seller", icon: Handshake },
-];
+function useQuickMenu(): QuickMenuItem[] {
+  const { t } = useLanguage();
+  return [
+    {
+      label: t("marketplace"),
+      icon: Store,
+      items: [
+        { label: t("vps"), href: "/marketplace?category=cloud", icon: Cloud },
+        { label: t("bareMetal"), href: "/marketplace?category=bare", icon: Server },
+        { label: t("proxy"), href: "/marketplace?category=residential", icon: Network },
+      ],
+    },
+    {
+      label: t("tools"),
+      icon: Wrench,
+      items: [
+        { label: "Winstaller", href: "/tools/winstaller", icon: Download },
+        { label: "Install Hypervisor", href: "/tools/install-hypervisor", icon: Monitor },
+      ],
+    },
+    { label: t("features"), href: "#features", icon: Sparkles },
+    { label: t("becomeSeller"), href: "#become-a-seller", icon: Handshake },
+  ];
+}
 
 function isQuickGroup(item: QuickMenuItem): item is QuickGroup {
   return "items" in item && Array.isArray((item as QuickGroup).items);
@@ -402,6 +405,8 @@ function QuickMenu() {
   const hash = useHash();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const { t } = useLanguage();
+  const QUICK_MENU = useQuickMenu();
 
   useEffect(() => {
     const id = requestAnimationFrame(() => setMounted(true));
