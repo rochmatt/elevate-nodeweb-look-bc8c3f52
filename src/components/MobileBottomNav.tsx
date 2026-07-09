@@ -58,15 +58,15 @@ export function MobileBottomNav() {
                       className="grid h-6 w-6 place-items-center rounded-full text-[10px] font-bold text-white"
                       style={{ backgroundColor: user.avatarColor }}
                     >
-                      {initialsFor(user.name).slice(0, 1) || "U"}
+                  {initialsFor(user.name).slice(0, 1) || "U"}
                     </span>
                   </span>
-                  <span className="mt-1 text-[10px] font-semibold">Me</span>
+                  <span className="mt-1 text-[10px] font-semibold">{t("me", "Me")}</span>
                 </Link>
               ) : (
-                <Link to="/login" aria-label="Log in" className={tileClass(pathname === "/login")}>
+                <Link to="/login" aria-label={t("login", "Log in")} className={tileClass(pathname === "/login")}>
                   <IconWithBadge Icon={UserRound} active={pathname === "/login"} />
-                  <span className="mt-1 text-[10px] font-semibold">Log in</span>
+                  <span className="mt-1 text-[10px] font-semibold">{t("login", "Log in")}</span>
                 </Link>
               )}
             </li>
