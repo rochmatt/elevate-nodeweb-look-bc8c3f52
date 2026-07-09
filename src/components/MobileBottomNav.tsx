@@ -10,16 +10,17 @@ type Item = {
   badge?: string;
 };
 
-const ITEMS: Item[] = [
-  { to: "/", label: "Home", icon: Home },
-  { to: "/marketplace", label: "Market", icon: Store },
-  { to: "/orders", label: "Chat", icon: MessageCircle, badge: "3" },
-  { to: "/wallet", label: "Cart", icon: ShoppingCart, badge: "2" },
-];
-
 export function MobileBottomNav() {
   const { pathname } = useLocation();
   const { user, isAuthenticated } = useAuth();
+  const { t } = useLanguage();
+
+  const ITEMS: Item[] = [
+    { to: "/", label: t("home", "Home"), icon: Home },
+    { to: "/marketplace", label: t("market", "Market"), icon: Store },
+    { to: "/orders", label: t("chat", "Chat"), icon: MessageCircle, badge: "3" },
+    { to: "/wallet", label: t("cart", "Cart"), icon: ShoppingCart, badge: "2" },
+  ];
 
   return (
     <>
