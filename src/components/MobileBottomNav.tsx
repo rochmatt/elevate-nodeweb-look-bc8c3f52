@@ -1,6 +1,7 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { Bell, Home, MessageCircle, ShoppingCart, Store, UserRound } from "lucide-react";
 import { initialsFor, useAuth } from "@/hooks/useAuth";
+import { useLanguage } from "@/hooks/useLanguage";
 
 type Item = {
   to: string;
