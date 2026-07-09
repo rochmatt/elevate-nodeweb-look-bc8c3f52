@@ -383,14 +383,20 @@ export function LanguageMenuMobile({ className }: { className?: string }) {
           <Globe className="h-4.5 w-4.5" />
         </button>
       </SheetTrigger>
-      <SheetContent side="bottom" className="rounded-t-2xl pb-6">
+      <SheetContent
+        side="bottom"
+        className="theme-light rounded-t-2xl border-t border-[var(--border-subtle)] bg-[var(--surface)] pb-8 text-[var(--text)] shadow-2xl"
+      >
+        <div className="mx-auto mb-3 h-1.5 w-12 rounded-full bg-[var(--border-subtle)]" aria-hidden />
         <SheetHeader className="text-left">
-          <SheetTitle>{t("chooseLanguage")}</SheetTitle>
+          <SheetTitle className="text-[var(--text)]">{t("chooseLanguage")}</SheetTitle>
+          <p className="text-xs text-[var(--text-muted)]">{t("language")}</p>
         </SheetHeader>
-        <div className="mt-2">
+        <div className="mt-4">
           <LanguageList onSelect={() => setOpen(false)} />
         </div>
       </SheetContent>
+
     </Sheet>
   );
 }
