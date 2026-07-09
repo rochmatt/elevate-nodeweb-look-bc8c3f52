@@ -436,7 +436,7 @@ function QuickMenu() {
                 <span className="text-sm font-semibold text-[var(--text)]">{t("marketplace")} &amp; {t("tools")}</span>
               </span>
               <span className="flex items-center gap-2 text-xs font-medium text-[var(--text-muted)]">
-                <span className="hidden sm:inline">{t("language") === "Bahasa" ? "Ketuk untuk buka" : "Tap to open"}</span>
+                <span className="hidden sm:inline">{t("tapToOpen")}</span>
                 <ChevronUp className={`h-4 w-4 shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
               </span>
             </button>
