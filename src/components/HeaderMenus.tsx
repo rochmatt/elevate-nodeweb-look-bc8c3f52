@@ -1,7 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { Bell, MessageSquare, ShoppingCart, Trash2 } from "lucide-react";
+import { Bell, Check, Globe, MessageSquare, ShoppingCart, Trash2 } from "lucide-react";
+import { useState } from "react";
 import { HoverPopover } from "@/components/HoverPopover";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useCart } from "@/hooks/useCart";
+import { useLanguage } from "@/hooks/useLanguage";
 
 function IconButton({
   label,
@@ -297,5 +300,97 @@ export function MessagesMenu() {
         </ul>
       </PopoverShell>
     </HoverPopover>
+  );
+}
+
+const LANGUAGES: { code: "id" | "en"; flag: string; labelKey: string }[] = [
+  { code: "id", flag: "🇮🇩", labelKey: "indonesian" },
+  { code: "en", flag: "🇬🇧", labelKey: "english" },
+];
+
+function LanguageList({ onSelect }: { onSelect?: () => void }) {
+  const { lang, setLang, t } = useLanguage();
+  return (
+    <div className="space-y-1 p-1">
+      {LANGUAGES.map((l) => {
+        const active = lang === l.code;
+        return (
+          <button
+            key={l.code}
+            type="button"
+            onClick={() => {
+              setLang(l.code);
+              onSelect?.();
+            }}
+            className={`flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-colors ${
+              active
+                ? "bg-[var(--accent-tint)] font-semibold text-[var(--accent-strong)]"
+                : "text-[var(--text)] hover:bg-[var(--accent-tint)]/50"
+            }`}
+          >
+            <span className="flex items-center gap-2.5">
+              <span className="text-base" aria-hidden="true">
+                {l.flag}
+              </span>
+              <span>{t(l.labelKey)}</span>
+            </span>
+            {active ? <Check className="h-4 w-4 text-[var(--accent-strong)]" /> : null}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+export function LanguageMenu({ className }: { className?: string }) {
+  const { t } = useLanguage();
+  const [open, setOpen] = useState(false);
+
+  return (
+    <HoverPopover
+      align="end"
+      contentClassName="w-56"
+      trigger={
+        <button
+          type="button"
+          aria-label={t("language")}
+          className={`relative grid h-10 w-10 place-items-center rounded-full text-[var(--text-muted)] transition-colors hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)] ${className ?? ""}`}
+        >
+          <Globe className="h-4.5 w-4.5" />
+        </button>
+      }
+    >
+      <div className="border-b border-[var(--border-subtle)] px-4 py-3">
+        <div className="text-sm font-semibold text-[var(--text)]">{t("chooseLanguage")}</div>
+      </div>
+      <LanguageList />
+    </HoverPopover>
+  );
+}
+
+export function LanguageMenuMobile({ className }: { className?: string }) {
+  const { t } = useLanguage();
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger asChild>
+        <button
+          type="button"
+          aria-label={t("language")}
+          className={`relative grid h-10 w-10 place-items-center rounded-full text-[var(--text-muted)] transition-colors hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)] ${className ?? ""}`}
+        >
+          <Globe className="h-4.5 w-4.5" />
+        </button>
+      </SheetTrigger>
+      <SheetContent side="bottom" className="rounded-t-2xl pb-6">
+        <SheetHeader className="text-left">
+          <SheetTitle>{t("chooseLanguage")}</SheetTitle>
+        </SheetHeader>
+        <div className="mt-2">
+          <LanguageList onSelect={() => setOpen(false)} />
+        </div>
+      </SheetContent>
+    </Sheet>
   );
 }

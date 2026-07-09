@@ -2,6 +2,7 @@ import { useState, useRef, useCallback, useEffect, type ReactNode } from "react"
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { useCart } from "@/hooks/useCart";
+import { useLanguage } from "@/hooks/useLanguage";
 import {
   ArrowRight,
   Check,
@@ -41,7 +42,7 @@ import heroSlide1 from "@/assets/hero-slide-1.jpg";
 import heroSlide2 from "@/assets/hero-slide-2.jpg";
 import heroSlide3 from "@/assets/hero-slide-3.jpg";
 import { AuthActions } from "@/components/UserMenu";
-import { CartMenu, MessagesMenu, NotificationsMenu } from "@/components/HeaderMenus";
+import { CartMenu, LanguageMenu, LanguageMenuMobile, MessagesMenu, NotificationsMenu } from "@/components/HeaderMenus";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
 import {
   Dialog,
@@ -307,7 +308,12 @@ function InfoTicker() {
 
 /* ----------------------------- NAV ----------------------------- */
 
-const NAV_LINKS = ["Marketplace", "Tools", "Features", "Become a Seller"];
+const NAV_LINKS = [
+  { key: "marketplace", hash: "marketplace" },
+  { key: "tools", hash: "tools" },
+  { key: "features", hash: "features" },
+  { key: "becomeSeller", hash: "become-a-seller" },
+] as const;
 
 function useHash() {
   const [hash, setHash] = useState("");
@@ -348,6 +354,10 @@ function Nav() {
           <div className="hidden lg:flex items-center gap-0.5">
             <NotificationsMenu />
             <MessagesMenu />
+            <LanguageMenu />
+          </div>
+          <div className="flex lg:hidden">
+            <LanguageMenuMobile />
           </div>
           <CartMenu />
           <AuthActions />
@@ -362,27 +372,30 @@ type QuickLink = { label: string; href: string; icon: typeof Store };
 type QuickGroup = { label: string; icon: typeof Store; items: QuickLink[] };
 type QuickMenuItem = QuickGroup | QuickLink;
 
-const QUICK_MENU: QuickMenuItem[] = [
-  {
-    label: "Marketplace",
-    icon: Store,
-    items: [
-      { label: "VPS", href: "/marketplace?category=cloud", icon: Cloud },
-      { label: "Bare Metal", href: "/marketplace?category=bare", icon: Server },
-      { label: "Proxy", href: "/marketplace?category=residential", icon: Network },
-    ],
-  },
-  {
-    label: "Tools",
-    icon: Wrench,
-    items: [
-      { label: "Winstaller", href: "/tools/winstaller", icon: Download },
-      { label: "Install Hypervisor", href: "/tools/install-hypervisor", icon: Monitor },
-    ],
-  },
-  { label: "Features", href: "#features", icon: Sparkles },
-  { label: "Become a Seller", href: "#become-a-seller", icon: Handshake },
-];
+function useQuickMenu(): QuickMenuItem[] {
+  const { t } = useLanguage();
+  return [
+    {
+      label: t("marketplace"),
+      icon: Store,
+      items: [
+        { label: t("vps"), href: "/marketplace?category=cloud", icon: Cloud },
+        { label: t("bareMetal"), href: "/marketplace?category=bare", icon: Server },
+        { label: t("proxy"), href: "/marketplace?category=residential", icon: Network },
+      ],
+    },
+    {
+      label: t("tools"),
+      icon: Wrench,
+      items: [
+        { label: "Winstaller", href: "/tools/winstaller", icon: Download },
+        { label: "Install Hypervisor", href: "/tools/install-hypervisor", icon: Monitor },
+      ],
+    },
+    { label: t("features"), href: "#features", icon: Sparkles },
+    { label: t("becomeSeller"), href: "#become-a-seller", icon: Handshake },
+  ];
+}
 
 function isQuickGroup(item: QuickMenuItem): item is QuickGroup {
   return "items" in item && Array.isArray((item as QuickGroup).items);
@@ -392,6 +405,8 @@ function QuickMenu() {
   const hash = useHash();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const { t } = useLanguage();
+  const QUICK_MENU = useQuickMenu();
 
   useEffect(() => {
     const id = requestAnimationFrame(() => setMounted(true));
@@ -418,10 +433,10 @@ function QuickMenu() {
                 <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-[var(--accent-soft)] to-[var(--accent)] text-white shadow-[0_6px_16px_-8px_var(--accent-ring)]">
                   <Menu className="h-[18px] w-[18px]" strokeWidth={2} />
                 </span>
-                <span className="text-sm font-semibold text-[var(--text)]">Quick Menu</span>
+                <span className="text-sm font-semibold text-[var(--text)]">{t("marketplace")} &amp; {t("tools")}</span>
               </span>
               <span className="flex items-center gap-2 text-xs font-medium text-[var(--text-muted)]">
-                <span className="hidden sm:inline">Tap to open</span>
+                <span className="hidden sm:inline">{t("tapToOpen")}</span>
                 <ChevronUp className={`h-4 w-4 shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
               </span>
             </button>
@@ -433,7 +448,7 @@ function QuickMenu() {
           >
             <SheetHeader className="px-4 pb-2 text-left">
               <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-[var(--border-subtle)]" />
-              <SheetTitle className="text-lg font-bold text-[var(--text)]">Quick Menu</SheetTitle>
+              <SheetTitle className="text-lg font-bold text-[var(--text)]">{t("marketplace")} &amp; {t("tools")}</SheetTitle>
             </SheetHeader>
 
             <nav className="flex-1 space-y-4 overflow-y-auto px-4 pt-2">
@@ -513,14 +528,15 @@ function QuickMenu() {
 
 
 function DesktopNavLinks({ activeHash }: { activeHash: string }) {
+  const { t } = useLanguage();
   return (
     <nav aria-label="Primary" className="hidden items-center gap-1 lg:mx-auto lg:flex">
       {NAV_LINKS.map((l, index) => {
-        const href = `#${l.toLowerCase().replace(/\s/g, "-")}`;
+        const href = `#${l.hash}`;
         const active = activeHash === href;
         return (
           <a
-            key={l}
+            key={l.key}
             href={href}
             aria-current={active ? "page" : undefined}
             style={{ animationDelay: `${index * 60}ms` }}
@@ -530,7 +546,7 @@ function DesktopNavLinks({ activeHash }: { activeHash: string }) {
                 : "text-[var(--text-muted)] hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)]"
             }`}
           >
-            {l}
+            {t(l.key)}
             {active && (
               <span className="absolute bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-[var(--accent)] shadow-[0_0_6px_var(--accent)] menu-dot-enter" />
             )}
@@ -542,13 +558,14 @@ function DesktopNavLinks({ activeHash }: { activeHash: string }) {
 }
 
 function MobileNavLinks({ activeHash, onNavigate }: { activeHash: string; onNavigate: () => void }) {
+  const { t } = useLanguage();
   return (
     <nav aria-label="Mobile" className="flex flex-col p-2">
       {NAV_LINKS.map((l) => {
-        const href = `#${l.toLowerCase().replace(/\s/g, "-")}`;
+        const href = `#${l.hash}`;
         const active = activeHash === href;
         return (
-          <SheetClose asChild key={l}>
+          <SheetClose asChild key={l.key}>
             <a
               href={href}
               onClick={onNavigate}
@@ -559,7 +576,7 @@ function MobileNavLinks({ activeHash, onNavigate }: { activeHash: string; onNavi
                   : "text-[var(--text-muted)] hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)]"
               }`}
             >
-              {l}
+              {t(l.key)}
               {active && <span className="h-2 w-2 rounded-full bg-[var(--accent)]" aria-hidden="true" />}
             </a>
           </SheetClose>

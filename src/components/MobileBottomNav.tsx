@@ -1,6 +1,7 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { Bell, Home, MessageCircle, ShoppingCart, Store, UserRound } from "lucide-react";
 import { initialsFor, useAuth } from "@/hooks/useAuth";
+import { useLanguage } from "@/hooks/useLanguage";
 
 type Item = {
   to: string;
@@ -9,16 +10,17 @@ type Item = {
   badge?: string;
 };
 
-const ITEMS: Item[] = [
-  { to: "/", label: "Home", icon: Home },
-  { to: "/marketplace", label: "Market", icon: Store },
-  { to: "/orders", label: "Chat", icon: MessageCircle, badge: "3" },
-  { to: "/wallet", label: "Cart", icon: ShoppingCart, badge: "2" },
-];
-
 export function MobileBottomNav() {
   const { pathname } = useLocation();
   const { user, isAuthenticated } = useAuth();
+  const { t } = useLanguage();
+
+  const ITEMS: Item[] = [
+    { to: "/", label: t("home", "Home"), icon: Home },
+    { to: "/marketplace", label: t("market", "Market"), icon: Store },
+    { to: "/orders", label: t("chat", "Chat"), icon: MessageCircle, badge: "3" },
+    { to: "/wallet", label: t("cart", "Cart"), icon: ShoppingCart, badge: "2" },
+  ];
 
   return (
     <>
@@ -56,15 +58,15 @@ export function MobileBottomNav() {
                       className="grid h-6 w-6 place-items-center rounded-full text-[10px] font-bold text-white"
                       style={{ backgroundColor: user.avatarColor }}
                     >
-                      {initialsFor(user.name).slice(0, 1) || "U"}
+                  {initialsFor(user.name).slice(0, 1) || "U"}
                     </span>
                   </span>
-                  <span className="mt-1 text-[10px] font-semibold">Me</span>
+                  <span className="mt-1 text-[10px] font-semibold">{t("me", "Me")}</span>
                 </Link>
               ) : (
-                <Link to="/login" aria-label="Log in" className={tileClass(pathname === "/login")}>
+                <Link to="/login" aria-label={t("login", "Log in")} className={tileClass(pathname === "/login")}>
                   <IconWithBadge Icon={UserRound} active={pathname === "/login"} />
-                  <span className="mt-1 text-[10px] font-semibold">Log in</span>
+                  <span className="mt-1 text-[10px] font-semibold">{t("login", "Log in")}</span>
                 </Link>
               )}
             </li>
