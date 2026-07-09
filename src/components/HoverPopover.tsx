@@ -64,8 +64,8 @@ export function HoverPopover({
         }}
         onClick={() => {
           clearTimer();
-          setOpen((prev) => !prev);
         }}
+
       >
         {trigger}
       </PopoverTrigger>
