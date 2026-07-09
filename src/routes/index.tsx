@@ -523,14 +523,15 @@ function QuickMenu() {
 
 
 function DesktopNavLinks({ activeHash }: { activeHash: string }) {
+  const { t } = useLanguage();
   return (
     <nav aria-label="Primary" className="hidden items-center gap-1 lg:mx-auto lg:flex">
       {NAV_LINKS.map((l, index) => {
-        const href = `#${l.toLowerCase().replace(/\s/g, "-")}`;
+        const href = `#${l.hash}`;
         const active = activeHash === href;
         return (
           <a
-            key={l}
+            key={l.key}
             href={href}
             aria-current={active ? "page" : undefined}
             style={{ animationDelay: `${index * 60}ms` }}
@@ -540,7 +541,7 @@ function DesktopNavLinks({ activeHash }: { activeHash: string }) {
                 : "text-[var(--text-muted)] hover:bg-[var(--accent-tint)] hover:text-[var(--accent-strong)]"
             }`}
           >
-            {l}
+            {t(l.key)}
             {active && (
               <span className="absolute bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-[var(--accent)] shadow-[0_0_6px_var(--accent)] menu-dot-enter" />
             )}
