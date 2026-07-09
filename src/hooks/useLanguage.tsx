@@ -29,6 +29,7 @@ const translations: Record<Lang, Record<string, string>> = {
     chooseLanguage: "Pilih bahasa",
     indonesian: "Bahasa Indonesia",
     english: "English",
+    tapToOpen: "Ketuk untuk buka",
   },
   en: {
     home: "Home",
