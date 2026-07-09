@@ -433,10 +433,10 @@ function QuickMenu() {
                 <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-[var(--accent-soft)] to-[var(--accent)] text-white shadow-[0_6px_16px_-8px_var(--accent-ring)]">
                   <Menu className="h-[18px] w-[18px]" strokeWidth={2} />
                 </span>
-                <span className="text-sm font-semibold text-[var(--text)]">Quick Menu</span>
+                <span className="text-sm font-semibold text-[var(--text)]">{t("marketplace")} &amp; {t("tools")}</span>
               </span>
               <span className="flex items-center gap-2 text-xs font-medium text-[var(--text-muted)]">
-                <span className="hidden sm:inline">Tap to open</span>
+                <span className="hidden sm:inline">{t("language") === "Bahasa" ? "Ketuk untuk buka" : "Tap to open"}</span>
                 <ChevronUp className={`h-4 w-4 shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
               </span>
             </button>
