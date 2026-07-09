@@ -50,15 +50,21 @@ export function HoverPopover({
 
   React.useEffect(() => () => clearTimer(), []);
 
+  const isMouse = (e: React.PointerEvent) => e.pointerType === "mouse";
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger
         asChild
-        onMouseEnter={scheduleOpen}
-        onMouseLeave={scheduleClose}
+        onPointerEnter={(e) => {
+          if (isMouse(e)) scheduleOpen();
+        }}
+        onPointerLeave={(e) => {
+          if (isMouse(e)) scheduleClose();
+        }}
         onClick={() => {
           clearTimer();
-          setOpen(true);
+          setOpen((prev) => !prev);
         }}
       >
         {trigger}
@@ -67,11 +73,15 @@ export function HoverPopover({
         align={align}
         sideOffset={sideOffset}
         collisionPadding={12}
-        onMouseEnter={() => {
-          clearTimer();
-          setOpen(true);
+        onPointerEnter={(e) => {
+          if (isMouse(e)) {
+            clearTimer();
+            setOpen(true);
+          }
         }}
-        onMouseLeave={scheduleClose}
+        onPointerLeave={(e) => {
+          if (isMouse(e)) scheduleClose();
+        }}
         onOpenAutoFocus={(e) => e.preventDefault()}
         className={cn(
           "theme-light z-50 w-[min(20rem,calc(100vw-1.5rem))] overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-white p-0 shadow-[0_20px_60px_-15px_rgba(15,23,42,0.25)]",
@@ -83,3 +93,4 @@ export function HoverPopover({
     </Popover>
   );
 }
+
